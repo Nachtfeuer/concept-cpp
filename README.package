@@ -1,0 +1,13 @@
+
+Welcome to the demo package
+===========================
+
+For now we provide header only code.
+Simply include/use like this:
+
+    #include <demo/vector.h>
+    // ...
+    math::vector v1(4, 5);
+    std::cout << "v1.length() = " << std::v1.length() << std::endl;
+    // ...
+
