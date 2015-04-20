@@ -48,6 +48,30 @@ class vector final {
             return sqrt(m_x * m_x + m_y * m_y);
         }
 
+        /// scalar product of two vectors.
+        constexpr double scalar_product(const vector& other) const {
+            return m_x * other.get_x() + m_y * other.get_y();
+        }
+
+        /// vector rotated by 90 degree to the left
+        constexpr vector left_vertical() const {
+            return vector(-m_y, m_x);
+        }
+
+        /// vector rotated by 90 degree to the right
+        constexpr vector right_vertical() const {
+            return vector(m_y, -m_x);
+        }
+
+        /// providing normed vector
+        constexpr vector normed() const {
+            return vector(m_x / length(), m_y / length());
+        }
+
+        constexpr double angle(const vector& other) const {
+            return (180.0/M_PI) * acos(scalar_product(other) / (length() * other.length()));
+        }
+
         /// sum of two vectors
         constexpr friend vector operator + (const vector& lhs, const vector& rhs) {
             return vector(lhs.m_x + rhs.m_x, lhs.m_y + rhs.m_y);
