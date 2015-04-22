@@ -76,9 +76,10 @@ class runner final {
         /// running all registered suites
         void run() {
             for (auto& it: m_suites) {
-                std::cout  << "Running suite " << it.first << std::endl;
+                std::cout << std::endl << "Running suite " << it.first << std::endl;
                 it.second->run();
             }
+            std::cout << std::endl;
         }
 
     private:

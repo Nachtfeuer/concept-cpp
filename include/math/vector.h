@@ -30,7 +30,7 @@ namespace math {
 class vector final {
     public:
         /// init c'tor for (x, y) coordinates
-        constexpr vector(const double x, const double y)
+        constexpr vector(const double x = 0.0, const double y = 0.0)
             : m_x(x), m_y(y) {}
 
         /// getter for x coordinate
@@ -66,6 +66,11 @@ class vector final {
         /// providing normed vector
         constexpr vector normed() const {
             return vector(m_x / length(), m_y / length());
+        }
+
+        /// providing factor multiplicated by a factor
+        constexpr vector scaled(const double factor) const {
+            return vector(m_x * factor, m_y * factor);
         }
 
         constexpr double angle(const vector& other) const {

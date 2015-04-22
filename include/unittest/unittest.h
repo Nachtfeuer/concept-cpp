@@ -49,7 +49,7 @@ struct suite_proxy {
 }  // namespace unittest
 
 #define describe_suite \
-    suite_proxy suite_proxy_instance
+    static suite_proxy suite_proxy_instance
 
 #endif   // INCLUDE_UNITTEST_H_
 

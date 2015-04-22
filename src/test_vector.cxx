@@ -102,4 +102,10 @@ describe_suite("testing math::vector", [](){
         const math::vector v2 = {3.0, 4.0};
         assert_that(v1 + v2, is_equal(math::vector(4.0, 7.0)));
     });
+
+    /// testing @ref math::vector::scaled.
+    describe_test("testing scaled vector", []() {
+        assert_that(math::vector(6, 4), is_equal(math::vector(1.5, 1).scaled(4)));
+        assert_that(math::vector(3, 2), is_equal(math::vector(9, 6).scaled(1.0/3.0)));
+    });
 });
