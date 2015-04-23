@@ -11,10 +11,12 @@ well documented.
 CMake
 -----
 Here's the way to go (at least for me):
+```
  | mkdir build
  | cd build
  | cmake ..
  | make
+```
 
 A list of useful options:
  | cmake -G "CodeBlocks - Unix Makefiles" ..
