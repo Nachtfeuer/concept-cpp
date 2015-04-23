@@ -1,7 +1,7 @@
 ///
 /// @author  Thomas Lehmann
-/// @file    unittest.h
-/// @brief   providing unit test tools.
+/// @file    matcher.h
+/// @brief   matcher base class and functions.
 ///
 /// Copyright (c) 2015 Thomas Lehmann
 ///
@@ -20,37 +20,47 @@
 /// DAMAGES OR OTHER LIABILITY,
 /// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-#ifndef INCLUDE_UNITTEST_H_
-#define INCLUDE_UNITTEST_H_
-
-#include <functional>
-#include <string>
-#include <cstdint>
-#include <iostream>
-
-#include <unittest/runner.h>
+#ifndef INCLUDE_ASSERT_H_
+#define INCLUDE_ASSERT_H_
 
 #include <unittest/matcher.h>
-#include <unittest/is_equal_matcher.h>
-#include <unittest/is_not_matcher.h>
-#include <unittest/assert.h>
+
+#include <string.h>
+#include <sstream>
+#include <iostream>
+#include <exception>
 
 namespace unittest {
 
-static void describe_test(const std::string& name, std::function<void()> test_function) {
-    runner::get().register_test(name, test_function);
-}
+/// @class assertion
+/// @brief exception representing a failed test
+class assertion : public std::exception {
+    public:
+        /// providing assertion message
+        assertion(const std::string& message)
+            : m_message(message) {}
 
-struct suite_proxy {
-    suite_proxy(const std::string& name, std::function<void ()> suite_function) {
-        runner::get().register_suite(name, suite_function);
-    }
+        /// @return assertion message
+        virtual const char* what() const noexcept override {
+            return m_message.c_str();
+        }
+
+    private:
+        /// message explaining the assertion
+        const std::string m_message;
 };
 
+template <typename T>
+void assert_that(const T& expected_value, const matcher<T>& value_matcher) {
+    if (!value_matcher.check(expected_value)) {
+        std::stringstream message;
+        message << " ...... assertion: " << expected_value
+                << " does not match "
+                << value_matcher.get_expression();
+        throw assertion(message.str());
+    }
+}
+    
 }  // namespace unittest
 
-#define describe_suite \
-    static suite_proxy suite_proxy_instance
-
-#endif   // INCLUDE_UNITTEST_H_
-
+#endif  // INCLUDE_ASSERT_H_

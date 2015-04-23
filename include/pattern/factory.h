@@ -39,7 +39,7 @@ class factory final {
         using creators_container_type = std::unordered_map<TKey, creator_function_type>;
 
         /// providing singleton instance
-        static factory& get() {
+        static factory& get() noexcept {
             static factory instance;
             return instance;
         }
@@ -47,7 +47,7 @@ class factory final {
         /// @param  key unique key that may not exist
         /// @param  creator the creator function providing instance of type TClass (may not be nullptr)
         /// @return true when successful registered (unique key may not exist).
-        bool register_creator(const TKey& key, creator_function_type creator) {
+        bool register_creator(const TKey& key, creator_function_type creator) noexcept {
             if (nullptr == creator) {
                 return false;
             }
@@ -66,27 +66,27 @@ class factory final {
         }
 
         /// @return true when there is no registered creator.
-        bool empty() const {
+        bool empty() const noexcept {
             return m_creators.empty();
         }
 
         /// @return number of registered creators.
-        typename creators_container_type::size_type size() const {
+        typename creators_container_type::size_type size() const noexcept {
             return m_creators.size();
         }
 
         /// @return first creator or end() if no creator has been registered.
-        typename creators_container_type::const_iterator begin() const {
+        typename creators_container_type::const_iterator begin() const noexcept {
             return m_creators.begin();
         }
 
         /// @return end of container indicator.
-        typename creators_container_type::const_iterator end() const {
+        typename creators_container_type::const_iterator end() const noexcept {
             return m_creators.end();
         }
 
         /// remove all registered creator
-        void clear() {
+        void clear() noexcept {
             m_creators.clear();
         }
 

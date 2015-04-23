@@ -42,7 +42,7 @@ class runner final {
         using suites_type = std::map<std::string, std::shared_ptr<suite>>;
 
         /// providing singleton instance of runner
-        static runner& get() {
+        static runner& get() noexcept {
             return get_runner_instance();
         }
 
@@ -50,7 +50,7 @@ class runner final {
         /// @name name of the suite
         /// @suite_function the suite function ("runner") executing individual tests.
         bool register_suite(const std::string& name,
-                            suite_function_type suite_function) {
+                            suite_function_type suite_function) noexcept {
             auto result = m_suites.insert(suites_type::value_type(name, nullptr));
             if (result.second) {
                 result.first->second.reset(new suite);
@@ -64,7 +64,7 @@ class runner final {
 
         /// delegates registration of a test function to a suite.
         bool register_test(const std::string& name,
-                           suite::test_function_type test_function) {
+                           suite::test_function_type test_function) noexcept {
             auto it = m_suites.find(m_suite_name);
             if (it != m_suites.end()) {
                 return it->second->register_test(name, test_function);
@@ -87,7 +87,7 @@ class runner final {
         runner() : m_suites() {}
 
         /// @return providing singleton instance of runner
-        static runner& get_runner_instance() {
+        static runner& get_runner_instance() noexcept {
             static runner instance;
             return instance;
         }

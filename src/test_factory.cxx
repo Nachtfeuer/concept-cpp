@@ -85,14 +85,13 @@ describe_suite("testing pattern::factory", [](){
 
             if (1 == it.first) {
                 assert_that(123, is_equal(*value));
+                ++counter;
             } else if (2 == it.first) {
                 assert_that(456, is_equal(*value));
+                ++counter;
             }
-
-            ++counter;
         }
 
         assert_that(2, is_equal(counter));
     });
 });
-

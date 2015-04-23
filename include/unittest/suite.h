@@ -23,6 +23,8 @@
 #ifndef INCLUDE_SUITE_H_
 #define INCLUDE_SUITE_H_
 
+#include <unittest/assert.h>
+
 #include <functional>
 #include <string>
 #include <map>
@@ -45,7 +47,7 @@ class suite final {
         /// @name name of the suite
         /// @suite_function the suite function ("runner") executing individual tests.
         bool register_test(const std::string& name,
-                           test_function_type test_function) {
+                           test_function_type test_function) noexcept {
             auto result = m_tests.insert(tests_type::value_type(name, test_function));
             return result.second;
         }
@@ -54,7 +56,11 @@ class suite final {
         void run() {
             for (auto& it: m_tests) {
                 std::cout  << " ... Running test \"" << it.first << "\"" << std::endl;
-                it.second();
+                try {
+                    it.second();
+                } catch (assertion& e) {
+                    std::cout << e.what() << std::endl;
+                }
             }
         }
 

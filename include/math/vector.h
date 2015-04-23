@@ -24,52 +24,53 @@
 #define INCLUDE_VECTOR_H_
 
 #include <cmath>
+#include <iostream>
 
 namespace math {
 
 class vector final {
     public:
         /// init c'tor for (x, y) coordinates
-        constexpr vector(const double x = 0.0, const double y = 0.0)
+        constexpr vector(const double x = 0.0, const double y = 0.0) noexcept
             : m_x(x), m_y(y) {}
 
         /// getter for x coordinate
-        constexpr double get_x() const {
+        constexpr double get_x() const noexcept {
             return m_x;
         }
 
         /// getter for y coordinate
-        constexpr double get_y() const {
+        constexpr double get_y() const noexcept {
             return m_y;
         }
 
         /// length of vector
-        constexpr double length() const {
+        constexpr double length() const noexcept {
             return sqrt(m_x * m_x + m_y * m_y);
         }
 
         /// scalar product of two vectors.
-        constexpr double scalar_product(const vector& other) const {
+        constexpr double scalar_product(const vector& other) const noexcept {
             return m_x * other.get_x() + m_y * other.get_y();
         }
 
         /// vector rotated by 90 degree to the left
-        constexpr vector left_vertical() const {
+        constexpr vector left_vertical() const noexcept {
             return vector(-m_y, m_x);
         }
 
         /// vector rotated by 90 degree to the right
-        constexpr vector right_vertical() const {
+        constexpr vector right_vertical() const noexcept {
             return vector(m_y, -m_x);
         }
 
         /// providing normed vector
-        constexpr vector normed() const {
+        constexpr vector normed() const noexcept {
             return vector(m_x / length(), m_y / length());
         }
 
         /// providing factor multiplicated by a factor
-        constexpr vector scaled(const double factor) const {
+        constexpr vector scaled(const double factor) const noexcept {
             return vector(m_x * factor, m_y * factor);
         }
 
@@ -78,17 +79,17 @@ class vector final {
         }
 
         /// sum of two vectors
-        constexpr friend vector operator + (const vector& lhs, const vector& rhs) {
+        constexpr friend vector operator + (const vector& lhs, const vector& rhs) noexcept {
             return vector(lhs.m_x + rhs.m_x, lhs.m_y + rhs.m_y);
         }
 
         /// difference of two vectors
-        constexpr friend vector operator - (const vector& lhs, const vector& rhs) {
+        constexpr friend vector operator - (const vector& lhs, const vector& rhs) noexcept {
         return vector(lhs.m_x - rhs.m_x, lhs.m_y - rhs.m_y);
         }
 
         /// compares two vectors on to be equal
-        constexpr friend bool operator == (const vector& lhs, const vector& rhs) {
+        constexpr friend bool operator == (const vector& lhs, const vector& rhs) noexcept {
             return lhs.get_x() == rhs.get_x() && lhs.get_y() == rhs.get_y();
         }
 
