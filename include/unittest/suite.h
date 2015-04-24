@@ -41,7 +41,7 @@ class suite final {
         using tests_type = std::map<std::string, test_function_type>;
 
         /// initializing the 
-        suite() : m_tests() {}
+        suite(const std::string& name) : m_name(name), m_tests() {}
 
         /// registering a suite function ("runner") und given name
         /// @name name of the suite
@@ -54,6 +54,7 @@ class suite final {
 
         /// running all registered suites
         void run() {
+            std::cout << std::endl << "Running suite " << m_name << std::endl;
             for (auto& it: m_tests) {
                 std::cout  << " ... Running test \"" << it.first << "\"" << std::endl;
                 try {
@@ -70,6 +71,8 @@ class suite final {
         /// disable assignment
         const suite& operator = (const suite&) = delete;
 
+        /// name of the suite
+        const std::string m_name;
         /// container for registered tests.
         tests_type m_tests;
 };

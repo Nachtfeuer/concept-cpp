@@ -5,6 +5,10 @@ project(demo)
 set(VERSION "0.1")
 enable_testing()
 
+option(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" OFF)
+
+find_package(Doxygen)
+
 include_directories(demo ${CMAKE_CURRENT_SOURCE_DIR}/include)
 file(GLOB DEMO_TEST_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/test*.cxx)
 add_executable(demo src/main.cxx ${DEMO_TEST_SRC})
@@ -15,6 +19,7 @@ install(DIRECTORY include/pattern DESTINATION include/demo)
 install(DIRECTORY include/unittest DESTINATION include/demo)
 
 configure_file(README.package README.package COPYONLY)
+configure_file(doc/doxygen.cfg doc/doxygen.cfg)
 
 set(CPACK_GENERATOR "RPM")
 set(CPACK_PACKAGE_VERSION ${VERSION})
@@ -26,6 +31,15 @@ set(CPACK_RPM_PACKAGE_LICENSE "MIT License")
 set(CPACK_PACKAGE_DESCRIPTION_FILE ${CMAKE_BINARY_DIR}/README.package)
 set(CPACK_RPM_PACKAGE_REQUIRES "Boost >= 1.55")
 include(CPack)
+
+if(BUILD_DOCUMENTATION)
+    if(DOXYGEN_FOUND)
+        add_custom_target(doc
+            ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/doc/doxygen.cfg
+            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+            COMMENT "Generating API documentation with Doxygen" VERBATIM)
+    endif(DOXYGEN_FOUND)
+endif(BUILD_DOCUMENTATION)
 
 # check command workaround that 'test' does not build the binary.
 add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} DEPENDS demo)

@@ -1,6 +1,9 @@
 
 Welcome to the demo package
 ===========================
+It's a kind of private knowledge database,
+test environment and prototyping environment
+around the topics c++11 and cmake.
 
 For now we provide header only code.
 Simply include/use like this:

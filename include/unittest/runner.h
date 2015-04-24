@@ -53,7 +53,7 @@ class runner final {
                             suite_function_type suite_function) noexcept {
             auto result = m_suites.insert(suites_type::value_type(name, nullptr));
             if (result.second) {
-                result.first->second.reset(new suite);
+                result.first->second.reset(new suite(name));
                 m_suite_name = name;
                 suite_function();
                 m_suite_name = "";
@@ -76,7 +76,6 @@ class runner final {
         /// running all registered suites
         void run() {
             for (auto& it: m_suites) {
-                std::cout << std::endl << "Running suite " << it.first << std::endl;
                 it.second->run();
             }
             std::cout << std::endl;

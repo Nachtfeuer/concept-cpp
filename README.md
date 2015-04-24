@@ -14,6 +14,7 @@ Current Content
  - implementation of an easy to use unittesting framework.
  - pattern classes like a factory.
  - math classes like a 2d vector.
+ - you can create HTML documentation with doxygen.
 
 
 Next Action Items (planned)
@@ -23,13 +24,12 @@ Next Action Items (planned)
  - performance measurement for tests.
  - passsing command line parameters to runner (unittests)
  - generating Jenkins compatible report for unittests.
- - adding doxygen generation to cmake project.
- - adding code coveraage to cmake project.
+ - adding code coverage to cmake project.
 
 
 CMake
 -----
-Here's the way to go (at least for me):
+Here's the minimum way to go:
 ```
   mkdir build
   cd build
@@ -41,6 +41,7 @@ A list of further useful options:
 ```
  cmake -G "CodeBlocks - Unix Makefiles" ..
  cmake -DCMAKE_BUILD_TYPE=Debug ..
+ cmake -DBUILD_DOCUMENTATION=ON ..
 ```
 
 You also can do:
@@ -48,6 +49,7 @@ You also can do:
  make check       (do not use make test since it does NOT build)
  make run         (does run the test without "ctest")
  make memcheck    (wraps use of the valgrind tool)
+ make doc         (generates doxygen documentation)
 ```
 
 For creating a RPM package (sudo is important):
