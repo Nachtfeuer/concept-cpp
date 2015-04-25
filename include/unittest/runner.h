@@ -23,11 +23,14 @@
 #ifndef INCLUDE_RUNNER_H_
 #define INCLUDE_RUNNER_H_
 
+#include <unittest/options.h>
 #include <unittest/suite.h>
+#include <algorithm/shuffled.h>
 
 #include <functional>
 #include <string>
 #include <map>
+#include <vector>
 #include <memory>
 
 namespace unittest {
@@ -51,6 +54,10 @@ class runner final {
         /// @suite_function the suite function ("runner") executing individual tests.
         bool register_suite(const std::string& name,
                             suite_function_type suite_function) noexcept {
+            if (nullptr == suite_function || name.empty()) {
+                return false;
+            }
+
             auto result = m_suites.insert(container_type::value_type(name, nullptr));
             if (result.second) {
                 result.first->second.reset(new suite(name));
@@ -64,7 +71,7 @@ class runner final {
 
         /// delegates registration of a test function to a suite.
         bool register_test(const std::string& name,
-                           suite::test_function_type test_function) noexcept {
+                           test::function_type test_function) noexcept {
             auto it = m_suites.find(m_suite_name);
             if (it != m_suites.end()) {
                 return it->second->register_test(name, test_function);
@@ -74,11 +81,39 @@ class runner final {
 
 
         /// running all registered suites
-        void run() {
-            for (auto& it: m_suites) {
-                it.second->run();
+        bool run(int argc, char** argv) noexcept {
+            if (!option_parser::parse(argc, argv, m_options)) {
+                return false;
             }
+
+            if (m_options.shuffle_suites) {
+                std::vector<suite*> suites;
+
+                for (auto& it: m_suites) {
+                    suites.push_back(it.second.get());
+                }
+
+                for (auto& it: algorithm::shuffled(suites)) {
+                    it->run(m_options);
+                }
+            } else {
+                for (auto& it: m_suites) {
+                    it.second->run(m_options);
+                }
+            }
+
             std::cout << std::endl;
+                return true;
+        }
+
+        /// @return number of registered suites
+        container_type::size_type size() const noexcept {
+            return m_suites.size();
+        }
+
+        /// @return true when there is no registered suite
+        bool empty() const noexcept {
+            return m_suites.empty();
         }
 
     private:
@@ -96,6 +131,8 @@ class runner final {
         /// disable assignment
         const runner& operator = (const runner&) = delete;
 
+        /// options for the unittest framework
+        options m_options;
         /// container for registered suites.
         container_type m_suites;
         /// current suite name (only valid via run)

@@ -1,7 +1,7 @@
 ///
 /// @author  Thomas Lehmann
-/// @file    main.cxx
-/// @brief   running tests.
+/// @file    shuffled.h
+/// @brief   providing inline access to a shuffled container.
 ///
 /// Copyright (c) 2015 Thomas Lehmann
 ///
@@ -20,13 +20,34 @@
 /// DAMAGES OR OTHER LIABILITY,
 /// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+#ifndef INCLUDE_SHUFFLE_H_
+#define INCLUDE_SHUFFLE_H_
 
-#include <unittest/unittest.h>
+#include <algorithm>
 
-/// running the tests
-int main(int argc, char** argv) {
-    if (!unittest::runner::get().run(argc, argv)) {
-        return 1;
-    } 
-    return 0;
+namespace algorithm {
+
+/// Providing shuffled vector (copy of elements of original container type).
+/// @param container potentially sorted container (list, vector, ...)
+/// @return shuffled container
+///
+/// @code
+/// const std::vector<int> values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}
+/// for (const auto& value: shuffled(values)) {
+///     std::cout << value << std::endl;
+/// }
+/// @endcode
+template <class T>
+std::vector<typename T::value_type> shuffled(const T& container) {
+    std::vector<typename T::value_type> sorted_container(container.begin(), container.end());
+
+    std::random_device rd;
+    std::mt19937 g(rd());
+ 
+    std::shuffle(sorted_container.begin(), sorted_container.end(), g);
+    return sorted_container;
 }
+
+} // namespace algorithm
+
+#endif  // INCLUDE_SHUFFLED_H_

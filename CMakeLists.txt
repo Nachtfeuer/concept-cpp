@@ -12,10 +12,15 @@ find_program(LCOV lcov)
 find_program(GENHTML genhtml)
 find_program(CPPCHECK cppcheck)
 find_package(Doxygen)
+find_package(Boost 1.54 COMPONENTS program_options REQUIRED)
 
 include_directories(demo ${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories(demo ${Boost_INCLUDE_DIR})
+
 file(GLOB DEMO_TEST_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/test*.cxx)
+
 add_executable(demo src/main.cxx ${DEMO_TEST_SRC})
+target_link_libraries(demo ${Boost_LIBRARIES})
 add_test(test demo)
 
 if(LCOV)
@@ -53,7 +58,7 @@ set(CPACK_RPM_PACKAGE_GROUP "C++ Development Library")
 set(CPACK_RPM_PACKAGE_LICENSE "MIT License")
 set(CPACK_PACKAGE_DESCRIPTION_FILE ${CMAKE_BINARY_DIR}/README.package)
 set(CPACK_RPM_PACKAGE_ARCHITECTURE "noarch")
-set(CPACK_RPM_PACKAGE_REQUIRES "Boost >= 1.55")
+set(CPACK_RPM_PACKAGE_REQUIRES "Boost >= 1.54")
 include(CPack)
 
 if(BUILD_DOCUMENTATION)
@@ -75,12 +80,16 @@ if(GCOV)
            COMMAND mkdir -p ${CMAKE_BINARY_DIR}/coverage
            COMMAND ${LCOV} --capture
                            --no-external
+                           --rc lcov_branch_coverage=1
                            --base-directory ${CMAKE_CURRENT_SOURCE_DIR}
                            --directory=${CMAKE_CURRENT_BINARY_DIR}
                            --output-file=${CMAKE_BINARY_DIR}/coverage/coverage.info
            COMMAND ${GENHTML} ${CMAKE_BINARY_DIR}/coverage/coverage.info
                            --title ${PROJECT_NAME}
                            --legend
+                           --show-details
+                           --function-coverage
+                           --branch-coverage
                            --output-directory ${CMAKE_BINARY_DIR}/coverage
            DEPENDS run)
 endif(GCOV)

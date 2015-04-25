@@ -24,10 +24,13 @@
 #define INCLUDE_SUITE_H_
 
 #include <unittest/assert.h>
+#include <unittest/test.h>
+#include <algorithm/shuffled.h>
 
 #include <functional>
 #include <string>
 #include <map>
+#include <memory>
 
 namespace unittest {
 
@@ -35,10 +38,8 @@ namespace unittest {
 /// @brief suite of registered tests.
 class suite final {
     public:
-        /// test "runner"
-        using test_function_type = std::function<void()>;
         /// each test has a name and a function ("runner")
-        using container_type = std::map<std::string, test_function_type>;
+        using container_type = std::map<std::string, std::shared_ptr<test>>;
 
         /// initializing the 
         suite(const std::string& name) : m_name(name), m_tests() {}
@@ -48,25 +49,45 @@ class suite final {
         /// @param suite_function the suite function ("runner") executing individual tests.
         /// @return true when successfully registered a test function under a given name.
         bool register_test(const std::string& name,
-                           test_function_type test_function) noexcept {
+                           test::function_type test_function) noexcept {
             if (nullptr == test_function || name.empty()) {
                 return false;
             }
-            auto result = m_tests.insert(container_type::value_type(name, test_function));
+            auto result = m_tests.insert(container_type::value_type(name, nullptr));
+            if (result.second) {
+                result.first->second.reset(new test(name, test_function));
+            }
             return result.second;
         }
 
         /// running all registered suites
-        void run() {
+        void run(const options& the_options) {
             std::cout << std::endl << "Running suite " << m_name << std::endl;
-            for (auto& it: m_tests) {
-                std::cout  << " ... Running test \"" << it.first << "\"" << std::endl;
-                try {
-                    it.second();
-                } catch (assertion& e) {
-                    std::cout << e.what() << std::endl;
+
+            if (the_options.shuffle_tests) {
+                std::vector<test*> tests;
+
+                for (auto& it: m_tests) {
+                    tests.push_back(it.second.get());
+                }
+
+                for (auto& it: algorithm::shuffled(tests)) {
+                    try {
+                        it->run();
+                    } catch (assertion& e) {
+                        std::cout << e.what() << std::endl;
+                    }
+                }
+            } else {
+                for (auto& it: m_tests) {
+                    try {
+                        it.second->run();
+                    } catch (assertion& e) {
+                        std::cout << e.what() << std::endl;
+                    }
                 }
             }
+
         }
 
         /// @return number of registered tests
