@@ -12,6 +12,9 @@ well documented.
 Current Content
 ---------------
  - implementation of an easy to use unittesting framework.
+ - command line options
+  - --shuffle-suites=true  (execution of suites in random order)
+  - --shuffle-tests=true   (execution of tests in random order)
  - pattern classes like a factory.
  - math classes like a 2d vector.
  - algorithm functions like 'sorted'.
@@ -23,9 +26,8 @@ Current Content
 Next Action Items (planned)
 ---------------------------
  - providing report generator for unittesting framework.
- - singleton decorator class (remove singleton from factory)
  - performance measurement for tests.
- - passsing command line parameters to runner (unittests)
+ - singleton decorator class (remove singleton from factory)
  - generating Jenkins compatible report for unittests.
 
 
