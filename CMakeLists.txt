@@ -10,6 +10,7 @@ option(BUILD_DOCUMENTATION "Create and install the HTML based API documentation 
 find_program(GCOV gcov)
 find_program(LCOV lcov)
 find_program(GENHTML genhtml)
+find_program(CPPCHECK cppcheck)
 find_package(Doxygen)
 
 include_directories(demo ${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -31,9 +32,14 @@ if(GENHTML)
     message("-- Found GENHTML: ${GENHTML}")
 endif(GENHTML)
 
-install(DIRECTORY include/math DESTINATION include/demo)
-install(DIRECTORY include/pattern DESTINATION include/demo)
-install(DIRECTORY include/unittest DESTINATION include/demo)
+if(CPPCHECK)
+    message("-- Found CPPCHECK: ${CPPCHECK}")
+endif(CPPCHECK)
+
+install(DIRECTORY include/math      DESTINATION include/demo)
+install(DIRECTORY include/pattern   DESTINATION include/demo)
+install(DIRECTORY include/unittest  DESTINATION include/demo)
+install(DIRECTORY include/algorithm DESTINATION include/demo)
 
 configure_file(README.package README.package COPYONLY)
 configure_file(doc/doxygen.cfg doc/doxygen.cfg)
@@ -46,6 +52,7 @@ set(CPACK_PACKAGE_VENDOR "Private")
 set(CPACK_RPM_PACKAGE_GROUP "C++ Development Library")
 set(CPACK_RPM_PACKAGE_LICENSE "MIT License")
 set(CPACK_PACKAGE_DESCRIPTION_FILE ${CMAKE_BINARY_DIR}/README.package)
+set(CPACK_RPM_PACKAGE_ARCHITECTURE "noarch")
 set(CPACK_RPM_PACKAGE_REQUIRES "Boost >= 1.55")
 include(CPack)
 
@@ -77,5 +84,14 @@ if(GCOV)
                            --output-directory ${CMAKE_BINARY_DIR}/coverage
            DEPENDS run)
 endif(GCOV)
+
+if(CPPCHECK)
+    add_custom_target(cppcheck
+        COMMAND ${CPPCHECK} -I${CMAKE_CURRENT_SOURCE_DIR}/include
+                            --enable=all
+                            --std=c++11
+                            ${CMAKE_CURRENT_SOURCE_DIR})
+endif(CPPCHECK)
+
 
 

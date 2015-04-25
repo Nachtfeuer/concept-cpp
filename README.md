@@ -14,8 +14,10 @@ Current Content
  - implementation of an easy to use unittesting framework.
  - pattern classes like a factory.
  - math classes like a 2d vector.
+ - algorithm functions like 'sorted'.
  - you can create HTML documentation with doxygen.
  - supports code coverage report
+ - supports cppcheck
 
 
 Next Action Items (planned)
@@ -51,6 +53,7 @@ You also can do:
  make memcheck    (wraps use of the valgrind tool)
  make doc         (generates doxygen documentation)
  make coverage    (runs the tests and generates HTML coverage report)
+ make cppcheck    (runs cppcheck agains the sources)
 ```
 
 For creating a RPM package (sudo is important):
@@ -80,5 +83,3 @@ firefox coverage/index.html
 
 You can keep that page open and when you run again the coverage
 after you have added or modified tests then simply refresh the page.
-
-
