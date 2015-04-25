@@ -57,6 +57,9 @@ describe_suite("testing pattern::factory", [](){
         // should be still the same number of registrations
         assert_that(factory<int, int>::creators_container_type::size_type(1),
                     is_equal(factory<int, int>::get().size()));
+
+        // negative test
+        assert_that(false, is_equal(factory<int, int>::get().register_creator(123, nullptr)));
     });
 
     describe_test("testing instance creation", [creator]() {

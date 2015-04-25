@@ -39,7 +39,7 @@ class runner final {
         /// suite "runner"
         using suite_function_type = std::function<void()>;
         /// each suite has a name and a function ("runner")
-        using suites_type = std::map<std::string, std::shared_ptr<suite>>;
+        using container_type = std::map<std::string, std::shared_ptr<suite>>;
 
         /// providing singleton instance of runner
         static runner& get() noexcept {
@@ -51,7 +51,7 @@ class runner final {
         /// @suite_function the suite function ("runner") executing individual tests.
         bool register_suite(const std::string& name,
                             suite_function_type suite_function) noexcept {
-            auto result = m_suites.insert(suites_type::value_type(name, nullptr));
+            auto result = m_suites.insert(container_type::value_type(name, nullptr));
             if (result.second) {
                 result.first->second.reset(new suite(name));
                 m_suite_name = name;
@@ -97,8 +97,8 @@ class runner final {
         const runner& operator = (const runner&) = delete;
 
         /// container for registered suites.
-        suites_type m_suites;
-        /// current suite name
+        container_type m_suites;
+        /// current suite name (only valid via run)
         std::string m_suite_name;
 };
 

@@ -1,7 +1,7 @@
 ///
 /// @author  Thomas Lehmann
-/// @file    matcher.h
-/// @brief   matcher base class and functions.
+/// @file    test_suite.cxx
+/// @brief   testing of @ref unittest::suite class.
 ///
 /// Copyright (c) 2015 Thomas Lehmann
 ///
@@ -20,22 +20,26 @@
 /// DAMAGES OR OTHER LIABILITY,
 /// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-#ifndef INCLUDE_MATCHER_H_
-#define INCLUDE_MATCHER_H_
+#include <unittest/unittest.h>
 
-#include <string>
+using namespace unittest;
 
-namespace unittest {
+/// testing of class @ref unittest::suite
+describe_suite("testing unittest::suite", [](){
+    describe_test("testing initial", []() {
+        /// we cannot rely that the singelton does not contain yet registered entries
+        suite test_suite("test");
+        assert_that(true, is_equal(test_suite.empty()));
+        assert_that(suite::container_type::size_type(0), is_equal(test_suite.size()));
+    });
 
-template <typename T>
-class matcher {
-    public:
-        /// @return true when expected value does match
-        virtual bool check(const T& expected_value) const = 0;
-        /// @return chain of matchers as readable string expression
-        virtual std::string get_expression() const = 0;
-};
+    describe_test("testing registration", []() {
+        suite test_suite("test");
+        assert_that(false, is_equal(test_suite.register_test("any", nullptr)));
+        assert_that(true, is_equal(test_suite.empty()));
+        assert_that(true, is_equal(test_suite.register_test("any", []() {/*does nothing*/})));
+        assert_that(false, is_equal(test_suite.empty()));
+        assert_that(suite::container_type::size_type(1), is_equal(test_suite.size()));
+    });
+});
 
-}  // namespace unittest
-
-#endif  // INCLUDE_MATCHER_H_

@@ -7,12 +7,29 @@ enable_testing()
 
 option(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" OFF)
 
+find_program(GCOV gcov)
+find_program(LCOV lcov)
+find_program(GENHTML genhtml)
 find_package(Doxygen)
 
 include_directories(demo ${CMAKE_CURRENT_SOURCE_DIR}/include)
 file(GLOB DEMO_TEST_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/test*.cxx)
 add_executable(demo src/main.cxx ${DEMO_TEST_SRC})
 add_test(test demo)
+
+if(LCOV)
+    message("-- Found LCOV: ${LCOV}")
+endif(LCOV)
+
+if(GCOV)
+    message("-- Found GCOV: ${GCOV}")
+    add_definitions("--coverage -fprofile-arcs -ftest-coverage")
+    target_link_libraries(demo gcov)
+endif(GCOV)
+
+if(GENHTML)
+    message("-- Found GENHTML: ${GENHTML}")
+endif(GENHTML)
 
 install(DIRECTORY include/math DESTINATION include/demo)
 install(DIRECTORY include/pattern DESTINATION include/demo)
@@ -35,8 +52,8 @@ include(CPack)
 if(BUILD_DOCUMENTATION)
     if(DOXYGEN_FOUND)
         add_custom_target(doc
-            ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/doc/doxygen.cfg
-            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+            ${DOXYGEN_EXECUTABLE} ${CMAKE_BINARY_DIR}/doc/doxygen.cfg
+            WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
             COMMENT "Generating API documentation with Doxygen" VERBATIM)
     endif(DOXYGEN_FOUND)
 endif(BUILD_DOCUMENTATION)
@@ -45,5 +62,20 @@ endif(BUILD_DOCUMENTATION)
 add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} DEPENDS demo)
 add_custom_target(run COMMAND demo DEPENDS demo)
 add_custom_target(memcheck COMMAND valgrind --leak-check=full ${CMAKE_BINARY_DIR}/demo DEPENDS demo)
+
+if(GCOV)
+    add_custom_target(coverage 
+           COMMAND mkdir -p ${CMAKE_BINARY_DIR}/coverage
+           COMMAND ${LCOV} --capture
+                           --no-external
+                           --base-directory ${CMAKE_CURRENT_SOURCE_DIR}
+                           --directory=${CMAKE_CURRENT_BINARY_DIR}
+                           --output-file=${CMAKE_BINARY_DIR}/coverage/coverage.info
+           COMMAND ${GENHTML} ${CMAKE_BINARY_DIR}/coverage/coverage.info
+                           --title ${PROJECT_NAME}
+                           --legend
+                           --output-directory ${CMAKE_BINARY_DIR}/coverage
+           DEPENDS run)
+endif(GCOV)
 
 

@@ -15,6 +15,7 @@ Current Content
  - pattern classes like a factory.
  - math classes like a 2d vector.
  - you can create HTML documentation with doxygen.
+ - supports code coverage report
 
 
 Next Action Items (planned)
@@ -24,7 +25,6 @@ Next Action Items (planned)
  - performance measurement for tests.
  - passsing command line parameters to runner (unittests)
  - generating Jenkins compatible report for unittests.
- - adding code coverage to cmake project.
 
 
 CMake
@@ -50,10 +50,35 @@ You also can do:
  make run         (does run the test without "ctest")
  make memcheck    (wraps use of the valgrind tool)
  make doc         (generates doxygen documentation)
+ make coverage    (runs the tests and generates HTML coverage report)
 ```
 
 For creating a RPM package (sudo is important):
 ```
  sudo make package
 ```
+
+Code Coverage
+-------------
+```
+make coverage
+```
+
+I'm using this: http://ltp.sourceforge.net/coverage/lcov.php
+When you run this then following dependencies are ensured:
+
+ - compilation and linkage of the test binary
+ - running the test
+ - capturing the coverage data
+ - generating the report
+
+What remains ... at least what I do:
+
+```
+firefox coverage/index.html
+```
+
+You can keep that page open and when you run again the coverage
+after you have added or modified tests then simply refresh the page.
+
 

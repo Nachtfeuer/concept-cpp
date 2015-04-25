@@ -38,17 +38,21 @@ class suite final {
         /// test "runner"
         using test_function_type = std::function<void()>;
         /// each test has a name and a function ("runner")
-        using tests_type = std::map<std::string, test_function_type>;
+        using container_type = std::map<std::string, test_function_type>;
 
         /// initializing the 
         suite(const std::string& name) : m_name(name), m_tests() {}
 
         /// registering a suite function ("runner") und given name
-        /// @name name of the suite
-        /// @suite_function the suite function ("runner") executing individual tests.
+        /// @param name of the suite (must be unique per suite)
+        /// @param suite_function the suite function ("runner") executing individual tests.
+        /// @return true when successfully registered a test function under a given name.
         bool register_test(const std::string& name,
                            test_function_type test_function) noexcept {
-            auto result = m_tests.insert(tests_type::value_type(name, test_function));
+            if (nullptr == test_function || name.empty()) {
+                return false;
+            }
+            auto result = m_tests.insert(container_type::value_type(name, test_function));
             return result.second;
         }
 
@@ -65,6 +69,16 @@ class suite final {
             }
         }
 
+        /// @return number of registered tests
+        container_type::size_type size() const noexcept {
+            return m_tests.size();
+        }
+
+        /// @return true when there is no registered test
+        bool empty() const noexcept {
+            return m_tests.empty();
+        }
+
     private:
         /// disable copy c'tor
         suite(const suite&) = delete;
@@ -74,7 +88,7 @@ class suite final {
         /// name of the suite
         const std::string m_name;
         /// container for registered tests.
-        tests_type m_tests;
+        container_type m_tests;
 };
 
 }  // namespace unittest

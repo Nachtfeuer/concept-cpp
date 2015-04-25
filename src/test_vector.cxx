@@ -108,4 +108,11 @@ describe_suite("testing math::vector", [](){
         assert_that(math::vector(6, 4), is_equal(math::vector(1.5, 1).scaled(4)));
         assert_that(math::vector(3, 2), is_equal(math::vector(9, 6).scaled(1.0/3.0)));
     });
+
+    describe_test("testing output streaming", []() {
+        const math::vector v1 = {1.0, 3.0};
+        std::stringstream stream;
+        stream << v1;
+        assert_that(std::string("vector(1, 3)"), is_equal(stream.str()));
+    });
 });

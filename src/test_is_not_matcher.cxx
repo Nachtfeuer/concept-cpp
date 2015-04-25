@@ -1,7 +1,7 @@
 ///
 /// @author  Thomas Lehmann
-/// @file    matcher.h
-/// @brief   matcher base class and functions.
+/// @file    test_is_not_matcher.cxx
+/// @brief   testing of @ref unittest::is_not_matcher
 ///
 /// Copyright (c) 2015 Thomas Lehmann
 ///
@@ -20,22 +20,21 @@
 /// DAMAGES OR OTHER LIABILITY,
 /// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-#ifndef INCLUDE_MATCHER_H_
-#define INCLUDE_MATCHER_H_
+#include <unittest/unittest.h>
 
-#include <string>
+using namespace unittest;
 
-namespace unittest {
+/// testing of class @ref unittest::suite
+describe_suite("testing unittest::is_not_matcher", [](){
+    describe_test("testing not equal", []() {
+        const is_not_matcher<int> matcher(is_equal_matcher<int>(123));
+        assert_that(false, is_equal(matcher.check(123)));
+        assert_that(true, is_equal(matcher.check(321)));
+    });
 
-template <typename T>
-class matcher {
-    public:
-        /// @return true when expected value does match
-        virtual bool check(const T& expected_value) const = 0;
-        /// @return chain of matchers as readable string expression
-        virtual std::string get_expression() const = 0;
-};
+    describe_test("testing expression", []() {
+        const is_not_matcher<int> matcher(is_equal_matcher<int>(123));
+        assert_that(std::string("is_not(is_equal(123))"), is_equal(matcher.get_expression()));
+    });
+});
 
-}  // namespace unittest
-
-#endif  // INCLUDE_MATCHER_H_
