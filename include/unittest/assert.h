@@ -54,7 +54,7 @@ template <typename T>
 void assert_that(const T& expected_value, const matcher<T>& value_matcher) {
     if (!value_matcher.check(expected_value)) {
         std::stringstream message;
-        message << " ...... assertion: " << expected_value
+        message << expected_value
                 << " does not match "
                 << value_matcher.get_expression();
         throw assertion(message.str());

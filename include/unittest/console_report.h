@@ -79,7 +79,7 @@ class console_report : public report {
                               << std::endl;
                     if (!test->has_succeeded()) {
                         success = false;
-                        std::cout << " ...... " << test->get_error_message() << std::endl;
+                        std::cout << "  ...... " << test->get_error_message() << std::endl;
                     }
                 }
             }
