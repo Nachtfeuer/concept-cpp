@@ -25,7 +25,10 @@
 
 #include <unittest/options.h>
 #include <unittest/suite.h>
+#include <unittest/console_report.h>
+
 #include <algorithm/shuffled.h>
+#include <pattern/factory.h>
 
 #include <functional>
 #include <string>
@@ -43,6 +46,8 @@ class runner final {
         using suite_function_type = std::function<void()>;
         /// each suite has a name and a function ("runner")
         using container_type = std::map<std::string, std::shared_ptr<suite>>;
+        /// type for report factory
+        using report_factory = pattern::factory<std::string, report>;
 
         /// providing singleton instance of runner
         static runner& get() noexcept {
@@ -86,24 +91,30 @@ class runner final {
                 return false;
             }
 
+            m_report.reset(report_factory::get().create_instance("default"));
+
+            std::vector<suite*> suites;
+
+            for (auto& it: m_suites) {
+                suites.push_back(it.second.get());
+            }
+
             if (m_options.shuffle_suites) {
-                std::vector<suite*> suites;
+                suites = algorithm::shuffled(suites);
+            }
 
-                for (auto& it: m_suites) {
-                    suites.push_back(it.second.get());
-                }
-
-                for (auto& it: algorithm::shuffled(suites)) {
-                    it->run(m_options);
-                }
-            } else {
-                for (auto& it: m_suites) {
-                    it.second->run(m_options);
+            bool succeeded = true;
+            for (auto& it: suites) {
+                if (!it->run(m_options, m_report.get())) {
+                    succeeded = false;
                 }
             }
 
-            std::cout << std::endl;
-                return true;
+            if (m_report) {
+                m_report->dump();
+            }
+
+            return succeeded;
         }
 
         /// @return number of registered suites
@@ -118,7 +129,9 @@ class runner final {
 
     private:
         /// initializing the 
-        runner() : m_suites() {}
+        runner() : m_options(), m_suites(), m_report(nullptr) {
+            report_factory::get().register_creator("default", console_report::creator);
+        }
 
         /// @return providing singleton instance of runner
         static runner& get_runner_instance() noexcept {
@@ -137,6 +150,8 @@ class runner final {
         container_type m_suites;
         /// current suite name (only valid via run)
         std::string m_suite_name;
+        /// report to dump the results
+        std::unique_ptr<report> m_report;
 };
 
 }  // namespace unittest

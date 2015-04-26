@@ -21,11 +21,11 @@ Current Content
  - you can create HTML documentation with doxygen.
  - supports code coverage report
  - supports cppcheck
+ - supports custom report generator: default is: console reporter
 
 
 Next Action Items (planned)
 ---------------------------
- - providing report generator for unittesting framework.
  - performance measurement for tests.
  - singleton decorator class (remove singleton from factory)
  - generating Jenkins compatible report for unittests.

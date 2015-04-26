@@ -25,6 +25,7 @@
 
 #include <unittest/assert.h>
 #include <unittest/test.h>
+#include <unittest/report.h>
 #include <algorithm/shuffled.h>
 
 #include <functional>
@@ -61,33 +62,27 @@ class suite final {
         }
 
         /// running all registered suites
-        void run(const options& the_options) {
-            std::cout << std::endl << "Running suite " << m_name << std::endl;
+        bool run(const options& the_options, report* the_report) {
+            std::vector<std::shared_ptr<test>> tests;
 
-            if (the_options.shuffle_tests) {
-                std::vector<test*> tests;
-
-                for (auto& it: m_tests) {
-                    tests.push_back(it.second.get());
-                }
-
-                for (auto& it: algorithm::shuffled(tests)) {
-                    try {
-                        it->run();
-                    } catch (assertion& e) {
-                        std::cout << e.what() << std::endl;
-                    }
-                }
-            } else {
-                for (auto& it: m_tests) {
-                    try {
-                        it.second->run();
-                    } catch (assertion& e) {
-                        std::cout << e.what() << std::endl;
-                    }
-                }
+            for (auto& it: m_tests) {
+                tests.push_back(it.second);
             }
 
+            if (the_options.shuffle_tests) {
+                tests = algorithm::shuffled(tests);
+            }
+
+            bool succeeded = true;
+            for (auto& it: tests) {
+                try {
+                    it->run();
+                } catch (const assertion& e) {
+                    succeeded = false;
+                }
+                the_report->test_done(m_name, it);
+            }
+            return succeeded;
         }
 
         /// @return number of registered tests

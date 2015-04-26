@@ -31,17 +31,37 @@ namespace unittest {
 /// @brief represent one test (name and function)
 class test final {
     public:
-        /// test "runner"
+        /// function type for test "runner"
         using function_type = std::function<void()>;
 
         /// initializing the fields
         test(const std::string& name, function_type function)
-            : m_name(name), m_function(function) {}
+            : m_name(name), m_function(function), m_succeeded(false), m_error_message() {}
 
         /// running all registered suites
         void run() {
-            std::cout << "Running test " << m_name << std::endl;
-            m_function();
+            try {
+                m_function();
+                m_succeeded = true;
+            } catch (const assertion& test_assertion) {
+                m_succeeded = false;
+                m_error_message = test_assertion.what();
+                throw test_assertion;
+            }
+        }
+
+        /// @return true when test has succeeded
+        bool has_succeeded() const noexcept {
+            return m_succeeded;
+        }
+
+        /// name of the test
+        std::string get_name() const noexcept {
+            return m_name;
+        }
+
+        std::string get_error_message() const noexcept {
+            return m_error_message;
         }
 
     private:
@@ -54,6 +74,10 @@ class test final {
         const std::string m_name;
         /// test function
         function_type m_function;
+        /// when true then the test has succeeded
+        bool m_succeeded;
+        /// error message when test has failed
+        std::string m_error_message;
 };
 
 }  // namespace unittest
