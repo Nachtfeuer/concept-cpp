@@ -36,6 +36,9 @@ struct options {
     /// when true then shuffle the suites otherwise
     /// execute them ordered by name (which is the default).
     bool shuffle_suites;
+    /// when not empty used to filter for individual
+    /// unittests to be executed.
+    std::string filter;
 };
 
 /// @class option_parser
@@ -56,6 +59,9 @@ class option_parser {
                 ("shuffle-tests",
                  po::value<bool>(&the_options.shuffle_tests)->default_value(false),
                  "running registered tests per suite in random order otherwise sorted by name.")
+                ("filter",
+                 po::value<std::string>(&the_options.filter)->default_value(""),
+                 "filtering for individual unittests that are executed")
                 ;
 
             po::variables_map vm;

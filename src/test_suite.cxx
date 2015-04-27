@@ -29,6 +29,7 @@ describe_suite("testing unittest::suite", [](){
     describe_test("testing initial", []() {
         /// we cannot rely that the singelton does not contain yet registered entries
         suite test_suite("test");
+        assert_that(std::string("test"), is_equal(test_suite.get_name()));
         assert_that(true, is_equal(test_suite.empty()));
         assert_that(suite::container_type::size_type(0), is_equal(test_suite.size()));
     });

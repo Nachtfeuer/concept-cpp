@@ -95,6 +95,11 @@ class suite final {
             return m_tests.empty();
         }
 
+        /// name of the suite
+        std::string get_name() const noexcept {
+            return m_name;
+        }
+
     private:
         /// disable copy c'tor
         suite(const suite&) = delete;

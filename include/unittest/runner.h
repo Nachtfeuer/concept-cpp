@@ -96,7 +96,10 @@ class runner final {
             std::vector<suite*> suites;
 
             for (auto& it: m_suites) {
-                suites.push_back(it.second.get());
+                if (m_options.filter.empty() ||
+                    it.second->get_name().find(m_options.filter) != std::string::npos) {
+                    suites.push_back(it.second.get());
+                }
             }
 
             if (m_options.shuffle_suites) {
