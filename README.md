@@ -15,6 +15,7 @@ Current Content
   - providing suite and tests with easy to write lambda functions.
   - providing hamcrest like matcher.
   - supports custom report generator: default is: console reporter
+  - performance measurement for tests.
  - command line options
   - --shuffle-suites=true  (execution of suites in random order)
   - --shuffle-tests=true   (execution of tests in random order)
@@ -29,7 +30,6 @@ Current Content
 
 Next Action Items (planned)
 ---------------------------
- - performance measurement for tests.
  - providing new report for TAP format (https://testanything.org/)
    - understood by Jenkins (plugin exists)
  - providing new option --repeat-count for runner.

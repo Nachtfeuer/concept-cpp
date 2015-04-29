@@ -23,6 +23,7 @@
 #ifndef INCLUDE_TEST_H_
 #define INCLUDE_TEST_H_
 
+#include <performance/measurement.h>
 #include <string>
 
 namespace unittest {
@@ -40,12 +41,16 @@ class test final {
 
         /// running all registered suites
         void run() {
+            const performance::measure_scope<std::milli> measurement;
             try {
                 m_function();
+                m_duration = measurement.get_duration();
                 m_succeeded = true;
             } catch (const assertion& test_assertion) {
+                m_duration = measurement.get_duration();
                 m_succeeded = false;
                 m_error_message = test_assertion.what();
+                m_duration = -1;
                 throw test_assertion;
             }
         }
@@ -65,6 +70,11 @@ class test final {
             return m_error_message;
         }
 
+        /// @return duration of last test.
+        double get_duration() const noexcept {
+            return m_duration;
+        }
+
     private:
         /// disable copy c'tor
         test(const test&) = delete;
@@ -79,6 +89,8 @@ class test final {
         bool m_succeeded;
         /// error message when test has failed
         std::string m_error_message;
+        /// duration of test function in milliseconds.
+        double m_duration;
 };
 
 }  // namespace unittest

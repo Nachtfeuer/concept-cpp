@@ -43,6 +43,30 @@ inline double measure(std::function<void()> func) {
         std::chrono::high_resolution_clock::now() - start).count();
 }
 
+/// @class measure_scope
+template <class TUnit>
+class measure_scope final {
+    public:
+        /// initializing start of measurement
+        measure_scope()
+            : m_start(std::chrono::high_resolution_clock::now()) {}
+
+        /// duration since the measure scope has started
+        inline double get_duration() const noexcept {
+            return std::chrono::duration<double, TUnit>(
+                std::chrono::high_resolution_clock::now() - m_start).count();
+        }
+
+    private:
+        /// disable copy c'tor
+        measure_scope(const measure_scope&) = delete;
+        /// disable assignment
+        measure_scope& operator = (const measure_scope&) = delete;
+
+        /// start measure point
+        const std::chrono::time_point<std::chrono::high_resolution_clock> m_start;
+};
+
 }  // namespace time
 
 #endif  // INCLUDE_PERFORMANCE_MEASUREMENT_H_

@@ -77,6 +77,7 @@ class console_report : public report {
                 std::cout << std::endl << "Finished suite '" << suite.first << "'" << std::endl;
                 for (const auto& test: suite.second) {
                     std::cout << "  ... test '" << test->get_name() << "'"
+                              << " (" << test->get_duration() << "ms)"
                               << (test->has_succeeded() ? " [succeeded]" : " [failed]")
                               << std::endl;
                     if (!test->has_succeeded()) {
