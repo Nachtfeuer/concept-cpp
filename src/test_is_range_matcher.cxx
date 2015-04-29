@@ -1,7 +1,7 @@
 ///
 /// @author  Thomas Lehmann
-/// @file    matcher.h
-/// @brief   matcher base class and functions.
+/// @file    test_is_range_matcher.cxx
+/// @brief   testing of @ref unittest::is_range_matcher
 ///
 /// Copyright (c) 2015 Thomas Lehmann
 ///
@@ -20,24 +20,25 @@
 /// DAMAGES OR OTHER LIABILITY,
 /// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-#ifndef INCLUDE_MATCHER_H_
-#define INCLUDE_MATCHER_H_
+#include <unittest/unittest.h>
 
-#include <string>
+using namespace unittest;
 
-namespace unittest {
+/// testing of class @ref unittest::is_range_matcher
+describe_suite("testing unittest::is_range_matcher", [](){
+    describe_test("testing range checking", []() {
+        const is_range_matcher<int> matcher(0, 10);
+        assert_that(true, is_equal(matcher.check(0)));   // lower bound of range
+        assert_that(true, is_equal(matcher.check(5)));   // in the middle of the range
+        assert_that(true, is_equal(matcher.check(10)));  // upper bound of range
 
-/// @class matcher
-/// @brief matcher base class and functions.
-template <typename T>
-class matcher {
-    public:
-        /// @return true when expected value does match
-        virtual bool check(const T& expected_value) const = 0;
-        /// @return chain of matchers as readable string expression
-        virtual std::string get_expression() const = 0;
-};
+        assert_that(false, is_equal(matcher.check(-1))); // below range
+        assert_that(false, is_equal(matcher.check(11))); // above range
+    });
 
-}  // namespace unittest
+    describe_test("testing range expression", []() {
+        const is_range_matcher<int> matcher(0, 10);
+        assert_that(std::string("is_range(0, 10)"), is_equal(matcher.get_expression()));
+    });
+});
 
-#endif  // INCLUDE_MATCHER_H_

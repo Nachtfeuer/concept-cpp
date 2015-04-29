@@ -34,8 +34,10 @@
 
 namespace unittest {
 
-/// @class report
+/// @class console_report
 /// @brief report interface which allows you to implement custom reports.
+/// @note  the choosen data structures ensure to keep suites and tests
+///        in the order they were executed.
 class console_report : public report {
     public:
         /// container type with test results for one suite

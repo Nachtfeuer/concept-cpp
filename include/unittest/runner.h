@@ -49,7 +49,7 @@ class runner final {
         /// type for report factory
         using report_factory = pattern::factory<std::string, report>;
 
-        /// providing singleton instance of runner
+        /// @return providing singleton instance of runner
         static runner& get() noexcept {
             return get_runner_instance();
         }
@@ -57,6 +57,7 @@ class runner final {
         /// registering a suite function ("runner") und given name
         /// @name name of the suite
         /// @suite_function the suite function ("runner") executing individual tests.
+        /// @return true when registration of suite has succeeded.
         bool register_suite(const std::string& name,
                             suite_function_type suite_function) noexcept {
             if (nullptr == suite_function || name.empty()) {
@@ -75,6 +76,11 @@ class runner final {
         }
 
         /// delegates registration of a test function to a suite.
+        /// @param name name/title of the test
+        /// @param test_function the test function which usually contains assert_that statements.
+        /// @return true when registration of test has succeeded
+        /// @note don't use it yourself; it's usually automatically used when you define
+        ///       a test using @ref unittest::describe_test.
         bool register_test(const std::string& name,
                            test::function_type test_function) noexcept {
             auto it = m_suites.find(m_suite_name);
@@ -86,6 +92,7 @@ class runner final {
 
 
         /// running all registered suites
+        /// @return true when all suites have succeeded
         bool run(int argc, char** argv) noexcept {
             if (!option_parser::parse(argc, argv, m_options)) {
                 return false;

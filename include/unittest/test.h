@@ -1,7 +1,7 @@
 ///
 /// @author  Thomas Lehmann
 /// @file    test.h
-/// @brief   represent one test (name and function)
+/// @brief   represents one test (name and function)
 ///
 /// Copyright (c) 2015 Thomas Lehmann
 ///
@@ -28,7 +28,7 @@
 namespace unittest {
 
 /// @class test
-/// @brief represent one test (name and function)
+/// @brief represents one test (name and function)
 class test final {
     public:
         /// function type for test "runner"
@@ -55,11 +55,12 @@ class test final {
             return m_succeeded;
         }
 
-        /// name of the test
+        /// @return name of the test
         std::string get_name() const noexcept {
             return m_name;
         }
 
+        /// @return message of asssertion - if thrown - otherwise empty
         std::string get_error_message() const noexcept {
             return m_error_message;
         }

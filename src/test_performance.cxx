@@ -1,7 +1,7 @@
 ///
 /// @author  Thomas Lehmann
-/// @file    test_is_equal_matcher.cxx
-/// @brief   testing of @ref unittest::is_equal_matcher
+/// @file    test_performance.cxx
+/// @brief   testing time functions.
 ///
 /// Copyright (c) 2015 Thomas Lehmann
 ///
@@ -21,20 +21,38 @@
 /// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <unittest/unittest.h>
+#include <performance/measurement.h>
+
+#include <thread>
 
 using namespace unittest;
 
-/// testing of class @ref unittest::is_equal_matcher
-describe_suite("testing unittest::is_equal_matcher", [](){
-    describe_test("testing equal checking", []() {
-        const is_equal_matcher<int> matcher(123);
-        assert_that(true, is_equal(matcher.check(123)));
-        assert_that(false, is_equal(matcher.check(321)));
+describe_suite("testing performance functions", [](){
+    describe_test("testing performance::measure (milliseconds)", []() {
+        const auto duration = performance::measure<std::milli>([]() {
+            // sleeping for 100ms ...
+            std::this_thread::sleep_for(std::chrono::duration<double, std::milli>(100));
+        });
+
+        assert_that(duration, is_range(100.0, 101.0));
     });
 
-    describe_test("testing matcher expression", []() {
-        const is_equal_matcher<int> matcher(123);
-        assert_that(std::string("is_equal(123)"), is_equal(matcher.get_expression()));
+    describe_test("testing performance::measure (microseconds)", []() {
+        const auto duration = performance::measure<std::micro>([]() {
+            // sleeping for 100ms ...
+            std::this_thread::sleep_for(std::chrono::duration<double, std::milli>(100));
+        });
+
+        assert_that(duration, is_range(100000.0, 101000.0));
+    });
+
+    describe_test("testing performance::measure (seconds)", []() {
+        const auto duration = performance::measure<std::ratio<1>>([]() {
+            // sleeping for 100ms ...
+            std::this_thread::sleep_for(std::chrono::duration<double, std::milli>(100));
+        });
+
+        assert_that(duration, is_range(0.100, 0.101));
     });
 });
 

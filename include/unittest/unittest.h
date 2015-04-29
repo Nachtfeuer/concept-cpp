@@ -33,6 +33,7 @@
 #include <unittest/matcher.h>
 #include <unittest/is_equal_matcher.h>
 #include <unittest/is_not_matcher.h>
+#include <unittest/is_range_matcher.h>
 #include <unittest/assert.h>
 
 namespace unittest {

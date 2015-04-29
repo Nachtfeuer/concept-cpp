@@ -12,6 +12,9 @@ well documented.
 Current Content
 ---------------
  - implementation of an easy to use unittesting framework.
+  - providing suite and tests with easy to write lambda functions.
+  - providing hamcrest like matcher.
+  - supports custom report generator: default is: console reporter
  - command line options
   - --shuffle-suites=true  (execution of suites in random order)
   - --shuffle-tests=true   (execution of tests in random order)
@@ -22,7 +25,6 @@ Current Content
  - you can create HTML documentation with doxygen.
  - supports code coverage report
  - supports cppcheck
- - supports custom report generator: default is: console reporter
 
 
 Next Action Items (planned)
@@ -34,6 +36,9 @@ Next Action Items (planned)
    (does repeat all suites several times)
  - singleton decorator class (remove singleton from factory)
  - writing big integer class supporting different multiplication algorithms
+ - sieve of Eratosthenes (http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes)
+ - power of 2 algorithm
+ - fibonacci algorithms (http://en.wikipedia.org/wiki/Fibonacci_number)
 
 
 CMake

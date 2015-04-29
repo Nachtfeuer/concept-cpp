@@ -28,6 +28,8 @@
 
 namespace math {
 
+/// @class vector
+/// @brief math 2d vector.
 class vector final {
     public:
         /// init c'tor for (x, y) coordinates

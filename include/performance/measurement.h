@@ -1,7 +1,7 @@
 ///
 /// @author  Thomas Lehmann
-/// @file    matcher.h
-/// @brief   matcher base class and functions.
+/// @file    measurement.h
+/// @brief   about time measurement.
 ///
 /// Copyright (c) 2015 Thomas Lehmann
 ///
@@ -20,24 +20,29 @@
 /// DAMAGES OR OTHER LIABILITY,
 /// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-#ifndef INCLUDE_MATCHER_H_
-#define INCLUDE_MATCHER_H_
 
-#include <string>
+#ifndef INCLUDE_PERFORMANCE_MEASUREMENT_H_
+#define INCLUDE_PERFORMANCE_MEASUREMENT_H_
 
-namespace unittest {
+#include <functional>
+#include <chrono>
 
-/// @class matcher
-/// @brief matcher base class and functions.
-template <typename T>
-class matcher {
-    public:
-        /// @return true when expected value does match
-        virtual bool check(const T& expected_value) const = 0;
-        /// @return chain of matchers as readable string expression
-        virtual std::string get_expression() const = 0;
-};
+namespace performance {
 
-}  // namespace unittest
+/// @return duration by provided unit
+/// @code
+/// const auto duration = time::measure<std::milli>([]() {
+///     std::this_thread::sleep_for(std::chrono::duration<double, std::milli>(100));
+/// });
+/// @endcode
+template <class TUnit>
+inline double measure(std::function<void()> func) {
+    auto start = std::chrono::high_resolution_clock::now();
+    func();
+    return std::chrono::duration<double, TUnit>(
+        std::chrono::high_resolution_clock::now() - start).count();
+}
 
-#endif  // INCLUDE_MATCHER_H_
+}  // namespace time
+
+#endif  // INCLUDE_PERFORMANCE_MEASUREMENT_H_
