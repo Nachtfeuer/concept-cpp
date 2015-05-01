@@ -50,7 +50,7 @@ class test final {
                 m_duration = measurement.get_duration();
                 m_succeeded = false;
                 m_error_message = test_assertion.what();
-                m_duration = -1;
+                m_duration = measurement.get_duration();
                 throw test_assertion;
             }
         }

@@ -26,14 +26,22 @@ Current Content
  - you can create HTML documentation with doxygen.
  - supports code coverage report
  - supports cppcheck
+ - object serialization (started)
+  - can dump simple objects to JSON format
+  - minimal adjustment necessary for your custom data class.
 
 
 Next Action Items (planned)
 ---------------------------
  - providing new report for TAP format (https://testanything.org/)
-   - understood by Jenkins (plugin exists).
- - providing new option --repeat-count for runner.
-   (does repeat all suites several times).
+  - understood by Jenkins (plugin exists).
+ - unittests:
+  - warn about:
+   - suites with no test
+   - tests with no assertion
+  - providing an option --stop-on-error
+  - providing new option --repeat-count for runner.
+     (does repeat all suites several times).
  - singleton decorator class (remove singleton from factory).
  - writing big integer class supporting different multiplication algorithms.
  - sieve of Eratosthenes (http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes).
@@ -41,7 +49,8 @@ Next Action Items (planned)
  - fibonacci algorithms (http://en.wikipedia.org/wiki/Fibonacci_number).
  - providing generic plugin handling.
  - object query like linq.
- - object serialization.
+ - object serialization
+  - read
  - providing doxygen mainpage.
  - providing wiki for some FAQ's on the project site.
 
