@@ -72,6 +72,7 @@ class console_report : public report {
 
         /// dumping results to stdout
         void dump() const override {
+            auto test_counter = static_cast<uint32_t>(0);
             bool success = true;
             for (const auto& suite: m_suites) {
                 std::cout << std::endl << "Finished suite '" << suite.first << "'" << std::endl;
@@ -84,11 +85,12 @@ class console_report : public report {
                         success = false;
                         std::cout << "  ...... " << test->get_error_message() << std::endl;
                     }
+                    ++test_counter;
                 }
             }
 
             if (success) {
-                std::cout << std::endl << "All tests have passed!" << std::endl;
+                std::cout << std::endl << "All " << test_counter << " tests have passed!" << std::endl;
             }
         }
 

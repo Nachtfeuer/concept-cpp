@@ -19,9 +19,9 @@ Current Content
  - command line options
   - --shuffle-suites=true  (execution of suites in random order)
   - --shuffle-tests=true   (execution of tests in random order)
-  - --filter=<string>      (does filter for suites)
+  - --filter=string        (does filter for suites)
  - pattern classes like a factory.
- - math classes like a 2d vector.
+ - math classes like a 2d vector or a 2d line.
  - algorithm functions like 'sorted' and 'shuffled'.
  - you can create HTML documentation with doxygen.
  - supports code coverage report
@@ -31,14 +31,19 @@ Current Content
 Next Action Items (planned)
 ---------------------------
  - providing new report for TAP format (https://testanything.org/)
-   - understood by Jenkins (plugin exists)
+   - understood by Jenkins (plugin exists).
  - providing new option --repeat-count for runner.
-   (does repeat all suites several times)
- - singleton decorator class (remove singleton from factory)
- - writing big integer class supporting different multiplication algorithms
- - sieve of Eratosthenes (http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes)
- - power of 2 algorithm
- - fibonacci algorithms (http://en.wikipedia.org/wiki/Fibonacci_number)
+   (does repeat all suites several times).
+ - singleton decorator class (remove singleton from factory).
+ - writing big integer class supporting different multiplication algorithms.
+ - sieve of Eratosthenes (http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes).
+ - power of 2 algorithm.
+ - fibonacci algorithms (http://en.wikipedia.org/wiki/Fibonacci_number).
+ - providing generic plugin handling.
+ - object query like linq.
+ - object serialization.
+ - providing doxygen mainpage.
+ - providing wiki for some FAQ's on the project site.
 
 
 CMake
