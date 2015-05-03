@@ -36,7 +36,7 @@ describe_suite("testing serializable::json_dumper", [](){
         serializable::json_dumper dumper;
         std::stringstream stream;
         dumper.dump(the_object, stream);
-        assert_that(std::string("{\"test\":{}}"), is_equal(stream.str()));
+        assert_that(std::string("{\"o:test\":{}}"), is_equal(stream.str()));
     });
 
     describe_test("testing object JSON dumper - one member", []() {
@@ -46,7 +46,7 @@ describe_suite("testing serializable::json_dumper", [](){
         serializable::json_dumper dumper;
         std::stringstream stream;
         dumper.dump(the_object, stream);
-        assert_that(std::string("{\"test\":{\"age\":45}}"), is_equal(stream.str()));
+        assert_that(std::string("{\"o:test\":{\"m:age\":45}}"), is_equal(stream.str()));
     });
 
     describe_test("testing object JSON dumper - two member", []() {
@@ -57,7 +57,33 @@ describe_suite("testing serializable::json_dumper", [](){
         serializable::json_dumper dumper;
         std::stringstream stream;
         dumper.dump(the_object, stream);
-        assert_that(std::string("{\"test\":{\"hobby\":\"reading books\",\"age\":45}}"),
+        assert_that(std::string("{\"o:test\":{\"m:hobby\":\"reading books\",\"m:age\":45}}"),
+                    is_equal(stream.str()));
+    });
+
+    describe_test("testing object JSON dumper - one object member", []() {
+        serializable::object the_object("test");
+        serializable::member<serializable::abstract_object> sub_object(
+            "sub-test", new serializable::object("sub-test"), the_object);
+        
+        serializable::json_dumper dumper;
+        std::stringstream stream;
+        dumper.dump(the_object, stream);
+        assert_that(std::string("{\"o:test\":{\"m:sub-test\":{\"o:sub-test\":{}}}}"),
+                    is_equal(stream.str()));
+    });
+
+    describe_test("testing object JSON dumper - one object member with one member", []() {
+        serializable::object the_object("test");
+        auto sub_test = new serializable::object("sub-test");
+        serializable::member<serializable::abstract_object> sub_object(
+            "sub-test", sub_test, the_object);
+        serializable::member<int> age("age", 45, *sub_test);
+        
+        serializable::json_dumper dumper;
+        std::stringstream stream;
+        dumper.dump(the_object, stream);
+        assert_that(std::string("{\"o:test\":{\"m:sub-test\":{\"o:sub-test\":{\"m:age\":45}}}}"),
                     is_equal(stream.str()));
     });
 });

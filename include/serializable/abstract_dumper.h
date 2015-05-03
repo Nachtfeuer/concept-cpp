@@ -35,9 +35,9 @@ class abstract_dumper {
         /// default d'tor
         virtual ~abstract_dumper() = default;
         /// dumping of an object (depends on impl.)
-        virtual void dump(object&, std::ostream&) const = 0;
+        virtual void dump(const object&, std::ostream&) const = 0;
         /// dumping of a member (depends on impl.)
-        virtual void dump(abstract_member&, std::ostream&) const = 0;
+        virtual void dump(const abstract_member&, std::ostream&) const = 0;
 };
 
 }  // namespace serializable

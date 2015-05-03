@@ -21,22 +21,25 @@
 /// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #ifndef INCLUDE_SERIALIZABLE_JSON_H_
-#define INCLUDE_SERIALIZABLE_JSON_DUMPER_H_
+#define INCLUDE_SERIALIZABLE_JSON_H_
 
 #include <serializable/abstract_dumper.h>
+#include <serializable/member.h>
 
 namespace serializable {
 
 /// @class json_dumper
 /// @brief implements a JSON dumper.
+/// @note member names are prefixed with "m:"
+/// @note object names are prefixed with "o:"
 class json_dumper : public abstract_dumper {
     public:
         /// dumping of an object (depends on impl.)
-        virtual void dump(object& the_object, std::ostream& stream) const override {
-            stream << "{\"" << the_object.get_name() << "\":{";
+        virtual void dump(const object& the_object, std::ostream& stream) const override {
+            stream << "{\"o:" << the_object.get_name() << "\":{";
             auto countdown = the_object.size();
             for (const auto& it: the_object) {
-                stream << "\"" << it.first << "\":";
+                stream << "\"m:" << it.first << "\":";
                 dump(*it.second, stream);
                 if (--countdown > 0) {
                     stream << ",";
@@ -46,9 +49,12 @@ class json_dumper : public abstract_dumper {
         }
 
         /// dumping of a member (depends on impl.)
-        virtual void dump(abstract_member& the_member, std::ostream& stream) const override {
+        virtual void dump(const abstract_member& the_member, std::ostream& stream) const override {
             if (the_member.is_string()) {
                 stream << "\"" << the_member.to_string() << "\"";
+            } else if (the_member.is_object()) {
+                auto obj = dynamic_cast<const member<abstract_object>&>(the_member).get_value();
+                dump(*dynamic_cast<const object*>(obj), stream);
             } else {
                 stream << the_member.to_string();
             }

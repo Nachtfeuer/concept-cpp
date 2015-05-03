@@ -27,7 +27,8 @@ Current Content
  - supports code coverage report
  - supports cppcheck
  - object serialization (started)
-  - can dump simple objects to JSON format
+  - can dump simple objects with field of standard types and
+    fiels being again an object of fields to JSON format
   - minimal adjustment necessary for your custom data class.
 
 
@@ -50,9 +51,11 @@ Next Action Items (planned)
  - providing generic plugin handling.
  - object query like linq.
  - object serialization
-  - read
+  - dump/wite for container of standard types and for container of objects.
+  - read from JSON
  - providing doxygen mainpage.
  - providing wiki for some FAQ's on the project site.
+ - logging
 
 
 CMake

@@ -37,6 +37,8 @@ class abstract_member {
         virtual const std::string& get_name() const noexcept = 0;
         /// @return true when given member is a string value
         virtual bool is_string() const noexcept = 0;
+        /// @return true when given member is an object
+        virtual bool is_object() const noexcept = 0;
         /// @return converts given member into a string value
         virtual std::string to_string() const noexcept = 0;
 };
