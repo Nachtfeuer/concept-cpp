@@ -27,6 +27,8 @@
 
 namespace math {
 
+/// @class line
+/// @brief math 2d line.
 class line final {
     public:
         /// default c'tor
@@ -50,6 +52,12 @@ class line final {
         /// length of line
         constexpr double length() const noexcept {
             return m_direction.length();
+        }
+
+        /// compares two lines on to be equal
+        constexpr friend bool operator == (const line& lhs, const line& rhs) noexcept {
+            return lhs.get_location()  == rhs.get_location() && 
+                   lhs.get_direction() == rhs.get_direction();
         }
 
         /// dumping line to stream

@@ -53,10 +53,20 @@ describe_suite("testing math::line", [](){
         assert_that(5.0, is_equal(l.length()));
     });
 
+    /// testing writing a line to a stream
     describe_test("testing output streaming", []() {
         const math::line l{math::vector{1.0, 2.0}, math::vector{3.0, 4.0}};
         std::stringstream stream;
         stream << l;
         assert_that(std::string("line(vector(1, 2), vector(3, 4))"), is_equal(stream.str()));
+    });
+
+    describe_test("testing two lines to be equal", []() {
+        const math::line l1{math::vector{1.0, 2.0}, math::vector{3.0, 4.0}};
+        const math::line l2{math::vector{1.0, 2.0}, math::vector{3.0, 4.0}};
+        const math::line l3{math::vector{4.0, 3.0}, math::vector{2.0, 1.0}};
+
+        assert_that(l1, is_equal(l2));
+        assert_that(l1, is_not(is_equal(l3)));
     });
 });
