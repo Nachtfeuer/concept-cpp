@@ -12,14 +12,17 @@ well documented.
 Current Content
 ---------------
  - implementation of an easy to use unittesting framework.
-  - providing suite and tests with easy to write lambda functions.
-  - providing hamcrest like matcher.
-  - supports custom report generator: default is: console reporter
-  - performance measurement for tests.
+   - providing suite and tests with easy to write lambda functions.
+   - providing hamcrest like matcher.
+   - supports custom report generator: default is: console reporter
+   - performance measurement for tests.
+   - provided new report for TAP format (https://testanything.org/)
+     - understood by Jenkins (TAP plugin exists for it).
  - command line options
-  - --shuffle-suites=true  (execution of suites in random order)
-  - --shuffle-tests=true   (execution of tests in random order)
-  - --filter=string        (does filter for suites)
+   - --shuffle-suites=true  (execution of suites in random order)
+   - --shuffle-tests=true   (execution of tests in random order)
+   - --filter=string        (does filter for suites)
+   - --format=name          ("default" or "tap")
  - pattern classes like a factory.
  - math classes like a 2d vector or a 2d line.
  - algorithm functions like 'sorted' and 'shuffled'.
@@ -27,15 +30,13 @@ Current Content
  - supports code coverage report
  - supports cppcheck
  - object serialization (started)
-  - can dump simple objects with field of standard types and
-    fiels being again an object of fields to JSON format
-  - minimal adjustment necessary for your custom data class.
+   - can dump simple objects with field of standard types and
+     fields being again an object of fields to JSON format
+   - minimal adjustment necessary for your custom data class.
 
 
 Next Action Items (planned)
 ---------------------------
- - providing new report for TAP format (https://testanything.org/)
-   - understood by Jenkins (plugin exists).
  - unittests:
    - warn about:
      - suites with no test
@@ -49,7 +50,7 @@ Next Action Items (planned)
  - power of 2 algorithm.
  - fibonacci algorithms (http://en.wikipedia.org/wiki/Fibonacci_number).
  - providing generic plugin handling.
- - object query like linq.
+ - object query framework like linq.
  - object serialization
    - dump/wite for container of standard types and for container of objects.
    - read from JSON

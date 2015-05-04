@@ -86,7 +86,7 @@ class tap_report : public report {
             std::cout << "1.." << total << std::endl;
             for (const auto& suite: m_suites) {
                 for (const auto& test: suite.second) {
-                    std::cout << (test->has_succeeded() ? "ok " : " not ok ")
+                    std::cout << (test->has_succeeded() ? "ok " : "not ok ")
                               << ++test_counter << " - "
                               << suite.first << " / " << test->get_name() << " "
                               << " (" << test->get_duration() << "ms)"

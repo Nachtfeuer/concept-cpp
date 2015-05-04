@@ -52,6 +52,13 @@ class line final {
             return m_direction.length();
         }
 
+        /// dumping line to stream
+        friend std::ostream& operator << (std::ostream& stream, const line& l) {
+            stream << "line(" << l.get_location()  << ", "
+                              << l.get_direction() << ")";
+            return stream;
+        }
+
     private:
         /// location vector
         vector m_location;
