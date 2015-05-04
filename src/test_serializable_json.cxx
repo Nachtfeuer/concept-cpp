@@ -63,7 +63,7 @@ describe_suite("testing serializable::json_dumper", [](){
 
     describe_test("testing object JSON dumper - one object member", []() {
         serializable::object the_object("test");
-        serializable::member<serializable::abstract_object> sub_object(
+        serializable::object_member<serializable::object> sub_object(
             "sub-test", new serializable::object("sub-test"), the_object);
         
         serializable::json_dumper dumper;
@@ -76,7 +76,7 @@ describe_suite("testing serializable::json_dumper", [](){
     describe_test("testing object JSON dumper - one object member with one member", []() {
         serializable::object the_object("test");
         auto sub_test = new serializable::object("sub-test");
-        serializable::member<serializable::abstract_object> sub_object(
+        serializable::object_member<serializable::object> sub_object(
             "sub-test", sub_test, the_object);
         serializable::member<int> age("age", 45, *sub_test);
         
@@ -84,6 +84,31 @@ describe_suite("testing serializable::json_dumper", [](){
         std::stringstream stream;
         dumper.dump(the_object, stream);
         assert_that(std::string("{\"o:test\":{\"m:sub-test\":{\"o:sub-test\":{\"m:age\":45}}}}"),
+                    is_equal(stream.str()));
+    });
+
+    /// testing to write a custom serializable class with two members.
+    describe_test("testing object JSON dumper - custom class", []() {
+        // a custom serializable test class
+        class Foo : public serializable::object {
+            public:
+                Foo()
+                    : serializable::object("Bar")
+                    , m_ivalue("ivalue", 123, *this)
+                    , m_strvalue("strvalue", "hello", *this) {
+                }
+
+            private:
+                serializable::member<int> m_ivalue;           ///! simple integer value
+                serializable::member<std::string> m_strvalue; ///! simple string value
+        };
+
+        Foo foo;
+
+        serializable::json_dumper dumper;
+        std::stringstream stream;
+        dumper.dump(foo, stream);
+        assert_that(std::string("{\"o:Bar\":{\"m:strvalue\":\"hello\",\"m:ivalue\":123}}"),
                     is_equal(stream.str()));
     });
 });

@@ -88,27 +88,27 @@ class member : public abstract_member {
 /// @class member
 /// @brief serializable class member being an object.
 /// @note this member takes ownership of the assigned object.
-template <>
-class member<abstract_object> : public abstract_member {
+template <typename T>
+class object_member : public abstract_member {
     public:
         /// init c'tor
         /// @param name is name of the class member
         /// @param obj is the pointer to the new allocated/assigned object instance
         /// @param owner is the owner of this class member
-        member(const std::string& name,
-               abstract_object* obj,
-               abstract_object& owner)
+        object_member(const std::string& name, T* obj, abstract_object& owner)
             : abstract_member(), m_name(name), m_object(obj) {
+            static_assert(std::is_base_of<abstract_object, T>::value,
+                          "Base class is not serializable::abstract_object!");
             owner.register_member(this);
         }
 
         /// @return name of the member
-        virtual const std::string& get_name() const noexcept {
+        virtual const std::string& get_name() const noexcept override {
             return m_name;
         }
 
         /// @return true when given member is a string value
-        virtual bool is_string() const noexcept {
+        virtual bool is_string() const noexcept override {
             return false;
         }
 
@@ -123,18 +123,20 @@ class member<abstract_object> : public abstract_member {
         }
 
         /// @return current object instance
-        const abstract_object* get_value() const noexcept {
+        const T* get_value() const noexcept {
             return m_object.get();
         }
 
         /// @param value new value for the member
-        void set_value(abstract_object* obj) noexcept {
+        void set_value(T* obj) noexcept {
             m_object.reset(obj);
         }
 
     private:
+        /// name of the class member
         const std::string m_name;
-        std::shared_ptr<abstract_object> m_object;
+        /// instance of a serializable object
+        std::shared_ptr<T> m_object;
 };
 
 }  // namespace serializable

@@ -53,8 +53,8 @@ class json_dumper : public abstract_dumper {
             if (the_member.is_string()) {
                 stream << "\"" << the_member.to_string() << "\"";
             } else if (the_member.is_object()) {
-                auto obj = dynamic_cast<const member<abstract_object>&>(the_member).get_value();
-                dump(*dynamic_cast<const object*>(obj), stream);
+                const auto* obj = dynamic_cast<const object_member<object>&>(the_member).get_value();
+                dump(*obj, stream);
             } else {
                 stream << the_member.to_string();
             }

@@ -35,13 +35,13 @@ Current Content
 Next Action Items (planned)
 ---------------------------
  - providing new report for TAP format (https://testanything.org/)
-  - understood by Jenkins (plugin exists).
+   - understood by Jenkins (plugin exists).
  - unittests:
-  - warn about:
-   - suites with no test
-   - tests with no assertion
-  - providing an option --stop-on-error
-  - providing new option --repeat-count for runner.
+   - warn about:
+     - suites with no test
+     - tests with no assertion
+   - providing an option --stop-on-error
+   - providing new option --repeat-count for runner.
      (does repeat all suites several times).
  - singleton decorator class (remove singleton from factory).
  - writing big integer class supporting different multiplication algorithms.
@@ -51,8 +51,8 @@ Next Action Items (planned)
  - providing generic plugin handling.
  - object query like linq.
  - object serialization
-  - dump/wite for container of standard types and for container of objects.
-  - read from JSON
+   - dump/wite for container of standard types and for container of objects.
+   - read from JSON
  - providing doxygen mainpage.
  - providing wiki for some FAQ's on the project site.
  - logging
