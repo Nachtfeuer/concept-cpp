@@ -1,0 +1,113 @@
+///
+/// @author  Thomas Lehmann
+/// @file    tap_report.h
+/// @brief   TAP report printing results to stdout.
+/// @note    for details: https://testanything.org/tap-version-13-specification.html
+///
+/// Copyright (c) 2015 Thomas Lehmann
+///
+/// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+/// documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+/// the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+/// and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+///
+/// The above copyright notice and this permission notice shall be included in all copies
+/// or substantial portions of the Software.
+///
+/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+/// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+/// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+/// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+/// DAMAGES OR OTHER LIABILITY,
+/// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+/// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+#ifndef INCLUDE_UNITTEST_TAP_REPORT_H_
+#define INCLUDE_UNITTEST_TAP_REPORT_H_
+
+#include <unittest/report.h>
+#include <unittest/test.h>
+
+#include <string>
+#include <vector>
+#include <memory>
+#include <iostream>
+#include <algorithm>
+
+namespace unittest {
+
+/// @class tap_report
+/// @brief TAP report for unit tests.
+/// @note  the choosen data structures ensure to keep suites and tests
+///        in the order they were executed.
+/// @note  for details: https://testanything.org/tap-version-13-specification.html
+class tap_report : public report {
+    public:
+        /// container type with test results for one suite
+        using tests_container_type = std::vector<std::shared_ptr<test>>;
+        /// type for one suite
+        using suite_type = std::pair<std::string, tests_container_type>;
+        /// container type for suites
+        using suite_container_type = std::vector<suite_type>;
+
+        /// class creator
+        static report* creator() noexcept {
+            return new tap_report;
+        }
+
+        /// to be overwritten by a derived class
+        /// @param suite_name name of the relating test suite
+        /// @param finished_test the finished test
+        void test_done(const std::string& suite_name,
+                       std::shared_ptr<test> finished_test) override {
+            auto it_suite = std::find_if(m_suites.begin(), m_suites.end(), [suite_name](const suite_type& suite) {
+                return suite.first == suite_name;
+            });
+
+            if (it_suite == m_suites.end()) {
+                auto suite = suite_type(suite_name, tests_container_type());
+                suite.second.push_back(finished_test);
+                m_suites.push_back(suite);
+            } else {
+                it_suite->second.push_back(finished_test);
+            }
+        }
+
+        /// dumping results to stdout in TAP format
+        void dump() const override {
+            auto test_counter = static_cast<uint32_t>(0);
+            bool success = true;
+
+            auto total = static_cast<uint32_t>(0);
+            for (const auto& suite: m_suites) {
+                total += suite.second.size();
+            }
+            
+            std::cout << "TAP version 13" << std::endl;
+            std::cout << "1.." << total << std::endl;
+            for (const auto& suite: m_suites) {
+                for (const auto& test: suite.second) {
+                    std::cout << (test->has_succeeded() ? "ok " : " not ok ")
+                              << ++test_counter << " - "
+                              << suite.first << " / " << test->get_name() << " "
+                              << " (" << test->get_duration() << "ms)"
+                              << std::endl;
+                    if (!test->has_succeeded()) {
+                        success = false;
+                        std::cout << "# " << test->get_error_message() << std::endl;
+                    }
+                }
+            }
+
+            if (success) {
+                std::cout << std::endl << "All " << test_counter << " tests have passed!" << std::endl;
+            }
+        }
+
+    private:
+        /// test results
+        suite_container_type m_suites;
+};
+
+}  //namespace report
+
+#endif  // INCLUDE_UNITTEST_TAP_REPORT_H_

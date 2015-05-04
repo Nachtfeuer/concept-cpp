@@ -39,6 +39,8 @@ struct options {
     /// when not empty used to filter for individual
     /// unittests to be executed.
     std::string filter;
+    /// output format of the unit tests
+    std::string format;
 };
 
 /// @class option_parser
@@ -62,6 +64,9 @@ class option_parser {
                 ("filter",
                  po::value<std::string>(&the_options.filter)->default_value(""),
                  "filtering for individual unittests that are executed")
+                ("format",
+                 po::value<std::string>(&the_options.format)->default_value("default"),
+                 "output format for unit tests results (default: internal format)")
                 ;
 
             po::variables_map vm;

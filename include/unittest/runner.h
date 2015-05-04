@@ -26,6 +26,7 @@
 #include <unittest/options.h>
 #include <unittest/suite.h>
 #include <unittest/console_report.h>
+#include <unittest/tap_report.h>
 
 #include <algorithm/shuffled.h>
 #include <pattern/factory.h>
@@ -98,7 +99,7 @@ class runner final {
                 return false;
             }
 
-            m_report.reset(report_factory::get().create_instance("default"));
+            m_report.reset(report_factory::get().create_instance(m_options.format));
 
             std::vector<suite*> suites;
 
@@ -141,6 +142,7 @@ class runner final {
         /// initializing the 
         runner() : m_options(), m_suites(), m_report(nullptr) {
             report_factory::get().register_creator("default", console_report::creator);
+            report_factory::get().register_creator("tap", tap_report::creator);
         }
 
         /// @return providing singleton instance of runner
