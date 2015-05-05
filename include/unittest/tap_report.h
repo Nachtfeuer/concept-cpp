@@ -75,9 +75,8 @@ class tap_report : public report {
         /// dumping results to stdout in TAP format
         void dump() const override {
             auto test_counter = static_cast<uint32_t>(0);
-            bool success = true;
-
             auto total = static_cast<uint32_t>(0);
+
             for (const auto& suite: m_suites) {
                 total += suite.second.size();
             }
@@ -92,14 +91,9 @@ class tap_report : public report {
                               << " (" << test->get_duration() << "ms)"
                               << std::endl;
                     if (!test->has_succeeded()) {
-                        success = false;
                         std::cout << "# " << test->get_error_message() << std::endl;
                     }
                 }
-            }
-
-            if (success) {
-                std::cout << std::endl << "All " << test_counter << " tests have passed!" << std::endl;
             }
         }
 
