@@ -1,7 +1,7 @@
 ///
 /// @author  Thomas Lehmann
-/// @file    test_performance.cxx
-/// @brief   testing time functions.
+/// @file    test_assertion.cxx
+/// @brief   testing of @ref unittest::assertion
 ///
 /// Copyright (c) 2015 Thomas Lehmann
 ///
@@ -21,38 +21,42 @@
 /// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <unittest/unittest.h>
-#include <performance/measurement.h>
+#include <math/power_of_two.h>
 
-#include <thread>
+#include <vector>
+#include <sstream>
+#include <cstdint>
 
 using namespace unittest;
 
-describe_suite("testing performance functions", [](){
-    describe_test("testing performance::measure (milliseconds)", []() {
-        const auto duration = performance::measure<std::milli>([]() {
-            // sleeping for 100ms ...
-            std::this_thread::sleep_for(std::chrono::duration<double, std::milli>(100));
-        });
+/// testing of class @ref unittest::suite
+describe_suite("testing math::power_of_two", [](){
+    describe_test("testing different values", []() {
+        const std::vector<uint32_t> results = {1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048};
+        for (uint32_t exponent = 0; exponent < results.size(); ++exponent) {
+            std::stringstream expected;
+            expected << results[exponent];
 
-        assert_that(duration, is_range(100.0, 102.0));
+            math::power_of_two pot;
+            pot.calculate(exponent);
+            std::stringstream given;
+            given << pot;
+
+            assert_that(expected.str(), is_equal(given.str()));
+        }
     });
 
-    describe_test("testing performance::measure (microseconds)", []() {
-        const auto duration = performance::measure<std::micro>([]() {
-            // sleeping for 100ms ...
-            std::this_thread::sleep_for(std::chrono::duration<double, std::milli>(100));
-        });
+    describe_test("testing bigger exponent", []() {
+        // tested using: python -c "2**300"
+        const std::string expected
+            = "2037035976334486086268445688409378161051468393665936250636140449354381299763336706183397376";
 
-        assert_that(duration, is_range(100000.0, 102000.0));
-    });
+        math::power_of_two pot;
+        pot.calculate(300);
+        std::stringstream given;
+        given << pot;
 
-    describe_test("testing performance::measure (seconds)", []() {
-        const auto duration = performance::measure<std::ratio<1>>([]() {
-            // sleeping for 100ms ...
-            std::this_thread::sleep_for(std::chrono::duration<double, std::milli>(100));
-        });
-
-        assert_that(duration, is_range(0.100, 0.102));
+        assert_that(expected, is_equal(given.str()));
     });
 });
 

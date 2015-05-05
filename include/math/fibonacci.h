@@ -41,7 +41,7 @@ class fibonacci final {
         ///     assert_that(fibonacci_sequence[index], is_equal(math::fibonacci::by_index(index)));
         /// }
         /// @endcode
-        static uint32_t by_index(const uint32_t index) {
+        inline static uint32_t by_index(const uint32_t index) noexcept {
             if (0 == index) {
                 return 0;
             }
@@ -55,7 +55,7 @@ class fibonacci final {
 
            auto current_index = index - 2;
            while (current_index-- > 0) {
-               auto temp = last + last_before_last;
+               const auto temp = last + last_before_last;
                last_before_last = last;
                last = temp;
            }

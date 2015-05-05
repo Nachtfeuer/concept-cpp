@@ -24,7 +24,10 @@ Current Content
    - --filter=string        (does filter for suites)
    - --format=name          ("default" or "tap")
  - pattern classes like a factory.
- - math classes like a 2d vector or a 2d line.
+ - math classes
+   - 2d point, 2d vector, 2d line, ...
+   - fibonacci algorithm (http://en.wikipedia.org/wiki/Fibonacci_number).
+   - power of 2 algorithm.
  - algorithm functions like 'sorted' and 'shuffled'.
  - you can create HTML documentation with doxygen.
  - supports code coverage report
@@ -47,8 +50,6 @@ Next Action Items (planned)
  - singleton decorator class (remove singleton from factory).
  - writing big integer class supporting different multiplication algorithms.
  - sieve of Eratosthenes (http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes).
- - power of 2 algorithm.
- - fibonacci algorithms (http://en.wikipedia.org/wiki/Fibonacci_number).
  - providing generic plugin handling.
  - object query framework like linq.
  - object serialization
