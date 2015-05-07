@@ -13,7 +13,7 @@ find_program(LCOV lcov)
 find_program(GENHTML genhtml)
 find_program(CPPCHECK cppcheck)
 find_package(Doxygen)
-find_package(Boost ${MINIMUM_BOOST_VERSION} COMPONENTS program_options REQUIRED)
+find_package(Boost ${MINIMUM_BOOST_VERSION} COMPONENTS program_options regex REQUIRED)
 
 include_directories(demo ${CMAKE_CURRENT_SOURCE_DIR}/include)
 include_directories(demo ${Boost_INCLUDE_DIR})
@@ -22,6 +22,7 @@ file(GLOB DEMO_TEST_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/test*.cxx)
 
 add_executable(demo src/main.cxx ${DEMO_TEST_SRC})
 target_link_libraries(demo ${Boost_LIBRARIES})
+target_link_libraries(demo stdc++)
 add_test(test demo)
 
 if(LCOV)

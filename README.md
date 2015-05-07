@@ -28,6 +28,9 @@ Current Content
    - 2d point, 2d vector, 2d line, ...
    - fibonacci algorithm (http://en.wikipedia.org/wiki/Fibonacci_number).
    - power of 2 algorithm.
+ - document class
+   - started with text document using regex for queries like word count.
+     (using boost::regex)
  - algorithm functions like 'sorted' and 'shuffled'.
  - you can create HTML documentation with doxygen.
  - supports code coverage report
