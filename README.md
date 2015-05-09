@@ -39,6 +39,9 @@ Current Content
    - can dump simple objects with field of standard types and
      fields being again an object of fields to JSON format
    - minimal adjustment necessary for your custom data class.
+ - object query framework like linq.
+   - you can select a std::vector and use several times
+     the method 'where' to provide a filter function.
 
 
 Next Action Items (planned)
@@ -55,6 +58,7 @@ Next Action Items (planned)
  - sieve of Eratosthenes (http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes).
  - providing generic plugin handling.
  - object query framework like linq.
+   - adding 'count', 'sum', 'min', 'max' and 'average'
  - object serialization
    - dump/wite for container of standard types and for container of objects.
    - read from JSON

@@ -44,7 +44,7 @@ std::string container_to_string(const T& container) {
 /// testing of class @ref unittest::suite
 describe_suite("testing algorithm::shuffled", [](){
     describe_test("testing shuffled vector", []() {
-        const std::vector<int> values = {1, 2, 2, 3, 4, 5, 6, 7, 7, 9, 10};
+        const std::vector<int> values = {1, 2, 2, 3, 4, 5, 6, 7, 7, 9, 10, 12, 20};
         const auto shuffled_values = algorithm::shuffled(values);
         // ensure that sorted shuffled vector is same as original
         const auto sorted_values = algorithm::sorted(shuffled_values);
@@ -56,7 +56,7 @@ describe_suite("testing algorithm::shuffled", [](){
     });
 
     describe_test("testing shuffled list", []() {
-        const std::list<int> values = {1, 2, 2, 3, 4, 5, 6, 7, 7, 9, 10};
+        const std::list<int> values = {1, 2, 2, 3, 4, 5, 6, 7, 7, 9, 10, 12, 20};
         const auto shuffled_values = algorithm::shuffled(values);
         // ensure that sorted shuffled vector is same as original
         const auto sorted_values = algorithm::sorted(shuffled_values);
@@ -68,7 +68,7 @@ describe_suite("testing algorithm::shuffled", [](){
     });
 
     describe_test("testing shuffled (ordered) set", []() {
-        const std::set<int> values = {1, 2, 2, 3, 4, 5, 6, 7, 7, 9, 10};
+        const std::set<int> values = {1, 2, 2, 3, 4, 5, 6, 7, 7, 9, 10, 12, 20};
         const auto shuffled_values = algorithm::shuffled(values);
         // ensure that sorted shuffled vector is same as original
         const auto sorted_values = algorithm::sorted(shuffled_values);

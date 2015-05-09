@@ -34,7 +34,7 @@ describe_suite("testing performance functions", [](){
             std::this_thread::sleep_for(std::chrono::duration<double, std::milli>(100));
         });
 
-        assert_that(duration, is_range(100.0, 102.0));
+        assert_that(duration, is_range(100.0, 103.0));
     });
 
     describe_test("testing performance::measure (microseconds)", []() {
@@ -43,7 +43,7 @@ describe_suite("testing performance functions", [](){
             std::this_thread::sleep_for(std::chrono::duration<double, std::milli>(100));
         });
 
-        assert_that(duration, is_range(100000.0, 102000.0));
+        assert_that(duration, is_range(100000.0, 103000.0));
     });
 
     describe_test("testing performance::measure (seconds)", []() {
@@ -52,7 +52,7 @@ describe_suite("testing performance functions", [](){
             std::this_thread::sleep_for(std::chrono::duration<double, std::milli>(100));
         });
 
-        assert_that(duration, is_range(0.100, 0.102));
+        assert_that(duration, is_range(0.100, 0.103));
     });
 });
 
