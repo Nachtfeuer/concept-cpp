@@ -30,19 +30,17 @@
 
 namespace query {
 
-template <typename T, typename Container>
-class selector final {
-};
-
 /// @class selector<std::vector>
 /// @brief provides a query for a std::vector container.
 template <typename T>
-class selector<T, std::vector<T>> final {
+class selector final {
     public:
         /// type for container
-        using container_type = std::vector<T>;
+        using container_type = T;
+        /// type of value for given container
+        using value_type = typename T::value_type;
         /// type for the filter function
-        using filter_function_type = std::function<bool (const T&)>;
+        using filter_function_type = std::function<bool (const value_type&)>;
         /// type for container of registered filters
         using filter_container_type = std::vector<filter_function_type>;
 
@@ -56,14 +54,14 @@ class selector<T, std::vector<T>> final {
         }
 
         /// @return container with values only defined by given filter.
-        selector& where(std::function<bool (const T&)> filter) noexcept {
+        selector& where(filter_function_type filter) noexcept {
             m_filters.push_back(filter);
             return *this;
         }
 
         /// @return provides entries reflecting the provided filters.
-        container_type run() const noexcept {
-            container_type filtered;
+        std::vector<value_type> to_vector() const noexcept {
+            std::vector<value_type> filtered;
             for (const auto& entry: m_container) {
                 auto ignore = false;
                 for (auto filter: m_filters) {
@@ -80,6 +78,11 @@ class selector<T, std::vector<T>> final {
             return filtered;
         }
 
+        /// @return provides count of selected values.
+        typename std::vector<value_type>::size_type count() const noexcept {
+            return to_vector().size();
+        }
+
     private:
         /// reference to selected container
         const container_type& m_container;
@@ -88,8 +91,8 @@ class selector<T, std::vector<T>> final {
 };
 
 template <typename Container>
-selector<typename Container::value_type, Container> select(const Container& container) noexcept {
-    return selector<typename Container::value_type, Container>(container);
+selector<Container> select(const Container& container) noexcept {
+    return selector<Container>(container);
 }
 
 }  // namespace query

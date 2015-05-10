@@ -1,8 +1,8 @@
 cmake_minimum_required (VERSION 2.8 FATAL_ERROR)
-add_definitions("-Wall -Wextra -std=c++11")
+add_definitions("-Wall -Wextra -pedantic -Weffc++ -std=c++11")
 
 project(demo)
-set(VERSION "0.1")
+set(VERSION "0.2")
 set(MINIMUM_BOOST_VERSION "1.54")
 enable_testing()
 
@@ -10,6 +10,7 @@ option(BUILD_DOCUMENTATION "Create and install the HTML based API documentation 
 
 find_program(GCOV gcov)
 find_program(LCOV lcov)
+find_program(GCOVR gcovr)
 find_program(GENHTML genhtml)
 find_program(CPPCHECK cppcheck)
 find_package(Doxygen)
@@ -28,6 +29,10 @@ add_test(test demo)
 if(LCOV)
     message("-- Found LCOV: ${LCOV}")
 endif(LCOV)
+
+if(GCOVR)
+    message("-- Found GCOVR: ${GCOVR}")
+endif(GCOVR)
 
 if(GCOV)
     message("-- Found GCOV: ${GCOV}")
@@ -48,6 +53,8 @@ install(DIRECTORY include/pattern      DESTINATION include/demo)
 install(DIRECTORY include/unittest     DESTINATION include/demo)
 install(DIRECTORY include/algorithm    DESTINATION include/demo)
 install(DIRECTORY include/serializable DESTINATION include/demo)
+install(DIRECTORY include/query        DESTINATION include/demo)
+install(DIRECTORY include/document     DESTINATION include/demo)
 
 configure_file(README.package README.package COPYONLY)
 configure_file(doc/doxygen.cfg doc/doxygen.cfg)
@@ -78,7 +85,7 @@ add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} DEPENDS demo)
 add_custom_target(run COMMAND demo DEPENDS demo)
 add_custom_target(memcheck COMMAND valgrind --leak-check=full ${CMAKE_BINARY_DIR}/demo DEPENDS demo)
 
-if(GCOV)
+if(GCOV AND LCOV AND GENHTML AND GCOVR)
     add_custom_target(coverage 
            COMMAND mkdir -p ${CMAKE_BINARY_DIR}/coverage
            COMMAND ${LCOV} --capture
@@ -94,8 +101,13 @@ if(GCOV)
                            --function-coverage
                            --branch-coverage
                            --output-directory ${CMAKE_BINARY_DIR}/coverage
-           DEPENDS run)
-endif(GCOV)
+            COMMAND ${GCOVR}
+                           --root=${CMAKE_CURRENT_SOURCE_DIR}
+                           --keep
+                           --object-directory=${CMAKE_BINARY_DIR}
+                           --xml-pretty > ${CMAKE_BINARY_DIR}/coverage.xml
+            DEPENDS run)
+endif(GCOV AND LCOV AND GENHTML AND GCOVR)
 
 if(CPPCHECK)
     add_custom_target(cppcheck

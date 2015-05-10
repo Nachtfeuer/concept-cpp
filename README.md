@@ -33,7 +33,7 @@ Current Content
      (using boost::regex)
  - algorithm functions like 'sorted' and 'shuffled'.
  - you can create HTML documentation with doxygen.
- - supports code coverage report
+ - supports code coverage report (HTML as well as Cobertura compatible XML)
  - supports cppcheck
  - object serialization (started)
    - can dump simple objects with field of standard types and
@@ -42,6 +42,7 @@ Current Content
  - object query framework like linq.
    - you can select a std::vector and use several times
      the method 'where' to provide a filter function.
+   - count method
 
 
 Next Action Items (planned)
@@ -58,7 +59,7 @@ Next Action Items (planned)
  - sieve of Eratosthenes (http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes).
  - providing generic plugin handling.
  - object query framework like linq.
-   - adding 'count', 'sum', 'min', 'max' and 'average'
+   - adding 'sum', 'min', 'max' and 'average'
  - object serialization
    - dump/wite for container of standard types and for container of objects.
    - read from JSON

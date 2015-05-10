@@ -29,12 +29,6 @@ using namespace unittest;
 
 /// testing of class @ref unittest::suite
 describe_suite("testing query::select", [](){
-    describe_test("testing select types", []() {
-        assert_that(true, is_equal(
-            std::is_same<std::vector<int>,
-                query::selector<int, std::vector<int>>::container_type>::value));
-    });
-
     describe_test("testing selector instance for std::vector", []() {
         const std::vector<int> values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         auto selector = query::select(values);
@@ -45,10 +39,18 @@ describe_suite("testing query::select", [](){
         const std::vector<int> values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         auto results = query::select(values)
             .where([](int value) {return value % 2 == 0;})
-            .run();
+            .to_vector();
         assert_that(std::vector<int>::size_type(5), is_equal(results.size()));
         const std::vector<int> exprected_values = {2, 4, 6, 8, 10};
         assert_that(true, is_equal(exprected_values == results));
+    });
+
+    describe_test("testing selector for filtering and count for std::vector", []() {
+        const std::vector<int> values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        auto count = query::select(values)
+            .where([](int value) {return value % 2 == 0;})
+            .count();
+        assert_that(std::vector<int>::size_type(5), is_equal(count));
     });
 
     describe_test("testing selector for two filtering for std::vector", []() {
@@ -56,7 +58,7 @@ describe_suite("testing query::select", [](){
         auto results = query::select(values)
             .where([](int value) {return value % 2 == 0;})
             .where([](int value) {return value % 4 != 0;})
-            .run();
+            .to_vector();
         assert_that(std::vector<int>::size_type(3), is_equal(results.size()));
         const std::vector<int> exprected_values = {2, 6, 10};
         assert_that(true, is_equal(exprected_values == results));
