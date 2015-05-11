@@ -37,7 +37,11 @@ class test final {
 
         /// initializing the fields
         test(const std::string& name, function_type function)
-            : m_name(name), m_function(function), m_succeeded(false), m_error_message() {}
+            : m_name(name)
+            , m_function(function)
+            , m_succeeded(false)
+            , m_error_message()
+            , m_duration(-1.0) {}
 
         /// running all registered suites
         void run() {

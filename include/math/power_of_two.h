@@ -38,6 +38,10 @@ class power_of_two final {
         /// type for container of digits
         using container = std::vector<digit>;
 
+        /// initializing defaults
+        power_of_two()
+            : m_digits() {}
+
         /// does the calculation of 2^x.
         void calculate(uint32_t exponent) noexcept {
             reset();

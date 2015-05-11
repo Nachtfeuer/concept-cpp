@@ -140,7 +140,7 @@ class runner final {
 
     private:
         /// initializing the 
-        runner() : m_options(), m_suites(), m_report(nullptr) {
+        runner() : m_options(), m_suites(), m_suite_name(), m_report(nullptr) {
             report_factory::get().register_creator("default", console_report::creator);
             report_factory::get().register_creator("tap", tap_report::creator);
         }

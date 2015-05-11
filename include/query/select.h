@@ -46,7 +46,7 @@ class selector final {
 
         /// "selecting" a container keeping the reference
         selector(const container_type& container)
-            : m_container(container) {}
+            : m_container(container), m_filters() {}
 
         /// @return number of entries in the container
         typename container_type::size_type size() const noexcept {

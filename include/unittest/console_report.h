@@ -47,6 +47,11 @@ class console_report : public report {
         /// container type for suites
         using suite_container_type = std::vector<suite_type>;
 
+        /// initializing defaults
+        console_report()
+            : report()
+            , m_suites() {}
+
         /// class creator
         static report* creator() noexcept {
             return new console_report;

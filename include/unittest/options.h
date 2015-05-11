@@ -30,6 +30,13 @@ namespace unittest {
 /// @struct options
 /// @brief options for the unittesting framework.
 struct options {
+    /// initializing defaults
+    options()
+        : shuffle_tests(false)
+        , shuffle_suites(false)
+        , filter()
+        , format("default") {}
+
     /// when true then shuffle the test functions otherwise
     /// execute them ordered by name (which is the default).
     bool shuffle_tests;
