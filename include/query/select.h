@@ -27,6 +27,9 @@
 #include <vector>
 #include <list>
 #include <functional>
+#include <numeric>
+#include <algorithm>
+#include <stdexcept>
 
 namespace query {
 
@@ -81,6 +84,30 @@ class selector final {
         /// @return provides count of selected values.
         typename std::vector<value_type>::size_type count() const noexcept {
             return to_vector().size();
+        }
+
+        /// @return sum of values
+        value_type sum() const noexcept {
+            const auto values = to_vector();
+            return std::accumulate(values.begin(), values.end(), static_cast<value_type>(0));
+        }
+
+        /// @return smallest of values
+        value_type min() const {
+            const auto values = to_vector();
+            if (values.empty()) {
+                throw std::range_error("no elements to find min value in");
+            }
+            return *std::min_element(values.begin(), values.end());
+        }
+
+        /// @return biggest of values
+        value_type max() const {
+            const auto values = to_vector();
+            if (values.empty()) {
+                throw std::range_error("no elements to find max value in");
+            }
+            return *std::max_element(values.begin(), values.end());
         }
 
     private:

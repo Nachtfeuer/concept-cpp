@@ -53,6 +53,38 @@ describe_suite("testing query::select", [](){
         assert_that(std::vector<int>::size_type(5), is_equal(count));
     });
 
+    describe_test("testing selector for filtering and sum for std::vector", []() {
+        const std::vector<int> values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        auto sum = query::select(values)
+            .where([](int value) {return value % 2 == 0;})
+            .sum();
+        assert_that(std::vector<int>::value_type(30), is_equal(sum));
+    });
+
+    describe_test("testing selector for filtering and min for std::vector", []() {
+        const std::vector<int> values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        auto min = query::select(values)
+            .where([](int value) {return value % 2 == 0;})
+            .min();
+        assert_that(std::vector<int>::value_type(2), is_equal(min));
+        
+        assert_raise<std::range_error>("no elements", [values]() {
+            query::select(values).where([](int value) {return value = 0;}).min();
+        });
+    });
+
+    describe_test("testing selector for filtering and max for std::vector", []() {
+        const std::vector<int> values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        auto max = query::select(values)
+            .where([](int value) {return value % 2 == 0;})
+            .max();
+        assert_that(std::vector<int>::value_type(10), is_equal(max));
+        
+        assert_raise<std::range_error>("no elements", [values]() {
+            query::select(values).where([](int value) {return value = 0;}).max();
+        });
+    });
+
     describe_test("testing selector for two filtering for std::vector", []() {
         const std::vector<int> values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         auto results = query::select(values)

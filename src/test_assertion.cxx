@@ -41,5 +41,24 @@ describe_suite("testing unittest::assertion", [](){
         }
         assert_that(std::string("assert_that has failed"), is_equal(std::string("")));
     });
+
+    /// ensure that right exception is thrown
+    describe_test("testing assert_raise (default)", []() {
+        assert_raise<std::runtime_error>("expecting runtime exception", []() {
+                throw std::runtime_error("catch me if you can");
+        });
+    });
+
+    /// ensure that we handle the wrong exception scenario
+    describe_test("testing assert_raise for wrong exception", []() {
+        try {
+            assert_raise<std::runtime_error>("expecting runtime exception", []() {
+                    throw "catch me if you can";
+            });
+        } catch (const assertion& e) {
+            assert_that(true, is_equal(
+                std::string(e.what()).find("wrong exception") != std::string::npos));
+        }
+    });
 });
 

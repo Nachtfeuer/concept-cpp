@@ -42,7 +42,7 @@ Current Content
  - object query framework like linq.
    - you can select a std::vector and use several times
      the method 'where' to provide a filter function.
-   - count method
+   - provides "count", "min", "max" and "sum" method
 
 
 Next Action Items (planned)
@@ -54,12 +54,18 @@ Next Action Items (planned)
    - providing an option --stop-on-error
    - providing new option --repeat-count for runner.
      (does repeat all suites several times).
+ - extending hamcrest like matchers
+   - for "contains" working with containers (element search)
+   - for "contains" working with strings (string search)
+   - move matcher out of unittests folder into an own,
+     since it can be re-used in other places.
  - singleton decorator class (remove singleton from factory).
  - writing big integer class supporting different multiplication algorithms.
  - sieve of Eratosthenes (http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes).
  - providing generic plugin handling.
  - object query framework like linq.
-   - adding 'sum', 'min', 'max' and 'average'
+   - adding 'average' and 'median'
+   - extending given "where" clause to allow use of matcher
  - object serialization
    - dump/wite for container of standard types and for container of objects.
    - read from JSON

@@ -28,7 +28,8 @@
 #include <string.h>
 #include <sstream>
 #include <iostream>
-#include <exception>
+#include <stdexcept>
+#include <typeinfo>
 
 namespace unittest {
 
@@ -60,6 +61,35 @@ void assert_that(const T& expected_value, const matcher<T>& value_matcher) {
         throw assertion(message.str());
     }
 }
+
+template <typename T>
+void assert_raise(const std::string& message,
+                  std::function<void ()> function) {
+    try {
+        function();
+
+        std::stringstream assertion_message;
+        assertion_message << message
+                          << " - expected exceptiont type: "
+                          << typeid(T).name()
+                          << " - no exception thrown!";
+        throw assertion(assertion_message.str());
+    } catch (T&) {
+        // all is fine
+    } catch (const assertion& e) {
+        // not fine but we do not want to catch HERE. So we re-throw ...
+        throw e;
+    } catch (...) {
+        std::stringstream assertion_message;
+        assertion_message << message
+                          << " - expected exceptiont type: "
+                          << typeid(T).name()
+                          << " - wrong exception thrown!";
+        throw assertion(assertion_message.str());
+    }
+}
+
+
     
 }  // namespace unittest
 
