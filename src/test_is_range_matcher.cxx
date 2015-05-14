@@ -23,6 +23,7 @@
 #include <unittest/unittest.h>
 
 using namespace unittest;
+using namespace matcher;
 
 /// testing of class @ref unittest::is_range_matcher
 describe_suite("testing unittest::is_range_matcher", [](){

@@ -24,6 +24,7 @@
 #include <math/vector.h>
 
 using namespace unittest;
+using namespace matcher;
 
 /// testing of class @ref math::vector
 describe_suite("testing math::vector", [](){

@@ -26,6 +26,7 @@
 #include <thread>
 
 using namespace unittest;
+using namespace matcher;
 
 describe_suite("testing performance functions", [](){
     describe_test("testing performance::measure (milliseconds)", []() {

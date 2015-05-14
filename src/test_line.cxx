@@ -24,6 +24,7 @@
 #include <math/line.h>
 
 using namespace unittest;
+using namespace matcher;
 
 /// testing of class @ref math::line
 describe_suite("testing math::line", [](){

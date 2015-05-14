@@ -27,6 +27,7 @@
 #include <cstdint>
 
 using namespace unittest;
+using namespace matcher;
 using container_type = std::vector<uint32_t>;
 
 /// testing of class @ref math::fibonacci

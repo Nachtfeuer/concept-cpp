@@ -20,12 +20,12 @@
 /// DAMAGES OR OTHER LIABILITY,
 /// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-#ifndef INCLUDE_MATCHER_H_
-#define INCLUDE_MATCHER_H_
+#ifndef INCLUDE_MATCHER_MATCHER_H_
+#define INCLUDE_MATCHER_MATCHER_H_
 
 #include <string>
 
-namespace unittest {
+namespace matcher {
 
 /// @class matcher
 /// @brief matcher base class and functions.
@@ -38,6 +38,6 @@ class matcher {
         virtual std::string get_expression() const = 0;
 };
 
-}  // namespace unittest
+}  // namespace matcher
 
-#endif  // INCLUDE_MATCHER_H_
+#endif  // INCLUDE_MATCHER_MATCHER_H_

@@ -27,6 +27,7 @@
 #include <memory>
 
 using namespace unittest;
+using namespace matcher;
 using namespace pattern;
 
 /// testing of class @ref math::vector

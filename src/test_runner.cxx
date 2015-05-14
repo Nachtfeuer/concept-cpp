@@ -23,6 +23,7 @@
 #include <unittest/unittest.h>
 
 using namespace unittest;
+using namespace matcher;
 
 /// testing of class @ref unittest::runner
 describe_suite("testing unittest::runner", [](){

@@ -29,12 +29,12 @@
 #include <iostream>
 
 #include <unittest/runner.h>
-
-#include <unittest/matcher.h>
-#include <unittest/is_equal_matcher.h>
-#include <unittest/is_not_matcher.h>
-#include <unittest/is_range_matcher.h>
 #include <unittest/assert.h>
+
+#include <matcher/matcher.h>
+#include <matcher/is_equal_matcher.h>
+#include <matcher/is_not_matcher.h>
+#include <matcher/is_range_matcher.h>
 
 namespace unittest {
 

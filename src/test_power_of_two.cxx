@@ -28,6 +28,7 @@
 #include <cstdint>
 
 using namespace unittest;
+using namespace matcher;
 
 /// testing of class @ref unittest::suite
 describe_suite("testing math::power_of_two", [](){

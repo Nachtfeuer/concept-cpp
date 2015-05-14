@@ -1,7 +1,7 @@
 ///
 /// @author  Thomas Lehmann
-/// @file    is_not_matcher.h
-/// @brief   matcher for negating another matcher
+/// @file    is_range_matcher.h
+/// @brief   matcher for checking a value to be in given range
 ///
 /// Copyright (c) 2015 Thomas Lehmann
 ///
@@ -20,43 +20,48 @@
 /// DAMAGES OR OTHER LIABILITY,
 /// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-#ifndef INCLUDE_UNITTEST_IS_NOT_MATCHER_H_
-#define INCLUDE_UNITTEST_IS_NOT_MATCHER_H_
+#ifndef INCLUDE_MATCHER_IS_RANGE_MATCHER_H_
+#define INCLUDE_MATCHER_IS_RANGE_MATCHER_H_
 
-namespace unittest {
+#include <matcher/matcher.h>
 
-/// @class is_not_matcher
-/// @brief matcher for negating result of another matcher.
+namespace matcher {
+
+/// @class is_range_matcher
+/// @brief matcher for checking to be in given range
 template <typename T>
-class is_not_matcher : public matcher<T> {
+class is_range_matcher : public matcher<T> {
     public:
-        /// storing another matchere (decoration)
-        is_not_matcher(const matcher<T>& value_matcher) : m_value_matcher(value_matcher) {}
-
-        /// checking result of another matcher for given value and
-        /// negating its result.
-        virtual bool check(const T& expected_value) const override {
-            return !m_value_matcher.check(expected_value);
+        /// storing given value required for comparison.
+        is_range_matcher(const T& from_value, const T& to_value)
+            : m_from_value(from_value), m_to_value(to_value) {
         }
 
-        /// expression of this matcher together with decorated one.
+        /// checking on to be equal
+        virtual bool check(const T& expected_value) const override {
+            return expected_value >= m_from_value && expected_value <= m_to_value;
+        }
+
+        /// @return matcher expression as string
         std::string get_expression() const override {
             std::stringstream expression;
-            expression << "is_not(" << m_value_matcher.get_expression() << ")";
+            expression << "is_range(" << m_from_value << ", " << m_to_value << ")";
             return expression.str();
         }
 
     private:
-        /// given value to check agains expected value;
-        const matcher<T>& m_value_matcher;
+        /// given value to be greater or equal than this value
+        const T m_from_value;
+        /// given value to be less or equal than this value
+        const T m_to_value;
 };
 
 /// wrapper for simplifying use with assert_that statement
 template <typename T>
-is_not_matcher<T> is_not(const matcher<T>& matcher) {
-    return is_not_matcher<T>(matcher);
+is_range_matcher<T> is_range(const T& from_value, const T& to_value) {
+    return is_range_matcher<T>(from_value, to_value);
 }
 
-}  // namespace unittest
+}  // namespace matcher
 
-#endif  // INCLUDE_UNITTEST_IS_NOT_MATCHER_H_
+#endif  // INCLUDE_MATCHER_IS_RANGE_MATCHER_H_

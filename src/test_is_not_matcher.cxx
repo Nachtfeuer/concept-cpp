@@ -23,6 +23,7 @@
 #include <unittest/unittest.h>
 
 using namespace unittest;
+using namespace matcher;
 
 /// testing of class @ref unittest::suite
 describe_suite("testing unittest::is_not_matcher", [](){

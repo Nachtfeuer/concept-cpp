@@ -20,12 +20,12 @@
 /// DAMAGES OR OTHER LIABILITY,
 /// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-#ifndef INCLUDE_UNITTEST_IS_EQUAL_MATCHER_H_
-#define INCLUDE_UNITTEST_IS_EQUAL_MATCHER_H_
+#ifndef INCLUDE_MATCHER_IS_EQUAL_MATCHER_H_
+#define INCLUDE_MATCHER_IS_EQUAL_MATCHER_H_
 
-#include <unittest/matcher.h>
+#include <matcher/matcher.h>
 
-namespace unittest {
+namespace matcher {
 
 /// @class is_equal_matcher
 /// @brief matcher for checking on to be equal.
@@ -58,6 +58,6 @@ is_equal_matcher<T> is_equal(const T& given_value) {
     return is_equal_matcher<T>(given_value);
 }
 
-}  // namespace unittest
+}  // namespace matcher
 
-#endif  // INCLUDE_UNITTEST_IS_EQUAL_MATCHER_H_
+#endif  // INCLUDE_MATCHER_IS_EQUAL_MATCHER_H_

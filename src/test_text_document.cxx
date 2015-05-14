@@ -24,6 +24,7 @@
 #include <document/text.h>
 
 using namespace unittest;
+using namespace matcher;
 
 /// testing of class @ref unittest::suite
 describe_suite("testing document::text_document", [](){

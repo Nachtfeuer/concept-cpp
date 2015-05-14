@@ -26,6 +26,7 @@
 #include <type_traits>
 
 using namespace unittest;
+using namespace matcher;
 
 /// testing of class @ref unittest::suite
 describe_suite("testing query::select", [](){
@@ -69,7 +70,7 @@ describe_suite("testing query::select", [](){
         assert_that(std::vector<int>::value_type(2), is_equal(min));
         
         assert_raise<std::range_error>("no elements", [values]() {
-            query::select(values).where([](int value) {return value = 0;}).min();
+            query::select(values).where([](int value) {return 0 == value;}).min();
         });
     });
 
@@ -81,7 +82,7 @@ describe_suite("testing query::select", [](){
         assert_that(std::vector<int>::value_type(10), is_equal(max));
         
         assert_raise<std::range_error>("no elements", [values]() {
-            query::select(values).where([](int value) {return value = 0;}).max();
+            query::select(values).where([](int value) {return 0 == value;}).max();
         });
     });
 

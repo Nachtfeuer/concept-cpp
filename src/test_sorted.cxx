@@ -27,6 +27,7 @@
 #include <unordered_set>
 
 using namespace unittest;
+using namespace matcher;
 
 /// providing given container as a string
 /// @return container as string representation

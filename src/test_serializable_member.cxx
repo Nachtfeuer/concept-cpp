@@ -26,6 +26,7 @@
 #include <serializable/member.h>
 
 using namespace unittest;
+using namespace matcher;
 
 /// testing of class @ref serializable::member
 describe_suite("testing serializable::member", [](){

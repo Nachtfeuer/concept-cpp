@@ -27,6 +27,7 @@
 #include <serializable/json.h>
 
 using namespace unittest;
+using namespace matcher;
 
 /// testing of class @ref serializable::object
 describe_suite("testing serializable::json_dumper", [](){

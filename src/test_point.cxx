@@ -24,6 +24,7 @@
 #include <math/point.h>
 
 using namespace unittest;
+using namespace matcher;
 
 /// testing of class @ref math::point
 describe_suite("testing math::point", [](){

@@ -23,7 +23,7 @@
 #ifndef INCLUDE_ASSERT_H_
 #define INCLUDE_ASSERT_H_
 
-#include <unittest/matcher.h>
+#include <matcher/matcher.h>
 
 #include <string.h>
 #include <sstream>
@@ -52,7 +52,7 @@ class assertion : public std::exception {
 };
 
 template <typename T>
-void assert_that(const T& expected_value, const matcher<T>& value_matcher) {
+void assert_that(const T& expected_value, const matcher::matcher<T>& value_matcher) {
     if (!value_matcher.check(expected_value)) {
         std::stringstream message;
         message << expected_value
