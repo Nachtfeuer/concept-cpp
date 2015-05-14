@@ -31,8 +31,8 @@ using namespace pattern;
 
 /// testing of class @ref math::vector
 describe_suite("testing pattern::factory", [](){
-    const auto creator = []() { return new int(123); };
-    const auto second_creator = []() { return new int(456); };
+    const auto creator = []() { return std::unique_ptr<int>(new int(123)); };
+    const auto second_creator = []() { return std::unique_ptr<int>(new int(456)); };
 
     describe_test("testing initial", []() {
         /// we cannot rely that the singelton does not contain yet registered entries
@@ -68,12 +68,11 @@ describe_suite("testing pattern::factory", [](){
         factory<int, int>::get().register_creator(1, creator);
 
         auto it = factory<int, int>::get().create_instance(1);
-        assert_that(it, is_not(is_equal(static_cast<int*>(nullptr))));
+        assert_that(true, is_equal(nullptr != it));
         assert_that(*it, is_equal(123));
-        delete it;
 
         it = factory<int, int>::get().create_instance(2);
-        assert_that(it, is_equal(static_cast<int*>(nullptr)));
+        assert_that(true, is_equal(nullptr == it));
     });
 
     describe_test("testing iteration", [creator, second_creator]() {

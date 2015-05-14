@@ -99,7 +99,7 @@ class runner final {
                 return false;
             }
 
-            m_report.reset(report_factory::get().create_instance(m_options.format));
+            m_report = report_factory::get().create_instance(m_options.format);
 
             std::vector<suite*> suites;
 

@@ -25,6 +25,7 @@
 
 #include <functional>
 #include <unordered_map>
+#include <memory>
 
 namespace pattern {
 
@@ -34,7 +35,7 @@ template <typename TKey, typename TClass>
 class factory final {
     public:
         /// type for creator function
-        using creator_function_type = std::function<TClass* ()>;
+        using creator_function_type = std::function<std::unique_ptr<TClass> ()>;
         /// type for container of registered creators
         using creators_container_type = std::unordered_map<TKey, creator_function_type>;
 
@@ -57,10 +58,10 @@ class factory final {
         /// @param key unique key that must exist.
         /// @return instance if creator for given key does exist and
         ///         if creator provides instance otherwise it's a nullptr.
-        TClass* create_instance(const TKey& key) const {
+        std::unique_ptr<TClass> create_instance(const TKey& key) const {
             auto it = m_creators.find(key);
             if (it == m_creators.end()) {
-                return nullptr;
+                return std::unique_ptr<TClass>(nullptr);
             }
             return it->second();
         }

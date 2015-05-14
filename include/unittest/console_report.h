@@ -31,6 +31,7 @@
 #include <memory>
 #include <iostream>
 #include <algorithm>
+#include <memory>
 
 namespace unittest {
 
@@ -53,8 +54,8 @@ class console_report : public report {
             , m_suites() {}
 
         /// class creator
-        static report* creator() noexcept {
-            return new console_report;
+        static std::unique_ptr<report> creator() noexcept {
+            return std::unique_ptr<report>(new console_report);
         }
 
         /// to be overwritten by a derived class
