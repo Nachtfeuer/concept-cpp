@@ -96,4 +96,34 @@ describe_suite("testing query::select", [](){
         const std::vector<int> exprected_values = {2, 6, 10};
         assert_that(true, is_equal(exprected_values == results));
     });
+
+    describe_test("testing transform for std::vector", []() {
+        const std::vector<int> values = {1, 2, 3, 4};
+        auto results = query::select(values)
+            .transform([](int& value){value *= 2;})
+            .to_vector();
+        const std::vector<int> exprected_values = {2, 4, 6, 8};
+        assert_that(true, is_equal(exprected_values == results));
+    });
+
+    describe_test("testing double transform for std::vector", []() {
+        const std::vector<int> values = {1, 2, 3, 4};
+        auto results = query::select(values)
+            .transform([](int& value){value *= 2;})
+            .transform([](int& value){value += 1;})
+            .to_vector();
+        const std::vector<int> exprected_values = {3, 5, 7, 9};
+        assert_that(true, is_equal(exprected_values == results));
+    });
+
+    describe_test("testing where+transform+sum for std::vector", []() {
+        const std::vector<int> values = {1, 2, 3, 4};
+        const auto result = query::select(values)
+            .where([](int value){ return value % 2 == 0;})
+            .transform([](int& value){value *= 10;})
+            .sum();
+
+        assert_that(std::vector<int>::value_type(60), is_equal(result));
+    });
+
 });

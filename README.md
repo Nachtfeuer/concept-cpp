@@ -35,14 +35,16 @@ Current Content
  - you can create HTML documentation with doxygen.
  - supports code coverage report (HTML as well as Cobertura compatible XML)
  - supports cppcheck
- - object serialization (started)
-   - can dump simple objects with field of standard types and
-     fields being again an object of fields to JSON format
-   - minimal adjustment necessary for your custom data class.
  - object query framework like linq.
    - you can select a std::vector and use several times
      the method 'where' to provide a filter function.
    - provides "count", "min", "max" and "sum" method
+   - provides possibility to transform values by registering
+     as many transform functions as you like.
+ - object serialization (started - consider this as experimental please)
+   - can dump simple objects with field of standard types and
+     fields being again an object of fields to JSON format
+   - minimal adjustment necessary for your custom data class.
 
 
 Next Action Items (planned)
@@ -60,9 +62,13 @@ Next Action Items (planned)
    - move matcher out of unittests folder into an own,
      since it can be re-used in other places.
  - singleton decorator class (remove singleton from factory).
- - writing big integer class supporting different multiplication algorithms.
- - sieve of Eratosthenes (http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes).
  - providing generic plugin handling.
+ - extending math namespace:
+   - writing big integer class supporting different multiplication algorithms.
+   - sieve of Eratosthenes (http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes).
+   - different ways to calculate primes
+   - caclulating PI (configurable precision)
+   - different mulitplication algorithms
  - object query framework like linq.
    - adding 'average' and 'median'
    - extending given "where" clause to allow use of matcher
@@ -72,6 +78,8 @@ Next Action Items (planned)
  - providing doxygen mainpage.
  - providing wiki for some FAQ's on the project site.
  - logging
+ - change log for RPM
+ - extending cmake for targeting to profile code.
 
 
 CMake
@@ -128,3 +136,25 @@ firefox coverage/index.html
 
 You can keep that page open and when you run again the coverage
 after you have added or modified tests then simply refresh the page.
+
+
+Version Policy
+--------------
+ - a version has the form **a.b.c**
+ - "a" is the **major version** which is incremented by following reasons:
+   - there's a set of **new** features with a lot of code which make it reasonable
+     to increment the major version.
+   - another reason would be the change of one or more interfaces which have been
+     necessary to improve things. Needs to be well documented of course and
+     should not happen to often.
+ - "b" is the **minor version** which represents:
+   - simple **new** features
+   - simple **extensions** to given features
+   - minor changes like adding missing documentation or style things.
+ - "c" is the **bugfix counter** and is incremented on **bugfixes only**.
+ - Following additional rules:
+   - incrementing "b" resets "c" to zero (0.5.0, 1.0.0, 1.1.0, 1.2.0, 2.0.0, ...)
+   - incrementing "a" resets "b" and "c" to zero (0.5.1, 1.0.0, 1.1.2, 2.0.0, ...)
+   - each commit message (since policy has been introduced) should refer
+     to a version by mentioning it in form: "a.b.c: title" in first line and
+     as many details you like in following lines.

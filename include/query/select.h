@@ -42,23 +42,39 @@ class selector final {
         using container_type = T;
         /// type of value for given container
         using value_type = typename T::value_type;
+
         /// type for the filter function
         using filter_function_type = std::function<bool (const value_type&)>;
-        /// type for container of registered filters
+        /// type for container of registered filter functions
         using filter_container_type = std::vector<filter_function_type>;
+
+        /// type for the transform function
+        using transform_function_type = std::function<void (value_type&)>;
+        /// type for container of registered transform functions
+        using transform_container_type = std::vector<transform_function_type>;
 
         /// "selecting" a container keeping the reference
         selector(const container_type& container)
-            : m_container(container), m_filters() {}
+            : m_container(container), m_filters(), m_transforms() {}
 
         /// @return number of entries in the container
         typename container_type::size_type size() const noexcept {
             return m_container.size();
         }
 
-        /// @return container with values only defined by given filter.
+        /// register a filter function
+        /// @return selector to continue with further operations on it.
+        /// @note all registrations are working like a "and" filter.
         selector& where(filter_function_type filter) noexcept {
             m_filters.push_back(filter);
+            return *this;
+        }
+
+        /// register a transform function
+        /// @return selector to continue with further operations on it.
+        /// @note all transformations are done in order of executions
+        selector& transform(transform_function_type transform) noexcept {
+            m_transforms.push_back(transform);
             return *this;
         }
 
@@ -75,7 +91,12 @@ class selector final {
                 }
 
                 if (!ignore) {
-                    filtered.push_back(entry);
+                    auto value = entry;
+                    for (const auto& transform: m_transforms) {
+                        transform(value);
+                    }
+
+                    filtered.push_back(value);
                 }
             }
             return filtered;
@@ -115,6 +136,8 @@ class selector final {
         const container_type& m_container;
         /// container of registered filters
         filter_container_type m_filters;
+        /// container of registered transforms
+        transform_container_type m_transforms;
 };
 
 template <typename Container>
