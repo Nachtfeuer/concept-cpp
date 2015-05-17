@@ -13,11 +13,11 @@ Current Content
 ---------------
  - implementation of an easy to use unittesting framework.
    - providing suite and tests with easy to write lambda functions.
-   - providing hamcrest like matcher.
    - supports custom report generator: default is: console reporter
    - performance measurement for tests.
    - provided new report for TAP format (https://testanything.org/)
      - understood by Jenkins (TAP plugin exists for it).
+ - providing hamcrest like matcher (own namespace, own folder).
  - command line options
    - --shuffle-suites=true  (execution of suites in random order)
    - --shuffle-tests=true   (execution of tests in random order)
@@ -41,6 +41,7 @@ Current Content
    - provides "count", "min", "max" and "sum" method
    - provides possibility to transform values by registering
      as many transform functions as you like.
+   - extending given "where" clause to allow use of matcher
  - object serialization (started - consider this as experimental please)
    - can dump simple objects with field of standard types and
      fields being again an object of fields to JSON format
@@ -59,8 +60,6 @@ Next Action Items (planned)
  - extending hamcrest like matchers
    - for "contains" working with containers (element search)
    - for "contains" working with strings (string search)
-   - move matcher out of unittests folder into an own,
-     since it can be re-used in other places.
  - singleton decorator class (remove singleton from factory).
  - providing generic plugin handling.
  - extending math namespace:
@@ -71,7 +70,6 @@ Next Action Items (planned)
    - different mulitplication algorithms
  - object query framework like linq.
    - adding 'average' and 'median'
-   - extending given "where" clause to allow use of matcher
  - object serialization
    - dump/wite for container of standard types and for container of objects.
    - read from JSON

@@ -1,7 +1,7 @@
 ///
 /// @author  Thomas Lehmann
 /// @file    select.h
-/// @brief   select does take a container.
+/// @brief   select/selector takes a container.
 ///
 /// Copyright (c) 2015 Thomas Lehmann
 ///
@@ -24,6 +24,8 @@
 #ifndef INCLUDE_QUERY_SELECT_H_
 #define INCLUDE_QUERY_SELECT_H_
 
+#include <matcher/matcher.h>
+
 #include <vector>
 #include <list>
 #include <functional>
@@ -33,8 +35,8 @@
 
 namespace query {
 
-/// @class selector<std::vector>
-/// @brief provides a query for a std::vector container.
+/// @class selector<T>
+/// @brief provides a query for a container
 template <typename T>
 class selector final {
     public:
@@ -63,10 +65,22 @@ class selector final {
         }
 
         /// register a filter function
+        /// @param filter a filter function that returns true when a value should be included
         /// @return selector to continue with further operations on it.
         /// @note all registrations are working like a "and" filter.
         selector& where(filter_function_type filter) noexcept {
             m_filters.push_back(filter);
+            return *this;
+        }
+
+        /// register a filter functions (closure) that captures provided matcher
+        /// @param matcher a matcher that returns true when a value should be included
+        /// @return selector to continue with further operations on it.
+        /// @note all registrations are working like a "and" filter.
+        selector& where(const matcher::matcher<value_type>& matcher) noexcept {
+            m_filters.push_back([&matcher](const value_type& value) {
+                    return matcher.check(value);
+            });
             return *this;
         }
 

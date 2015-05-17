@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 2.8 FATAL_ERROR)
 add_definitions("-Wall -Wextra -pedantic -Weffc++ -std=c++11")
 
 project(demo)
-set(VERSION "0.2.0")
+set(VERSION "0.3.0")
 set(MINIMUM_BOOST_VERSION "1.54")
 enable_testing()
 
@@ -84,6 +84,9 @@ endif(BUILD_DOCUMENTATION)
 add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} DEPENDS demo)
 add_custom_target(run COMMAND demo DEPENDS demo)
 add_custom_target(memcheck COMMAND valgrind --leak-check=full ${CMAKE_BINARY_DIR}/demo DEPENDS demo)
+add_custom_target(clear-coverage
+    COMMAND find ${CMAKE_BINARY_DIR} -name "*.gcno" | xargs -i rm -f {}
+    COMMAND find ${CMAKE_BINARY_DIR} -name "*.gcda" | xargs -i rm -f {})
 
 if(GCOV AND LCOV AND GENHTML AND GCOVR)
     add_custom_target(coverage 
@@ -103,7 +106,6 @@ if(GCOV AND LCOV AND GENHTML AND GCOVR)
                            --output-directory ${CMAKE_BINARY_DIR}/coverage
             COMMAND ${GCOVR}
                            --root=${CMAKE_CURRENT_SOURCE_DIR}
-                           --keep
                            --object-directory=${CMAKE_BINARY_DIR}
                            --xml-pretty > ${CMAKE_BINARY_DIR}/coverage.xml
             DEPENDS run)

@@ -23,6 +23,8 @@
 #include <unittest/unittest.h>
 #include <query/select.h>
 
+#include <vector>
+#include <set>
 #include <type_traits>
 
 using namespace unittest;
@@ -126,4 +128,22 @@ describe_suite("testing query::select", [](){
         assert_that(std::vector<int>::value_type(60), is_equal(result));
     });
 
+    describe_test("testing where+transform+sum for std::set", []() {
+        const std::set<int> values = {1, 2, 3, 4};
+        const auto result = query::select(values)
+            .where([](int value){ return value % 2 == 0;})
+            .transform([](int& value){value *= 10;})
+            .sum();
+
+        assert_that(std::vector<int>::value_type(60), is_equal(result));
+    });
+
+    describe_test("testing where+matcher for std::vector", []() {
+        const std::vector<int> values = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        const auto results = query::select(values)
+            .where(is_range(3, 7))
+            .to_vector();
+        const std::vector<int> exprected_values = {3, 4, 5, 6, 7};
+        assert_that(true, is_equal(exprected_values == results));
+    });
 });
