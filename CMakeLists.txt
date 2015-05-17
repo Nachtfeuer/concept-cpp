@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 2.8 FATAL_ERROR)
 add_definitions("-Wall -Wextra -pedantic -Weffc++ -std=c++11")
 
 project(demo)
-set(VERSION "0.3.0")
+set(VERSION "0.4.0")
 set(MINIMUM_BOOST_VERSION "1.54")
 enable_testing()
 
@@ -52,7 +52,7 @@ install(DIRECTORY include/math         DESTINATION include/demo)
 install(DIRECTORY include/pattern      DESTINATION include/demo)
 install(DIRECTORY include/unittest     DESTINATION include/demo)
 install(DIRECTORY include/algorithm    DESTINATION include/demo)
-install(DIRECTORY include/serializable DESTINATION include/demo)
+install(DIRECTORY include/matcher      DESTINATION include/demo)
 install(DIRECTORY include/query        DESTINATION include/demo)
 install(DIRECTORY include/document     DESTINATION include/demo)
 

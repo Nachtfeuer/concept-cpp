@@ -65,6 +65,13 @@ class suite final {
         bool run(const options& the_options, report* the_report) {
             std::vector<std::shared_ptr<test>> tests;
 
+            // suite with no test?
+            if (m_tests.empty()) {
+                register_test("suite with no tests", []() {
+                    throw assertion("at least one test is missing!");
+                });
+            }
+
             for (auto& it: m_tests) {
                 tests.push_back(it.second);
             }

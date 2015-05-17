@@ -17,6 +17,8 @@ Current Content
    - performance measurement for tests.
    - provided new report for TAP format (https://testanything.org/)
      - understood by Jenkins (TAP plugin exists for it).
+   - generate failing test for a suite with no tests (assertion message explains)
+   - a test also fails if it has not at least one assertion
  - providing hamcrest like matcher (own namespace, own folder).
  - command line options
    - --shuffle-suites=true  (execution of suites in random order)
@@ -51,9 +53,6 @@ Current Content
 Next Action Items (planned)
 ---------------------------
  - unittests:
-   - warn about:
-     - suites with no test
-     - tests with no assertion
    - providing an option --stop-on-error
    - providing new option --repeat-count for runner.
      (does repeat all suites several times).

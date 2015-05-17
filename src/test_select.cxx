@@ -23,6 +23,7 @@
 #include <unittest/unittest.h>
 #include <query/select.h>
 
+#include <string>
 #include <vector>
 #include <set>
 #include <type_traits>
