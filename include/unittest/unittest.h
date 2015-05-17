@@ -35,6 +35,7 @@
 #include <matcher/is_equal_matcher.h>
 #include <matcher/is_not_matcher.h>
 #include <matcher/is_range_matcher.h>
+#include <matcher/has_item_matcher.h>
 
 namespace unittest {
 

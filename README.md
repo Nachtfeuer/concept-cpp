@@ -20,6 +20,7 @@ Current Content
    - generate failing test for a suite with no tests (assertion message explains)
    - a test also fails if it has not at least one assertion
  - providing hamcrest like matcher (own namespace, own folder).
+   - is_not, is_equal, is_range, has_item, ...
  - command line options
    - --shuffle-suites=true  (execution of suites in random order)
    - --shuffle-tests=true   (execution of tests in random order)
@@ -57,7 +58,6 @@ Next Action Items (planned)
    - providing new option --repeat-count for runner.
      (does repeat all suites several times).
  - extending hamcrest like matchers
-   - for "contains" working with containers (element search)
    - for "contains" working with strings (string search)
  - singleton decorator class (remove singleton from factory).
  - providing generic plugin handling.
@@ -65,7 +65,7 @@ Next Action Items (planned)
    - writing big integer class supporting different multiplication algorithms.
    - sieve of Eratosthenes (http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes).
    - different ways to calculate primes
-   - caclulating PI (configurable precision)
+   - calculating PI (configurable precision)
    - different mulitplication algorithms
  - object query framework like linq.
    - adding 'average' and 'median'

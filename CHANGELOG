@@ -1,0 +1,3 @@
+* Sun May 17 2015 Thomas Lehmann <thomas.lehmann.private@gmail.com> v0.5.0
+- extended makefile (cmake) for using this CHANGELOG file
+- new matcher: has_item and has_item_matcher
