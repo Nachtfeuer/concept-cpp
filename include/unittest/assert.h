@@ -29,6 +29,7 @@
 #include <sstream>
 #include <iostream>
 #include <stdexcept>
+#include <cstdint>
 #include <typeinfo>
 
 namespace unittest {
@@ -51,9 +52,9 @@ class assertion : public std::exception {
         const std::string m_message;
 };
 
-/// @struct assert_that_statistic
+/// @struct assert_statistic
 /// @brief global counter for success and failure
-struct assert_that_statistic {
+struct assert_statistic {
     /// @return read/write access to success counter
     static uint64_t& get_succeeded() noexcept {
         static uint64_t counter = 0;
@@ -75,14 +76,14 @@ struct assert_that_statistic {
 template <typename T>
 void assert_that(const T& expected_value, const matcher::matcher<T>& value_matcher) {
     if (!value_matcher.check(expected_value)) {
-        ++assert_that_statistic::get_failed();
+        ++assert_statistic::get_failed();
         std::stringstream message;
         message << expected_value
                 << " does not match "
                 << value_matcher.get_expression();
         throw assertion(message.str());
     }
-    ++assert_that_statistic::get_succeeded();
+    ++assert_statistic::get_succeeded();
 }
 
 template <typename T>
@@ -98,14 +99,14 @@ void assert_raise(const std::string& message,
                           << " - no exception thrown!";
         throw assertion(assertion_message.str());
     } catch (T&) {
-        ++assert_that_statistic::get_succeeded();
+        ++assert_statistic::get_succeeded();
         // all is fine
     } catch (const assertion& e) {
         // not fine but we do not want to catch HERE. So we re-throw ...
-        ++assert_that_statistic::get_failed();
+        ++assert_statistic::get_failed();
         throw e;
     } catch (...) {
-        ++assert_that_statistic::get_failed();
+        ++assert_statistic::get_failed();
         std::stringstream assertion_message;
         assertion_message << message
                           << " - expected exceptiont type: "

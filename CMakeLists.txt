@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 2.8 FATAL_ERROR)
 add_definitions("-Wall -Wextra -pedantic -Weffc++ -std=c++11")
 
 project(demo)
-set(VERSION "0.4.0")
+set(VERSION "0.4.1")
 set(MINIMUM_BOOST_VERSION "1.54")
 enable_testing()
 

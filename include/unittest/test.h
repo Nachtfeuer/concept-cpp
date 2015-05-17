@@ -47,13 +47,13 @@ class test final {
         void run() {
             const performance::measure_scope<std::milli> measurement;
             try {
-                const auto total_assert_calls = assert_that_statistic::total();
+                const auto total_assert_calls = assert_statistic::total();
                 m_function();
-                m_duration = measurement.get_duration();
 
-                if (assert_that_statistic::total() == total_assert_calls) {
+                if (assert_statistic::total() == total_assert_calls) {
                     throw assertion("at least one assertion is missing!");
                 } else {
+                    m_duration = measurement.get_duration();
                     m_succeeded = true;
                 }
             } catch (const assertion& test_assertion) {
