@@ -27,6 +27,8 @@ Current Content
    - --filter=string        (does filter for suites)
    - --format=name          ("default" or "tap")
  - pattern classes like a factory.
+ - types (special type traits)
+   - is_container
  - math classes
    - 2d point, 2d vector, 2d line, ...
    - fibonacci algorithm (http://en.wikipedia.org/wiki/Fibonacci_number).

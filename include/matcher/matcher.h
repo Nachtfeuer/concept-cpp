@@ -32,6 +32,8 @@ namespace matcher {
 template <typename T>
 class matcher {
     public:
+        /// providing default d'tor for derived classes
+        virtual ~matcher() = default;
         /// @return true when expected value does match
         virtual bool check(const T& expected_value) const = 0;
         /// @return chain of matchers as readable string expression

@@ -1,8 +1,8 @@
 cmake_minimum_required (VERSION 2.8 FATAL_ERROR)
-add_definitions("-Wall -Wextra -pedantic -Weffc++ -std=c++11")
+add_definitions("-std=c++11 -Wall -Wextra -pedantic -Weffc++ -Wnon-virtual-dtor")
 
 project(demo)
-set(VERSION "0.5.0")
+set(VERSION "0.6.0")
 set(MINIMUM_BOOST_VERSION "1.54")
 enable_testing()
 
@@ -50,6 +50,7 @@ endif(CPPCHECK)
 
 install(DIRECTORY include/math         DESTINATION include/demo)
 install(DIRECTORY include/pattern      DESTINATION include/demo)
+install(DIRECTORY include/types        DESTINATION include/demo)
 install(DIRECTORY include/unittest     DESTINATION include/demo)
 install(DIRECTORY include/algorithm    DESTINATION include/demo)
 install(DIRECTORY include/matcher      DESTINATION include/demo)
