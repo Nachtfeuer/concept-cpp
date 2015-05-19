@@ -33,6 +33,7 @@ Current Content
    - 2d point, 2d vector, 2d line, ...
    - fibonacci algorithm (http://en.wikipedia.org/wiki/Fibonacci_number).
    - power of 2 algorithm.
+   - fraction
  - document class
    - started with text document using regex for queries like word count.
      (using boost::regex)
@@ -69,6 +70,8 @@ Next Action Items (planned)
    - different ways to calculate primes
    - calculating PI (configurable precision)
    - different mulitplication algorithms
+ - math
+   - fractions: reduce to lowest term by using gcd
  - object query framework like linq.
    - adding 'average' and 'median'
  - object serialization
