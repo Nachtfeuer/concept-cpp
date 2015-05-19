@@ -2,12 +2,12 @@ README
 ======
 
 ### Table Of Contents
-**[Welcome](#welcome)**
-**[Current Content](#current-content)**
-**[Next Action Items (planned)](#next-action-items-planned)**
-**[CMake](#cmake)**
-**[Code Coverage](#code-coverage)**
-**[Version Policy](#version-policy)**
+[**Welcome**](#welcome)
+[**Current Content**](#current-content)
+[**Next Action Items (planned)**](#next-action-items-planned)
+[**CMake**](#cmake)
+[**Code Coverage**](#code-coverage)
+[**Version Policy**](#version-policy)
 
 Welcome
 -------
