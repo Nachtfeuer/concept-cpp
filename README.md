@@ -3,7 +3,7 @@ README
 
 Welcome
 -------
-Welcome to the README of my personal C++11/cmake refererence project.
+Welcome to the README of my personal C++11/cmake reference project.
 It's a kind of knowledge database and small test environment.
 The purpose is - of course - to keep everything clean, simple and
 well documented.
@@ -39,6 +39,8 @@ Current Content
      (using boost::regex)
  - algorithm functions like 'sorted' and 'shuffled'.
  - you can create HTML documentation with doxygen.
+   - also generates formulars in the doc for math (without Latex)
+   - doxygen mainpage provided.
  - supports code coverage report (HTML as well as Cobertura compatible XML)
  - supports cppcheck
  - object query framework like linq.
@@ -70,17 +72,14 @@ Next Action Items (planned)
    - different ways to calculate primes
    - calculating PI (configurable precision)
    - different mulitplication algorithms
- - math
    - fractions: reduce to lowest term by using gcd
  - object query framework like linq.
    - adding 'average' and 'median'
  - object serialization
    - dump/wite for container of standard types and for container of objects.
    - read from JSON
- - providing doxygen mainpage.
  - providing wiki for some FAQ's on the project site.
  - logging
- - change log for RPM
  - extending cmake for targeting to profile code.
 
 

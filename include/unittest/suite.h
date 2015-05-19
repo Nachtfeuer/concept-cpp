@@ -47,7 +47,7 @@ class suite final {
 
         /// registering a suite function ("runner") und given name
         /// @param name of the suite (must be unique per suite)
-        /// @param suite_function the suite function ("runner") executing individual tests.
+        /// @param test_function the suite function ("runner") executing individual tests.
         /// @return true when successfully registered a test function under a given name.
         bool register_test(const std::string& name,
                            test::function_type test_function) noexcept {

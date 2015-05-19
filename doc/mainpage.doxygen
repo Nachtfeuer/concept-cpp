@@ -1,0 +1,29 @@
+/**
+    \mainpage Welcome to demo-cpp
+ 
+    Welcome to demo-cpp a private reference repository for
+    C++11 based development using cmake and providing
+    headeronly implementation of - hopefully - useful things.
+    Following purposes:
+
+    - writing functionality of interest
+    - good software quality:
+     - readability
+     - unit tests / high code coverage
+     - easy to build
+     - easy to extend
+     - easy to use
+     - good documentation (using doxygen with graphviz and mathjax)
+     - clean version management
+     - provided possibility to create RPM package
+     - build with cmake
+
+    For this aspects following is provided:
+
+    - own unittesting framework
+    - matcher which can be used for test assertions as well
+      as for the object query.
+    - object query which makes it easy to query container.
+
+    There're a lot of more things. Just check the include folder.
+ */

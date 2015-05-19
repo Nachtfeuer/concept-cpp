@@ -32,7 +32,7 @@ namespace math {
 /// @brief tool class for static fibonacci functions.
 class fibonacci final {
     public:
-        /// @param zero based index in the fibonacci sequence.
+        /// @param index zero based index in the fibonacci sequence.
         /// @return fibonacci value at given index in its sequence.
         ///
         /// @code

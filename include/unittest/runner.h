@@ -57,7 +57,7 @@ class runner final {
 
         /// registering a suite function ("runner") und given name
         /// @name name of the suite
-        /// @suite_function the suite function ("runner") executing individual tests.
+        /// @param suite_function the suite function ("runner") executing individual tests.
         /// @return true when registration of suite has succeeded.
         bool register_suite(const std::string& name,
                             suite_function_type suite_function) noexcept {

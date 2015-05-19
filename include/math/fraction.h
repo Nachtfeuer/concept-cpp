@@ -38,16 +38,19 @@ class fraction final {
             : m_numerator(numerator), m_denominator(denominator) {
         }
 
+        /// value above the line (or before the slash)
         /// @return readonly access to denominator
         constexpr T get_numerator() const noexcept {
             return m_numerator;
         }
 
+        /// value below the line (or after the slash)
         /// @return readonly access to denominator
         constexpr T get_denominator() const noexcept {
             return m_denominator;
         }
 
+        /// Does calculate the sum of two fractions like \f$\frac{1}{2}+\frac{2}{3}=\frac{7}{6}\f$
         /// @return sum of two fractions
         constexpr friend fraction operator + (const fraction& lhs, const fraction& rhs) noexcept {
             return fraction(lhs.get_numerator() * rhs.get_denominator() +
@@ -55,6 +58,7 @@ class fraction final {
                             lhs.get_denominator() * rhs.get_denominator());
         }
 
+        /// Does calculate the sum of two fractions like \f$\frac{1}{2}-\frac{2}{3}=\frac{-1}{6}\f$
         /// @return difference of two fractions
         constexpr friend fraction operator - (const fraction& lhs, const fraction& rhs) noexcept {
             return fraction(lhs.get_numerator() * rhs.get_denominator() -
@@ -62,12 +66,14 @@ class fraction final {
                             lhs.get_denominator() * rhs.get_denominator());
         }
 
+        /// Does calculate the sum of two fractions like \f$\frac{1}{2}*\frac{2}{3}=\frac{2}{6}\f$
         /// @return product of two fractions
         constexpr friend fraction operator * (const fraction& lhs, const fraction& rhs) noexcept {
             return fraction(lhs.get_numerator() * rhs.get_numerator(),
                             lhs.get_denominator() * rhs.get_denominator());
         }
 
+        /// Does calculate the sum of two fractions like \f$\frac{1}{2}/\frac{2}{3}=\frac{3}{4}\f$
         /// @return division of two fractions
         constexpr friend fraction operator / (const fraction& lhs, const fraction& rhs) noexcept {
             return fraction(lhs.get_numerator() * rhs.get_denominator(),

@@ -127,7 +127,7 @@ class object_member : public abstract_member {
             return m_object.get();
         }
 
-        /// @param value new value for the member
+        /// @param obj new object for the member
         void set_value(T* obj) noexcept {
             m_object.reset(obj);
         }
