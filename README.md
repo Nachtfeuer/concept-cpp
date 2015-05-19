@@ -1,8 +1,7 @@
 README
 ======
 
-Table Of Contents
------------------
+### Table Of Contents
 **[Welcome](#welcome)**
 **[Current Content](#current-content)**
 **[Next Action Items (planned)](#next-action-items-planned)**
