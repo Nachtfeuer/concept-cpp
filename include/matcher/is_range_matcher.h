@@ -58,8 +58,8 @@ class is_range_matcher : public matcher<T> {
 
 /// wrapper for simplifying use with assert_that statement
 template <typename T>
-is_range_matcher<T> is_range(const T& from_value, const T& to_value) {
-    return is_range_matcher<T>(from_value, to_value);
+shared_matcher<T> is_range(const T& from_value, const T& to_value) {
+    return shared_matcher<T>(new is_range_matcher<T>(from_value, to_value));
 }
 
 }  // namespace matcher

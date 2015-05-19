@@ -27,15 +27,19 @@ using namespace matcher;
 
 /// testing of class @ref unittest::suite
 describe_suite("testing unittest::is_not_matcher", [](){
-    describe_test("testing not equal", []() {
-        const is_not_matcher<int> matcher(is_equal_matcher<int>(123));
-        assert_that(false, is_equal(matcher.check(123)));
-        assert_that(true, is_equal(matcher.check(321)));
+    describe_test("testing not equal (same value)", []() {
+        const is_not_matcher<int> matcher_a(is_equal(123));
+        assert_that(false, is_equal(matcher_a.check(123)));
+    });
+
+    describe_test("testing not equal (different value)", []() {
+        const is_not_matcher<int> matcher_b(is_equal(123));
+        assert_that(true, is_equal(matcher_b.check(321)));
     });
 
     describe_test("testing expression", []() {
-        const is_not_matcher<int> matcher(is_equal_matcher<int>(123));
-        assert_that(std::string("is_not(is_equal(123))"), is_equal(matcher.get_expression()));
+        const is_not_matcher<int> matcher_c(is_equal(123));
+        assert_that(std::string("is_not(is_equal(123))"), is_equal(matcher_c.get_expression()));
     });
 });
 

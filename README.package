@@ -1,6 +1,6 @@
 
-Welcome to the demo package
-===========================
+Welcome to the concept-cpp package
+==================================
 It's a kind of private knowledge database,
 test environment and prototyping environment
 around the topics c++11 and cmake.
@@ -8,7 +8,7 @@ around the topics c++11 and cmake.
 For now we provide header only code.
 Simply include/use like this:
 
-    #include <demo/vector.h>
+    #include <math/vector.h>
     // ...
     math::vector v1(4, 5);
     std::cout << "v1.length() = " << std::v1.length() << std::endl;

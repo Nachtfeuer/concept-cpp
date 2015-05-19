@@ -30,8 +30,7 @@ describe_suite("testing unittest::runner", [](){
     describe_test("testing singleton", []() {
         const auto& runner_a = runner::get();
         const auto& runner_b = runner::get();
-
-        assert_that(&runner_a, is_equal(&runner_b));
+        assert_that(true, is_equal(&runner_a == &runner_b));
     });
 
     describe_test("testing suite bad registration", []() {

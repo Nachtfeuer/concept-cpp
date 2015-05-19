@@ -24,6 +24,7 @@
 #define INCLUDE_MATCHER_IS_EQUAL_MATCHER_H_
 
 #include <matcher/matcher.h>
+#include <sstream>
 
 namespace matcher {
 
@@ -33,7 +34,9 @@ template <typename T>
 class is_equal_matcher : public matcher<T> {
     public:
         /// storing given value required for comparison.
-        is_equal_matcher(const T& given_value) : m_given_value(given_value) {}
+        is_equal_matcher(const T& given_value)
+            : matcher<T>()
+            , m_given_value(given_value) {}
 
         /// checking on to be equal
         virtual bool check(const T& expected_value) const override {
@@ -41,7 +44,7 @@ class is_equal_matcher : public matcher<T> {
         }
 
         /// @return matcher expression as string
-        std::string get_expression() const override {
+        virtual std::string get_expression() const override {
             std::stringstream expression;
             expression << "is_equal(" << m_given_value << ")";
             return expression.str();
@@ -49,13 +52,13 @@ class is_equal_matcher : public matcher<T> {
 
     private:
         /// given value to check agains expected value;
-        const T& m_given_value;
+        const T m_given_value;
 };
 
 /// wrapper for simplifying use with assert_that statement
 template <typename T>
-is_equal_matcher<T> is_equal(const T& given_value) {
-    return is_equal_matcher<T>(given_value);
+shared_matcher<T> is_equal(const T& given_value) {
+    return shared_matcher<T>(new is_equal_matcher<T>(given_value));
 }
 
 }  // namespace matcher

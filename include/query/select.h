@@ -77,9 +77,9 @@ class selector final {
         /// @param matcher a matcher that returns true when a value should be included
         /// @return selector to continue with further operations on it.
         /// @note all registrations are working like a "and" filter.
-        selector& where(const matcher::matcher<value_type>& matcher) noexcept {
+        selector& where(matcher::shared_matcher<value_type> matcher) noexcept {
             m_filters.push_back([&matcher](const value_type& value) {
-                    return matcher.check(value);
+                    return matcher->check(value);
             });
             return *this;
         }

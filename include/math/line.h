@@ -32,7 +32,8 @@ namespace math {
 class line final {
     public:
         /// default c'tor
-        constexpr line() = default;
+        constexpr line()
+            : m_location(0.0, 0.0), m_direction(0.0, 0.0) {}
 
         /// init c'tor
         constexpr line(const vector& location, const vector& direction)

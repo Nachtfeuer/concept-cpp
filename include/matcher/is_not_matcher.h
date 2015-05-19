@@ -24,6 +24,8 @@
 #define INCLUDE_MATCHER_IS_NOT_MATCHER_H_
 
 #include <matcher/matcher.h>
+#include <sstream>
+#include <memory>
 
 namespace matcher {
 
@@ -33,30 +35,32 @@ template <typename T>
 class is_not_matcher : public matcher<T> {
     public:
         /// storing another matchere (decoration)
-        is_not_matcher(const matcher<T>& value_matcher) : m_value_matcher(value_matcher) {}
+        is_not_matcher(shared_matcher<T> value_matcher)
+            : matcher<T>()
+            , m_value_matcher(value_matcher) {}
 
         /// checking result of another matcher for given value and
         /// negating its result.
         virtual bool check(const T& expected_value) const override {
-            return !m_value_matcher.check(expected_value);
+            return !m_value_matcher->check(expected_value);
         }
 
         /// expression of this matcher together with decorated one.
-        std::string get_expression() const override {
+        virtual std::string get_expression() const override {
             std::stringstream expression;
-            expression << "is_not(" << m_value_matcher.get_expression() << ")";
+            expression << "is_not(" << m_value_matcher->get_expression() << ")";
             return expression.str();
         }
 
     private:
         /// given value to check agains expected value;
-        const matcher<T>& m_value_matcher;
+        shared_matcher<T> m_value_matcher;
 };
 
 /// wrapper for simplifying use with assert_that statement
 template <typename T>
-is_not_matcher<T> is_not(const matcher<T>& matcher) {
-    return is_not_matcher<T>(matcher);
+shared_matcher<T> is_not(shared_matcher<T> matcher) {
+    return shared_matcher<T>(new is_not_matcher<T>(matcher));
 }
 
 }  // namespace matcher

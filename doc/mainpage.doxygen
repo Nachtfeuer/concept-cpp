@@ -1,7 +1,7 @@
 /**
-    \mainpage Welcome to demo-cpp
+    \mainpage Welcome to concept-cpp
  
-    Welcome to demo-cpp a private reference repository for
+    Welcome to concept-cpp a reference repository for
     C++11 based development using cmake and providing
     headeronly implementation of - hopefully - useful things.
     Following purposes:

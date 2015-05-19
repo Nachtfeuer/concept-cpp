@@ -74,13 +74,13 @@ struct assert_statistic {
 };
 
 template <typename T>
-void assert_that(const T& expected_value, const matcher::matcher<T>& value_matcher) {
-    if (!value_matcher.check(expected_value)) {
+void assert_that(const T& expected_value, matcher::shared_matcher<T> value_matcher) {
+    if (!value_matcher->check(expected_value)) {
         ++assert_statistic::get_failed();
         std::stringstream message;
         message << expected_value
                 << " does not match "
-                << value_matcher.get_expression();
+                << value_matcher->get_expression();
         throw assertion(message.str());
     }
     ++assert_statistic::get_succeeded();

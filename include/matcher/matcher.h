@@ -40,6 +40,9 @@ class matcher {
         virtual std::string get_expression() const = 0;
 };
 
+template <typename T>
+using shared_matcher = std::shared_ptr<matcher<T>>;
+
 }  // namespace matcher
 
 #endif  // INCLUDE_MATCHER_MATCHER_H_

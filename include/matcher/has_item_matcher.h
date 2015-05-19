@@ -25,6 +25,7 @@
 
 #include <matcher/matcher.h>
 #include <algorithm>
+#include <sstream>
 
 namespace matcher {
 
@@ -35,7 +36,8 @@ class has_item_matcher : public matcher<T> {
     public:
         /// storing given value required for comparison.
         has_item_matcher(const typename T::value_type& item)
-            : m_item(item) {
+            : matcher<T>()
+            , m_item(item) {
         }
 
         /// checking container to have given item
@@ -45,7 +47,7 @@ class has_item_matcher : public matcher<T> {
         }
 
         /// @return matcher expression as string
-        std::string get_expression() const override {
+        virtual std::string get_expression() const override {
             std::stringstream expression;
             expression << "has_item(" << m_item << ")";
             return expression.str();
@@ -57,9 +59,11 @@ class has_item_matcher : public matcher<T> {
 };
 
 /// wrapper for simplifying use with assert_that statement
+/// @param item is a value of given container
+/// @return @ref matcher::has_item_matcher with given value.
 template <typename T>
-has_item_matcher<T> has_item(const typename T::value_type& item) {
-    return has_item_matcher<T>(item);
+shared_matcher<T> has_item(const typename T::value_type& item) {
+    return shared_matcher<T>(new has_item_matcher<T>(item));
 }
 
 }  // namespace matcher
