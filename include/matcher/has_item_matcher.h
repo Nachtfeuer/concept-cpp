@@ -24,6 +24,8 @@
 #define INCLUDE_MATCHER_HAS_ITEM_MATCHER_H_
 
 #include <matcher/matcher.h>
+#include <types/to_stream.h>
+
 #include <algorithm>
 #include <sstream>
 
@@ -49,7 +51,9 @@ class has_item_matcher : public matcher<T> {
         /// @return matcher expression as string
         virtual std::string get_expression() const override {
             std::stringstream expression;
-            expression << "has_item(" << m_item << ")";
+            expression << "has_item(";
+            types::to_stream<typename T::value_type>::dump(expression, m_item);
+            expression << ")";
             return expression.str();
         }
 

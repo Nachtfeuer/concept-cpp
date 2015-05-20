@@ -24,6 +24,7 @@
 #define INCLUDE_MATCHER_IS_EQUAL_MATCHER_H_
 
 #include <matcher/matcher.h>
+#include <types/to_stream.h>
 #include <sstream>
 
 namespace matcher {
@@ -46,7 +47,9 @@ class is_equal_matcher : public matcher<T> {
         /// @return matcher expression as string
         virtual std::string get_expression() const override {
             std::stringstream expression;
-            expression << "is_equal(" << m_given_value << ")";
+            expression << "is_equal(";
+            types::to_stream<T>::dump(expression, m_given_value);
+            expression << ")";
             return expression.str();
         }
 

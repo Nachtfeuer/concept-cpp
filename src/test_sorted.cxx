@@ -29,18 +29,6 @@
 using namespace unittest;
 using namespace matcher;
 
-/// providing given container as a string
-/// @return container as string representation
-/// @note not sure yet in which way to provide this for reuse.
-template <class T>
-std::string container_to_string(const T& container) {
-    std::stringstream stream;
-    for (const auto& value: container) {
-        stream << value << " ";
-    }
-    return stream.str();
-}
-
 /// testing of class @ref unittest::suite
 describe_suite("testing algorithm::sorted", [](){
     describe_test("testing sorted vector", []() {
@@ -48,8 +36,7 @@ describe_suite("testing algorithm::sorted", [](){
         const auto sorted_values = algorithm::sorted(values);
         const std::vector<int> expected_values = {1, 2, 5, 6, 7, 9};
 
-        assert_that(container_to_string(expected_values),
-                    is_equal(container_to_string(sorted_values)));
+        assert_that(expected_values, is_equal(sorted_values));
     });
 
     describe_test("testing sorted list", []() {
@@ -57,8 +44,7 @@ describe_suite("testing algorithm::sorted", [](){
         const auto sorted_values = algorithm::sorted(values);
         const std::vector<int> expected_values = {1, 2, 5, 6, 7, 9};
 
-        assert_that(container_to_string(expected_values),
-                    is_equal(container_to_string(sorted_values)));
+        assert_that(expected_values, is_equal(sorted_values));
     });
 
     describe_test("testing sorted unordered set", []() {
@@ -66,8 +52,7 @@ describe_suite("testing algorithm::sorted", [](){
         const auto sorted_values = algorithm::sorted(values);
         const std::vector<int> expected_values = {1, 2, 5, 6, 7, 9};
 
-        assert_that(container_to_string(expected_values),
-                    is_equal(container_to_string(sorted_values)));
+        assert_that(expected_values, is_equal(sorted_values));
     });
 });
 

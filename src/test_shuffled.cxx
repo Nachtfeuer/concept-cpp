@@ -23,24 +23,14 @@
 #include <unittest/unittest.h>
 #include <algorithm/sorted.h>
 #include <algorithm/shuffled.h>
+#include <query/select.h>
+
 #include <vector>
 #include <list>
 #include <set>
 
 using namespace unittest;
 using namespace matcher;
-
-/// providing given container as a string
-/// @return container as string representation
-/// @note not sure yet in which way to provide this for reuse.
-template <class T>
-std::string container_to_string(const T& container) {
-    std::stringstream stream;
-    for (const auto& value: container) {
-        stream << value << " ";
-    }
-    return stream.str();
-}
 
 /// testing of class @ref unittest::suite
 describe_suite("testing algorithm::shuffled", [](){
@@ -50,10 +40,8 @@ describe_suite("testing algorithm::shuffled", [](){
         // ensure that sorted shuffled vector is same as original
         const auto sorted_values = algorithm::sorted(shuffled_values);
 
-        assert_that(container_to_string(shuffled_values),
-                    is_not(is_equal(container_to_string(sorted_values))));
-        assert_that(container_to_string(sorted_values),
-                    is_equal(container_to_string(values)));
+        assert_that(shuffled_values, is_not(is_equal(sorted_values)));
+        assert_that(sorted_values, is_equal(values));
     });
 
     describe_test("testing shuffled list", []() {
@@ -62,10 +50,8 @@ describe_suite("testing algorithm::shuffled", [](){
         // ensure that sorted shuffled vector is same as original
         const auto sorted_values = algorithm::sorted(shuffled_values);
 
-        assert_that(container_to_string(shuffled_values),
-                    is_not(is_equal(container_to_string(sorted_values))));
-        assert_that(container_to_string(sorted_values),
-                    is_equal(container_to_string(values)));
+        assert_that(shuffled_values, is_not(is_equal(sorted_values)));
+        assert_that(sorted_values, is_equal(query::select(values).to_vector()));
     });
 
     describe_test("testing shuffled (ordered) set", []() {
@@ -74,9 +60,7 @@ describe_suite("testing algorithm::shuffled", [](){
         // ensure that sorted shuffled vector is same as original
         const auto sorted_values = algorithm::sorted(shuffled_values);
 
-        assert_that(container_to_string(shuffled_values),
-                    is_not(is_equal(container_to_string(sorted_values))));
-        assert_that(container_to_string(sorted_values),
-                    is_equal(container_to_string(values)));
+        assert_that(shuffled_values, is_not(is_equal(sorted_values)));
+        assert_that(sorted_values, is_equal(query::select(values).to_vector()));
     });
 });

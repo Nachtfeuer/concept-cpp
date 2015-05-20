@@ -1,7 +1,7 @@
 ///
 /// @author  Thomas Lehmann
-/// @file    matcher.h
-/// @brief   matcher base class and functions.
+/// @file    assert.h
+/// @brief   assertion exception, assert_that and assert_raise.
 ///
 /// Copyright (c) 2015 Thomas Lehmann
 ///
@@ -20,10 +20,11 @@
 /// DAMAGES OR OTHER LIABILITY,
 /// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-#ifndef INCLUDE_ASSERT_H_
-#define INCLUDE_ASSERT_H_
+#ifndef INCLUDE_UNITTEST_ASSERT_H_
+#define INCLUDE_UNITTEST_ASSERT_H_
 
 #include <matcher/matcher.h>
+#include <types/to_stream.h>
 
 #include <string.h>
 #include <sstream>
@@ -78,8 +79,8 @@ void assert_that(const T& expected_value, matcher::shared_matcher<T> value_match
     if (!value_matcher->check(expected_value)) {
         ++assert_statistic::get_failed();
         std::stringstream message;
-        message << expected_value
-                << " does not match "
+        types::to_stream<T>::dump(message, expected_value);
+        message << " does not match "
                 << value_matcher->get_expression();
         throw assertion(message.str());
     }
@@ -115,9 +116,7 @@ void assert_raise(const std::string& message,
         throw assertion(assertion_message.str());
     }
 }
-
-
     
 }  // namespace unittest
 
-#endif  // INCLUDE_ASSERT_H_
+#endif  // INCLUDE_UNITTEST_ASSERT_H_
