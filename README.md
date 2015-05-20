@@ -3,6 +3,7 @@ README
 
 ### Table Of Contents
 [**Welcome**](#welcome)  
+[**Quick start**](#quick-start)  
 [**Current Content**](#current-content)  
 [**Next Action Items (planned)**](#next-action-items-planned)  
 [**CMake**](#cmake)  
@@ -16,6 +17,16 @@ It's a kind of knowledge database and small test environment.
 The purpose is - of course - to keep everything clean, simple and
 well documented.
 
+Quick start
+-----------
+```
+ git clone https://github.com/Nachtfeuer/concept-cpp.git
+ cd concept-cpp
+ mkdir build
+ cd build
+ cmake ..
+ make run
+```
 
 Current Content
 ---------------
@@ -63,7 +74,6 @@ Current Content
      fields being again an object of fields to JSON format
    - minimal adjustment necessary for your custom data class.
 
-
 Next Action Items (planned)
 ---------------------------
  - unittests:
@@ -73,7 +83,6 @@ Next Action Items (planned)
  - extending hamcrest like matchers
    - for "contains" working with strings (string search)
  - singleton decorator class (remove singleton from factory).
- - providing generic plugin handling.
  - extending math namespace:
    - writing big integer class supporting different multiplication algorithms.
    - sieve of Eratosthenes (http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes).
@@ -86,21 +95,14 @@ Next Action Items (planned)
  - object serialization
    - dump/wite for container of standard types and for container of objects.
    - read from JSON
- - providing wiki for some FAQ's on the project site.
  - logging
+ - providing wiki for some FAQ's on the project site.
  - extending cmake for targeting to profile code.
+ - providing generic plugin handling.
 
 
 CMake
 -----
-Here's the minimum way to go:
-```
-  mkdir build
-  cd build
-  cmake ..
-  make
-```
-
 A list of further useful options:
 ```
  cmake -G "CodeBlocks - Unix Makefiles" ..
