@@ -12,6 +12,7 @@ before_install:
     - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8" GCOV="gcov-4.8"; fi
 
 install:
+    - sudo apt-get install libboost-dev
     - sudo apt-get install cmake
 
 before_script:
