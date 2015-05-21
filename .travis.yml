@@ -1,19 +1,21 @@
 # Travis configuration
 language: cpp
 compiler:
-    - clang
     - gcc
 
-# Install GCC 4.8.x
+# Install GCC 4.8.x and boost 1.55
 before_install:
     - if [ "$CXX" = "g++" ]; then sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y; fi
+    - if [ "$CXX" = "g++" ]; then sudo add-apt-repository -y ppa:boost-latest/ppa; fi
     - if [ "$CXX" = "g++" ]; then sudo apt-get update -qq; fi
     - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.8; fi
     - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8" GCOV="gcov-4.8"; fi
+    - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq libboost1.55-all-dev; fi
 
+# Install of cmake, graphviz and doxygen
 install:
-    - sudo apt-get install libboost-dev
     - sudo apt-get install cmake
+    - sudo apt-get -qq install graphviz doxygen
 
 before_script:
     - mkdir build
@@ -21,3 +23,10 @@ before_script:
     - cmake ..
 
 script: make run
+
+notifications:
+    email:
+        recipients:
+           - thomas.lehmann.private@gmail.com
+        on_success: always
+        on_failure: always
