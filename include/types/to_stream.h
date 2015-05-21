@@ -47,6 +47,15 @@ struct to_stream<bool> final {
     }
 };
 
+/// @class to_stream<unsigned char>
+/// @brief solves the issue print the integer value instead of the character.
+template <>
+struct to_stream<unsigned char> final {
+    static void dump(std::ostream& stream, const unsigned char& value) {
+        stream << static_cast<uint32_t>(value);
+    }
+};
+
 /// @class to_stream<std::vector<T>>
 /// @brief dumper for std::vector<T> container
 template <typename T>
