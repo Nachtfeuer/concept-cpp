@@ -3,6 +3,10 @@ language: cpp
 compiler:
     - gcc
 
+before_install:
+    - sudo apt-get update -qq
+    - sudo apt-get install -qq
+
 install:
     # installation of C++ compiler that does support c++11
     - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
@@ -27,12 +31,12 @@ install:
     - which cmake
     - cmake --version
     - which g++
-    - g++ --version
+    - g++ -v
 
 before_script:
     - mkdir build
     - cd build
-    - cmake ..
+    - cmake .. -DBOOST_ROOT=$BOOST_ROOT
 
 script: make run
 
