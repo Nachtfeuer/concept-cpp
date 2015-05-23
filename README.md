@@ -17,6 +17,10 @@ It's a kind of knowledge database and small test environment.
 The purpose is - of course - to keep everything clean, simple and
 well documented.
 
+Travis CI
+---------
+[![Build Status](https://travis-ci.org/Nachtfeuer/concept-cpp.svg?branch=master)](https://travis-ci.org/Nachtfeuer/concept-cpp)
+
 Quick start
 -----------
 ```
@@ -45,7 +49,7 @@ Current Content
    - --shuffle-tests=true   (execution of tests in random order)
    - --filter=string        (does filter for suites)
    - --format=name          ("default" or "tap")
- - pattern classes like a factory.
+ - pattern classes like a factory and singleton decorator.
  - types (special type traits)
    - is_container
  - math classes
@@ -82,7 +86,6 @@ Next Action Items (planned)
      (does repeat all suites several times).
  - extending hamcrest like matchers
    - for "contains" working with strings (string search)
- - singleton decorator class (remove singleton from factory).
  - extending math namespace:
    - writing big integer class supporting different multiplication algorithms.
    - sieve of Eratosthenes (http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes).
