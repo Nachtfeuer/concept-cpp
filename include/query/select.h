@@ -145,6 +145,30 @@ class selector final {
             return *std::max_element(values.begin(), values.end());
         }
 
+        /// @return average of all values
+        double average() const noexcept {
+            const auto values = to_vector();
+            return std::accumulate(values.begin(), values.end(), static_cast<value_type>(0))
+                 / static_cast<double>(values.size());
+        }
+
+        /// @return median of all values
+        double median() const noexcept {
+            auto values = to_vector();
+            if (values.empty()) {
+                return 0.0;
+            }
+
+            std::sort(values.begin(), values.end());
+            if (values.size() % 2 == 0) {
+                auto pos = values.size() / 2 - 1;
+                return (values[pos] + values[pos+1]) / 2.0;
+            } else {
+                auto pos = values.size() / 2;
+                return values[pos];
+            }
+        }
+
     private:
         /// reference to selected container
         const container_type& m_container;

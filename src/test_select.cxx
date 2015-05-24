@@ -147,4 +147,31 @@ describe_suite("testing query::select", [](){
         const std::vector<int> exprected_values = {3, 4, 5, 6, 7};
         assert_that(true, is_equal(exprected_values == results));
     });
+
+    /// testing of @ref query::select::average
+    describe_test("testing average for std::vector", []() {
+        const std::vector<int> values = {1, 2, 3, 4};
+        const auto result = query::select(values).average();
+
+        assert_that(2.5, is_equal(result));
+    });
+
+    /// testing of @ref query::select::median
+    describe_test("testing median for std::vector", []() {
+        const std::vector<int> values_a = {9, 4, 6, 5, 1, 2};
+        const auto result_a = query::select(values_a).median();
+        assert_that(4.5, is_equal(result_a));
+
+        const std::vector<int> values_b = {9, 4, 5, 1, 2};
+        const auto result_b = query::select(values_b).median();
+        assert_that(4.0, is_equal(result_b));
+
+        const std::vector<int> values_c = {1};
+        const auto result_c = query::select(values_c).median();
+        assert_that(1.0, is_equal(result_c));
+
+        const std::vector<int> values_d = {};
+        const auto result_d = query::select(values_d).median();
+        assert_that(0.0, is_equal(result_d));
+    });
 });

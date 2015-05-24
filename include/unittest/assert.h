@@ -23,6 +23,7 @@
 #ifndef INCLUDE_UNITTEST_ASSERT_H_
 #define INCLUDE_UNITTEST_ASSERT_H_
 
+#include <unittest/assert_statistic.h>
 #include <matcher/matcher.h>
 #include <types/to_stream.h>
 
@@ -30,7 +31,6 @@
 #include <sstream>
 #include <iostream>
 #include <stdexcept>
-#include <cstdint>
 #include <typeinfo>
 
 namespace unittest {
@@ -51,27 +51,6 @@ class assertion : public std::exception {
     private:
         /// message explaining the assertion
         const std::string m_message;
-};
-
-/// @struct assert_statistic
-/// @brief global counter for success and failure
-struct assert_statistic {
-    /// @return read/write access to success counter
-    static uint64_t& get_succeeded() noexcept {
-        static uint64_t counter = 0;
-        return counter;
-    }
-
-    /// @return read/write access to failed counter
-    static uint64_t& get_failed() noexcept {
-        static uint64_t counter = 0;
-        return counter;
-    }
-
-    /// @return total number of assert calls.
-    static uint64_t total() noexcept {
-        return get_succeeded() + get_failed();
-    }
 };
 
 template <typename T>

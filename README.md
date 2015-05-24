@@ -67,13 +67,13 @@ Current Content
  - supports code coverage report (HTML as well as Cobertura compatible XML)
  - supports cppcheck
  - object query framework like linq.
-   - you can select a std::vector and use several times
+   - you can select a std::vector, std::list or std::set and use several times
      the method 'where' to provide a filter function.
-   - provides "count", "min", "max" and "sum" method
+   - provides "count", "min", "max", "sum", "average" and "median" method
    - provides possibility to transform values by registering
      as many transform functions as you like.
    - extending given "where" clause to allow use of matcher
- - object serialization (started - consider this as experimental please)
+ - object serialization (started - consider this as **experimental** please)
    - can dump simple objects with field of standard types and
      fields being again an object of fields to JSON format
    - minimal adjustment necessary for your custom data class.
@@ -81,9 +81,11 @@ Current Content
 Next Action Items (planned)
 ---------------------------
  - unittests:
-   - providing an option --stop-on-error
+   - providing new option --stop-on-error
    - providing new option --repeat-count for runner.
      (does repeat all suites several times).
+   - output: number of test (filter/all)
+   - output: duration of all tests
  - extending hamcrest like matchers
    - for "contains" working with strings (string search)
  - extending math namespace:
@@ -93,11 +95,11 @@ Next Action Items (planned)
    - calculating PI (configurable precision)
    - different mulitplication algorithms
    - fractions: reduce to lowest term by using gcd
- - object query framework like linq.
-   - adding 'average' and 'median'
  - object serialization
    - dump/wite for container of standard types and for container of objects.
    - read from JSON
+ - generator concept:
+   - generator::range(from, to, step, functor)
  - logging
  - providing wiki for some FAQ's on the project site.
  - extending cmake for targeting to profile code.
