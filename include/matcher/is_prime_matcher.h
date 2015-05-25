@@ -1,7 +1,7 @@
 ///
 /// @author  Thomas Lehmann
-/// @file    unittest.h
-/// @brief   providing unit test tools.
+/// @file    is_prime_matcher.h
+/// @brief   matcher for checking a value to be a prime number
 ///
 /// Copyright (c) 2015 Thomas Lehmann
 ///
@@ -20,40 +20,41 @@
 /// DAMAGES OR OTHER LIABILITY,
 /// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-#ifndef INCLUDE_UNITTEST_H_
-#define INCLUDE_UNITTEST_H_
-
-#include <functional>
-#include <string>
-#include <cstdint>
-#include <iostream>
-
-#include <unittest/runner.h>
-#include <unittest/assert.h>
+#ifndef INCLUDE_MATCHER_IS_PRIME_MATCHER_H_
+#define INCLUDE_MATCHER_IS_PRIME_MATCHER_H_
 
 #include <matcher/matcher.h>
-#include <matcher/is_equal_matcher.h>
-#include <matcher/is_not_matcher.h>
-#include <matcher/is_range_matcher.h>
-#include <matcher/has_item_matcher.h>
-#include <matcher/is_prime_matcher.h>
+#include <math/prime/is_prime.h>
 
-namespace unittest {
+namespace matcher {
 
-static void describe_test(const std::string& name, std::function<void()> test_function) {
-    runner::get().register_test(name, test_function);
-}
+/// @class is_prime_matcher
+/// @brief matcher for checking a value to be a prime number
+template <typename T>
+class is_prime_matcher : public matcher<T> {
+    public:
+        /// default c'tor
+        is_prime_matcher()
+            : matcher<T>() {}
 
-struct suite_proxy {
-    suite_proxy(const std::string& name, std::function<void ()> suite_function) {
-        runner::get().register_suite(name, suite_function);
-    }
+        /// @return true when value is a prime.
+        /// @see @ref math::prime::is_prime
+        virtual bool check(const T& expected_value) const override {
+            return math::prime::is_prime(expected_value);
+        }
+
+        /// @return matcher expression as string
+        virtual std::string get_expression() const override {
+            return "is_prime()";
+        }
 };
 
-}  // namespace unittest
+/// wrapper for simplifying use with assert_that statement
+template <typename T>
+shared_matcher<T> is_prime() {
+    return shared_matcher<T>(new is_prime_matcher<T>);
+}
 
-#define describe_suite \
-    static suite_proxy suite_proxy_instance
+}  // namespace matcher
 
-#endif   // INCLUDE_UNITTEST_H_
-
+#endif  // INCLUDE_MATCHER_IS_PRIME_MATCHER_H_

@@ -1,7 +1,7 @@
 ///
 /// @author  Thomas Lehmann
-/// @file    unittest.h
-/// @brief   providing unit test tools.
+/// @file    is_prime.h
+/// @brief   is prime checker
 ///
 /// Copyright (c) 2015 Thomas Lehmann
 ///
@@ -20,40 +20,40 @@
 /// DAMAGES OR OTHER LIABILITY,
 /// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-#ifndef INCLUDE_UNITTEST_H_
-#define INCLUDE_UNITTEST_H_
+#ifndef INCLUDE_MATH_PRIME_IS_PRIME_H_
+#define INCLUDE_MATH_PRIME_IS_PRIME_H_
 
-#include <functional>
-#include <string>
-#include <cstdint>
-#include <iostream>
+#include <cmath>
 
-#include <unittest/runner.h>
-#include <unittest/assert.h>
+namespace math {
+namespace prime {
 
-#include <matcher/matcher.h>
-#include <matcher/is_equal_matcher.h>
-#include <matcher/is_not_matcher.h>
-#include <matcher/is_range_matcher.h>
-#include <matcher/has_item_matcher.h>
-#include <matcher/is_prime_matcher.h>
+/// @param value value to be checked
+/// @return true when given value is a prime
+/// @note for really big numbers or for creating a list of primes
+///       consider to use a sieve algorithms. This algorithm is
+///       rather slow.
+template <typename T>
+inline bool is_prime(const T& value) noexcept {
+    if (value < 2) {
+        return false;
+    }
 
-namespace unittest {
+    if (value % 2 == 0) {
+        return value == 2;
+    }
 
-static void describe_test(const std::string& name, std::function<void()> test_function) {
-    runner::get().register_test(name, test_function);
+    const auto limit = static_cast<T>(sqrt(value));
+    for (T divisor = 3; divisor <= limit; divisor += 2) {
+        if (value % divisor == 0) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
-struct suite_proxy {
-    suite_proxy(const std::string& name, std::function<void ()> suite_function) {
-        runner::get().register_suite(name, suite_function);
-    }
-};
+}  // namespace prime
+}  // namespace math
 
-}  // namespace unittest
-
-#define describe_suite \
-    static suite_proxy suite_proxy_instance
-
-#endif   // INCLUDE_UNITTEST_H_
-
+#endif  // INCLUDE_MATH_PRIME_IS_PRIME_H_

@@ -54,7 +54,7 @@ class assertion : public std::exception {
 };
 
 template <typename T>
-void assert_that(const T& expected_value, matcher::shared_matcher<T> value_matcher) {
+void assert_that(const T& expected_value, typename matcher::shared_matcher<T> value_matcher) {
     if (!value_matcher->check(expected_value)) {
         ++assert_statistic::get_failed();
         std::stringstream message;
