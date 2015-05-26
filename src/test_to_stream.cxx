@@ -40,6 +40,12 @@ describe_suite("testing types::to_stream<T>", [](){
         assert_that(std::string("false"), is_equal(stream.str()));
     });
 
+    describe_test("testing to_stream<unsigned char>", []() {
+        std::stringstream stream;
+        types::to_stream<unsigned char>::dump(stream, 7);
+        assert_that(std::string("7"), is_equal(stream.str()));
+    });
+
     describe_test("testing to_stream<std::vector<int>>", []() {
         const std::vector<int> values = {2, 4, 6, 8};
         std::stringstream stream;

@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 2.8 FATAL_ERROR)
 add_definitions("-std=c++11 -Wall -Wextra -pedantic -Weffc++ -Wnon-virtual-dtor")
 
 project(concept)
-set(VERSION "0.15.0")
+set(VERSION "0.16.0")
 set(MINIMUM_BOOST_VERSION "1.54")
 enable_testing()
 
@@ -55,6 +55,7 @@ install(DIRECTORY include/unittest     DESTINATION include/${PROJECT_NAME})
 install(DIRECTORY include/algorithm    DESTINATION include/${PROJECT_NAME})
 install(DIRECTORY include/matcher      DESTINATION include/${PROJECT_NAME})
 install(DIRECTORY include/query        DESTINATION include/${PROJECT_NAME})
+install(DIRECTORY include/generator    DESTINATION include/${PROJECT_NAME})
 install(DIRECTORY include/document     DESTINATION include/${PROJECT_NAME})
 
 configure_file(README.package README.package COPYONLY)

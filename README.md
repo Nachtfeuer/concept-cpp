@@ -1,6 +1,8 @@
 README
 ======
 
+[![Build Status](https://travis-ci.org/Nachtfeuer/concept-cpp.svg?branch=master)](https://travis-ci.org/Nachtfeuer/concept-cpp)
+
 ### Table Of Contents
 [**Welcome**](#welcome)  
 [**Quick start**](#quick-start)  
@@ -16,10 +18,6 @@ Welcome to the README of my personal C++11/cmake reference project.
 It's a kind of knowledge database and small test environment.
 The purpose is - of course - to keep everything clean, simple and
 well documented.
-
-Travis CI
----------
-[![Build Status](https://travis-ci.org/Nachtfeuer/concept-cpp.svg?branch=master)](https://travis-ci.org/Nachtfeuer/concept-cpp)
 
 Quick start
 -----------
@@ -73,6 +71,8 @@ Current Content
    - provides possibility to transform values by registering
      as many transform functions as you like.
    - extending given "where" clause to allow use of matcher
+ - generator framework (range based) working same way
+   as the object query framework
  - object serialization (started - consider this as **experimental** please)
    - can dump simple objects with field of standard types and
      fields being again an object of fields to JSON format
@@ -98,8 +98,6 @@ Next Action Items (planned)
  - object serialization
    - dump/wite for container of standard types and for container of objects.
    - read from JSON
- - generator concept:
-   - generator::range(from, to, step, functor)
  - logging
  - providing wiki for some FAQ's on the project site.
  - extending cmake for targeting to profile code.

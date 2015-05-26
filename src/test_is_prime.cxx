@@ -58,5 +58,8 @@ describe_suite("testing math::prime::is_prime", []() {
         assert_that(9, is_not(is_prime<int>()));
         assert_that(10, is_not(is_prime<int>()));
         assert_that(11, is_prime<int>());
+
+        const is_prime_matcher<int> the_matcher;
+        assert_that(std::string("is_prime()"), is_equal(the_matcher.get_expression()));
     });
 });
