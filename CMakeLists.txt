@@ -49,12 +49,12 @@ if(GCOV)
     set(COVERAGE_FLAGS "-fprofile-arcs -ftest-coverage")
     # Setting up gcc coverage flags and libraries
     if(USING_GCC)
-        string(CONCAT COVERAGE_FLAGS "--coverage " ${COVERAGE_FLAGS})
+        set(COVERAGE_FLAGS "--coverage ${COVERAGE_FLAGS}")
         target_link_libraries(${PROJECT_NAME} gcov)
     endif(USING_GCC)
     # Setting up clang coverage linger flags
     if(USING_CLANG)
-        string(CONCAT PROFILE_LINK_FLAGS ${LINK_FLAGS} ${COVERAGE_FLAGS})
+        set(PROFILE_LINK_FLAGS "${LINK_FLAGS} ${COVERAGE_FLAGS}")
         set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS ${PROFILE_LINK_FLAGS})
     endif(USING_CLANG)
     # Adding definitions

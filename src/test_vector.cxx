@@ -77,7 +77,7 @@ describe_suite("testing math::vector", [](){
     });
 
     describe_test("testing normed vector", []() {
-        const math::vector v1 = {3.0, 4.0};
+        math::vector v1 = {3.0, 4.0};
         assert_that(math::vector(0.6, 0.8), is_equal(v1.normed()));
     });
 

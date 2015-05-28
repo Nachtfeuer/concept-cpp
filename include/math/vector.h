@@ -67,7 +67,7 @@ class vector final {
         }
 
         /// providing normed vector
-        constexpr vector normed() const noexcept {
+        vector normed() noexcept {
             return vector(m_x / length(), m_y / length());
         }
 
