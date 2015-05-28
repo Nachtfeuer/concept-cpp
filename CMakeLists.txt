@@ -8,11 +8,16 @@ enable_testing()
 
 option(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" OFF)
 
+string(COMPARE EQUAL ${CMAKE_CXX_COMPILER_ID} "GNU" USING_GCC)
+string(COMPARE EQUAL ${CMAKE_CXX_COMPILER_ID} "Clang" USING_CLANG)
+
 find_program(GCOV gcov)
 find_program(LCOV lcov)
 find_program(GCOVR gcovr)
 find_program(GENHTML genhtml)
 find_program(CPPCHECK cppcheck)
+find_program(VALGRIND valgrind)
+
 find_package(Doxygen)
 find_package(Boost ${MINIMUM_BOOST_VERSION} COMPONENTS program_options regex REQUIRED)
 
@@ -23,7 +28,12 @@ file(GLOB TEST_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/test*.cxx)
 
 add_executable(${PROJECT_NAME} src/main.cxx ${TEST_SRC})
 target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES})
-target_link_libraries(${PROJECT_NAME} stdc++)
+
+# We don't need to explictly link standard library when using clang
+if(!USING_CLANG)
+    target_link_libraries(${PROJECT_NAME} stdc++)
+endif(!USING_CLANG)
+
 add_test(test ${PROJECT_NAME})
 
 if(LCOV)
@@ -36,8 +46,19 @@ endif(GCOVR)
 
 if(GCOV)
     message("-- Found GCOV: ${GCOV}")
-    add_definitions("--coverage -fprofile-arcs -ftest-coverage")
-    target_link_libraries(${PROJECT_NAME} gcov)
+    set(COVERAGE_FLAGS "-fprofile-arcs -ftest-coverage")
+    # Setting up gcc coverage flags and libraries
+    if(USING_GCC)
+        string(CONCAT COVERAGE_FLAGS "--coverage " ${COVERAGE_FLAGS})
+        target_link_libraries(${PROJECT_NAME} gcov)
+    endif(USING_GCC)
+    # Setting up clang coverage linger flags
+    if(USING_CLANG)
+        string(CONCAT PROFILE_LINK_FLAGS ${LINK_FLAGS} ${COVERAGE_FLAGS})
+        set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS ${PROFILE_LINK_FLAGS})
+    endif(USING_CLANG)
+    # Adding definitions
+    add_definitions(${COVERAGE_FLAGS})
 endif(GCOV)
 
 if(GENHTML)
@@ -47,6 +68,10 @@ endif(GENHTML)
 if(CPPCHECK)
     message("-- Found CPPCHECK: ${CPPCHECK}")
 endif(CPPCHECK)
+
+if(VALGRIND)
+    message("-- Found VALGRIND: ${VALGRIND}")
+endif(VALGRIND)
 
 install(DIRECTORY include/math         DESTINATION include/${PROJECT_NAME})
 install(DIRECTORY include/pattern      DESTINATION include/${PROJECT_NAME})
@@ -88,14 +113,18 @@ endif(BUILD_DOCUMENTATION)
 # check command workaround that 'test' does not build the binary.
 add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} DEPENDS ${PROJECT_NAME})
 add_custom_target(run COMMAND ${PROJECT_NAME} DEPENDS ${PROJECT_NAME})
-add_custom_target(memcheck COMMAND valgrind --leak-check=full ${CMAKE_BINARY_DIR}/${PROJECT_NAME}
-                  DEPENDS ${PROJECT_NAME})
+
+if(VALGRIND)
+    add_custom_target(memcheck COMMAND valgrind --leak-check=full ${CMAKE_BINARY_DIR}/${PROJECT_NAME}
+                      DEPENDS ${PROJECT_NAME})
+endif(VALGRIND)
+
 add_custom_target(clear-coverage
     COMMAND find ${CMAKE_BINARY_DIR} -name "*.gcno" | xargs -i rm -f {}
     COMMAND find ${CMAKE_BINARY_DIR} -name "*.gcda" | xargs -i rm -f {})
 
 if(GCOV AND LCOV AND GENHTML AND GCOVR)
-    add_custom_target(coverage 
+    add_custom_target(coverage
            COMMAND mkdir -p ${CMAKE_BINARY_DIR}/coverage
            COMMAND ${LCOV} --capture
                            --no-external
@@ -124,6 +153,4 @@ if(CPPCHECK)
                             --std=c++11
                             ${CMAKE_CURRENT_SOURCE_DIR})
 endif(CPPCHECK)
-
-
 

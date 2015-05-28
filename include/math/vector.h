@@ -47,7 +47,7 @@ class vector final {
         }
 
         /// length of vector
-        constexpr double length() const noexcept {
+        double length() const noexcept {
             return sqrt(m_x * m_x + m_y * m_y);
         }
 
@@ -76,7 +76,8 @@ class vector final {
             return vector(m_x * factor, m_y * factor);
         }
 
-        constexpr double angle(const vector& other) const {
+        /// providing angle between two vectors
+        double angle(const vector& other) const {
             return (180.0/M_PI) * acos(scalar_product(other) / (length() * other.length()));
         }
 

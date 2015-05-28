@@ -24,6 +24,7 @@
 #define INCLUDE_SHUFFLE_H_
 
 #include <algorithm>
+#include <random>
 
 namespace algorithm {
 

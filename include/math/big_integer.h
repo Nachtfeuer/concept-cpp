@@ -54,7 +54,7 @@ class big_integer {
         /// @return this to allow to continue with further operations.
         /// @note for the moment we create an implementation each call
         ///       which will be changed.
-        const big_integer& operator += (const big_integer& rhs) noexcept {
+        const big_integer& operator += (const big_integer& rhs) {
             auto operation = factory::get().create_instance(int(big_integer_operation::SUM));
             if (!operation) {
                 throw std::runtime_error("Missing SUM implementation!");

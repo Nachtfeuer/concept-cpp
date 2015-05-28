@@ -28,6 +28,7 @@
 using namespace unittest;
 using namespace matcher;
 
+// This suite directly depends on CPU power!!!
 describe_suite("testing performance functions", [](){
     describe_test("testing performance::measure (milliseconds)", []() {
         const auto duration = performance::measure<std::milli>([]() {
@@ -35,7 +36,7 @@ describe_suite("testing performance functions", [](){
             std::this_thread::sleep_for(std::chrono::duration<double, std::milli>(100));
         });
 
-        assert_that(duration, is_range(100.0, 103.0));
+        assert_that(duration, is_range(100.0, 105.0));
     });
 
     describe_test("testing performance::measure (microseconds)", []() {
@@ -44,7 +45,7 @@ describe_suite("testing performance functions", [](){
             std::this_thread::sleep_for(std::chrono::duration<double, std::milli>(100));
         });
 
-        assert_that(duration, is_range(100000.0, 103000.0));
+        assert_that(duration, is_range(100000.0, 105000.0));
     });
 
     describe_test("testing performance::measure (seconds)", []() {
@@ -53,7 +54,7 @@ describe_suite("testing performance functions", [](){
             std::this_thread::sleep_for(std::chrono::duration<double, std::milli>(100));
         });
 
-        assert_that(duration, is_range(0.100, 0.103));
+        assert_that(duration, is_range(0.100, 0.105));
     });
 });
 

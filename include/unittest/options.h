@@ -23,6 +23,7 @@
 #ifndef INCLUDE_UNTTEST_OPTIONS_H_
 #define INCLUDE_UNTTEST_OPTIONS_H_
 
+#include <iostream>
 #include <boost/program_options.hpp>
 
 namespace unittest {
