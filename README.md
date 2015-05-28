@@ -55,6 +55,7 @@ Current Content
    - fibonacci algorithm (http://en.wikipedia.org/wiki/Fibonacci_number).
    - power of 2 algorithm.
    - fraction
+   - is_prime and sieve_of_eratosthenes
  - document class
    - started with text document using regex for queries like word count.
      (using boost::regex)
@@ -90,7 +91,6 @@ Next Action Items (planned)
    - for "contains" working with strings (string search)
  - extending math namespace:
    - writing big integer class supporting different multiplication algorithms.
-   - sieve of Eratosthenes (http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes).
    - different ways to calculate primes
    - calculating PI (configurable precision)
    - different mulitplication algorithms
