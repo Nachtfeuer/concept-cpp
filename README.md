@@ -65,7 +65,9 @@ Current Content
      - is_prime and sieve_of_eratosthenes
    - number functions
      - triangle, is_triangle, pentagonal, is_pentagonal, hexagonal, is_hexagonal
-     - is_square, is_abundant, is_perfect
+     - is_square, is_abundant, is_perfect, is_pandigital
+   - digit functions
+     - count, sum, is_pandigital
  - document class
    - started with text document using regex for queries like word count.
      (using boost::regex)

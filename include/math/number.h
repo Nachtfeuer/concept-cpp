@@ -24,6 +24,7 @@
 #define INCLUDE_MATH_NUMBER_H_
 
 #include <math/factorization.h>
+#include <math/digits.h>
 #include <algorithm>
 #include <cmath>
 
@@ -111,6 +112,13 @@ struct number final {
     inline static bool is_hexagonal(const T number) noexcept {
         const auto value = (sqrt(8 * number + 1) + 1) / 4.0;
         return value == static_cast<T>(value);
+    }
+
+    /// Checks that each digit exists once only.
+    /// @return true when given number is pandigital
+    /// @see @ref math::digits::is_pandigital
+    inline static bool is_pandigital(const T number) noexcept {
+        return digits<T>::is_pandigital(number);
     }
 };
 

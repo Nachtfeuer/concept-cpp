@@ -134,5 +134,17 @@ describe_suite("testing math::number", [](){
         assert_that(true, is_not(is_equal(math::number<int>::is_hexagonal(50))));
         assert_that(true, is_not(is_equal(math::number<int>::is_hexagonal(200))));
     });
+
+    describe_test("testing is_pandigital", []() {
+        // positive check
+        assert_that(true, is_equal(math::number<int>::is_pandigital(123456789)));
+        assert_that(true, is_equal(math::number<int>::is_pandigital(12345)));
+        assert_that(true, is_equal(math::number<int>::is_pandigital(1230)));
+
+        // negtive check
+        assert_that(false, is_equal(math::number<int>::is_pandigital(123445)));
+        assert_that(false, is_equal(math::number<int>::is_pandigital(123445)));
+        assert_that(false, is_equal(math::number<int>::is_pandigital(123005)));
+    });
 });
 

@@ -1,7 +1,7 @@
 ///
 /// @author  Thomas Lehmann
-/// @file    factorization.h
-/// @brief   factorization algorithms
+/// @file    digits.h
+/// @brief   digit algorithms
 ///
 /// Copyright (c) 2015 Thomas Lehmann
 ///
@@ -20,43 +20,53 @@
 /// DAMAGES OR OTHER LIABILITY,
 /// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-#ifndef INCLUDE_MATH_FACTORIZATION_H_
-#define INCLUDE_MATH_FACTORIZATION_H_
-
-#include <vector>
+#ifndef INCLUDE_MATH_DIGITS_H_
+#define INCLUDE_MATH_DIGITS_H_
 
 namespace math {
 
-/// @struct factorization
+/// @struct digits
 template <typename T>
-struct factorization final {
-    /// type of container of values
-    using container_type = std::vector<T>;
-
-    /// The divisors for 10 are 1, 2, 5 and 10.
-    /// @param value [in] value for which to find all factors
-    /// @param divisors [out] found divisors
-    inline static void probe(const T value, container_type& divisors) noexcept {
-        const auto limit = value / 2;
-
-        divisors.clear();
-        divisors.push_back(1);
-
-        for (auto divisor = 2; divisor <= limit; ++divisor) {
-            if (value % divisor == 0) {
-                divisors.push_back(divisor);
-            }
+struct digits final {
+    /// @return sum of digits
+    inline static T sum(const T number) noexcept {
+        auto result = T(0);
+        for (auto n = number; n != 0; n /= 10) {
+            result += n % 10;
         }
-
-        if (1 != value) {
-            divisors.push_back(value);
-        }
+        return result;
     }
 
-    /// we don't want to have instantiation
-    factorization() = delete;
+    /// @return number of digits
+    inline static T count(const T number) noexcept {
+        if (0 == number) {
+            return 1;
+        }
+
+        auto result = T(0);
+        for (auto n = number; n != 0; n /= 10) {
+            ++result;
+        }
+        return result;
+    }
+
+    /// Checks that each digit appears once only
+    /// @return true when given number is pandigital
+    /// @see http://en.wikipedia.org/wiki/Pandigital_number
+    inline static bool is_pandigital(const T number) noexcept {
+        std::set<unsigned char> digits;
+        for (auto n = number; n != 0; n /= 10) {
+            digits.insert(n % 10);
+        }
+
+        return count(number) == digits.size();
+    }
+
+
+    /// instantiation is not wanted
+    digits() = delete;
 };
 
 }  // namespace math
 
-#endif  // INCLUDE_MATH_FACTORIZATION_H_
+#endif  // INCLUDE_MATH_DIGITS_H_
