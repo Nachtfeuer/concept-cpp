@@ -50,7 +50,7 @@ describe_suite("testing math::line", [](){
 
     /// testing @ref math::line::length
     describe_test("testing line length", []() {
-        const math::line l{math::vector{1.0, 2.0}, math::vector{3.0, 4.0}};
+        math::line l{math::vector{1.0, 2.0}, math::vector{3.0, 4.0}};
         assert_that(5.0, is_equal(l.length()));
     });
 

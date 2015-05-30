@@ -51,7 +51,7 @@ class line final {
         }
 
         /// length of line
-        constexpr double length() const noexcept {
+        double length() noexcept {
             return m_direction.length();
         }
 
