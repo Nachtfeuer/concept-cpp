@@ -1,7 +1,7 @@
 ///
 /// @author  Thomas Lehmann
-/// @file    matcher.h
-/// @brief   matcher base class and functions.
+/// @file    test_factorization.cxx
+/// @brief   testing of @ref math::factorization
 ///
 /// Copyright (c) 2015 Thomas Lehmann
 ///
@@ -20,30 +20,23 @@
 /// DAMAGES OR OTHER LIABILITY,
 /// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-#ifndef INCLUDE_MATCHER_MATCHER_H_
-#define INCLUDE_MATCHER_MATCHER_H_
+#include <unittest/unittest.h>
+#include <math/factorization.h>
 
-#include <string>
-#include <memory>
+using namespace unittest;
+using namespace matcher;
 
-namespace matcher {
+using DIVISORS = math::factorization<int>::container_type;
 
-/// @class matcher
-/// @brief matcher base class and functions.
-template <typename T>
-class matcher {
-    public:
-        /// providing default d'tor for derived classes
-        virtual ~matcher() = default;
-        /// @return true when expected value does match
-        virtual bool check(const T& expected_value) const = 0;
-        /// @return chain of matchers as readable string expression
-        virtual std::string get_expression() const = 0;
-};
+/// testing of class @ref math::factorization
+describe_suite("testing math::factorization", [](){
+    describe_test("testing probe", []() {
+        DIVISORS divisors;
 
-template <typename T>
-using shared_matcher = std::shared_ptr<matcher<T>>;
+        math::factorization<int>::probe(24, divisors);
+        assert_that(DIVISORS({1, 2, 3, 4, 6, 8, 12, 24}), is_equal(divisors));
+        math::factorization<int>::probe(100, divisors);
+        assert_that(DIVISORS({1, 2, 4, 5, 10, 20, 25, 50, 100}), is_equal(divisors));
+    });
+});
 
-}  // namespace matcher
-
-#endif  // INCLUDE_MATCHER_MATCHER_H_

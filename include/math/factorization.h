@@ -1,7 +1,7 @@
 ///
 /// @author  Thomas Lehmann
-/// @file    matcher.h
-/// @brief   matcher base class and functions.
+/// @file    factorizatioon.h
+/// @brief   factorization algorithms
 ///
 /// Copyright (c) 2015 Thomas Lehmann
 ///
@@ -20,30 +20,43 @@
 /// DAMAGES OR OTHER LIABILITY,
 /// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-#ifndef INCLUDE_MATCHER_MATCHER_H_
-#define INCLUDE_MATCHER_MATCHER_H_
+#ifndef INCLUDE_MATH_FACTORIZATION_H_
+#define INCLUDE_MATH_FACTORIZATION_H_
 
-#include <string>
-#include <memory>
+#include <vector>
 
-namespace matcher {
+namespace math {
 
-/// @class matcher
-/// @brief matcher base class and functions.
+/// @struct factorization
 template <typename T>
-class matcher {
-    public:
-        /// providing default d'tor for derived classes
-        virtual ~matcher() = default;
-        /// @return true when expected value does match
-        virtual bool check(const T& expected_value) const = 0;
-        /// @return chain of matchers as readable string expression
-        virtual std::string get_expression() const = 0;
+struct factorization final {
+    /// type of container of values
+    using container_type = std::vector<T>;
+
+    /// The divisors for 10 are 1, 2, 5 and 10.
+    /// @param value [in] value for which to find all factors
+    /// @param divisors [out] found divisors
+    inline static void probe(const T value, container_type& divisors) noexcept {
+        const auto limit = value / 2;
+
+        divisors.clear();
+        divisors.push_back(1);
+
+        for (auto divisor = 2; divisor <= limit; ++divisor) {
+            if (value % divisor == 0) {
+                divisors.push_back(divisor);
+            }
+        }
+
+        if (1 != value) {
+            divisors.push_back(value);
+        }
+    }
+
+    /// we don't want to have instantiation
+    factorization() = delete;
 };
 
-template <typename T>
-using shared_matcher = std::shared_ptr<matcher<T>>;
+}  // namespace math
 
-}  // namespace matcher
-
-#endif  // INCLUDE_MATCHER_MATCHER_H_
+#endif  // INCLUDE_MATH_FACTORIZATION_H_

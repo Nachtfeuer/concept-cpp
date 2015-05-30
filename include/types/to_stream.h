@@ -1,7 +1,7 @@
 ///
 /// @author  Thomas Lehmann
 /// @file    to_stream.h
-/// @brief   
+/// @brief
 ///
 /// Copyright (c) 2015 Thomas Lehmann
 ///
@@ -26,6 +26,7 @@
 #include <vector>
 #include <list>
 #include <set>
+#include <iostream>
 
 namespace types {
 

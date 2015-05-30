@@ -34,9 +34,9 @@ using namespace matcher;
 describe_suite("testing math::prime::sieve_of_eratosthenes", [](){
     // keeping the calculation of sieve outside of the
     // test function to be excluded from the time measurement
-    constexpr auto max_number = 5000;
-    math::prime::sieve_of_eratosthenes<std::vector<bool>> sieve(max_number);
-    sieve.calculate();
+    constexpr auto global_max_number = 5000;
+    math::prime::sieve_of_eratosthenes<std::vector<bool>> global_sieve(global_max_number);
+    global_sieve.calculate();
 
     describe_test("testing sieve 5000 (compared with is_prime)", []() {
         constexpr auto max_number = 5000;
@@ -48,9 +48,9 @@ describe_suite("testing math::prime::sieve_of_eratosthenes", [](){
         }
     });
 
-    describe_test("testing sieve (captured) 5000 (compared with is_prime)", [sieve]() {
-        for (auto number = 0; number <= max_number; ++number) {
-            assert_that(math::prime::is_prime(number), is_equal(sieve.is_prime(number)));
+    describe_test("testing sieve (captured) 5000 (compared with is_prime)", [global_sieve]() {
+        for (auto number = 0; number <= global_max_number; ++number) {
+            assert_that(math::prime::is_prime(number), is_equal(global_sieve.is_prime(number)));
         }
     });
 
@@ -61,9 +61,9 @@ describe_suite("testing math::prime::sieve_of_eratosthenes", [](){
         assert_that(true, is_equal(sieve.is_prime(99991)));
     });
 
-    describe_test("testing prime generator (first ten)", [sieve]() {
+    describe_test("testing prime generator (first ten)", [global_sieve]() {
         auto primes = generator::select(1, 25, 1)
-            .where([&sieve](int number) {return sieve.is_prime(number);})
+            .where([&global_sieve](int number) {return global_sieve.is_prime(number);})
             .to_vector();
 
         const std::vector<int> expected = {2, 3, 5, 7, 11, 13, 17, 19, 23};

@@ -86,8 +86,8 @@ class selector final {
         /// register a transform function
         /// @return selector to continue with further operations on it.
         /// @note all transformations are done in order of executions
-        selector& transform(transform_function_type transform) noexcept {
-            m_transforms.push_back(transform);
+        selector& transform(transform_function_type transform_func) noexcept {
+            m_transforms.push_back(transform_func);
             return *this;
         }
 
@@ -110,8 +110,8 @@ class selector final {
 
                 if (!ignore) {
                     auto value = it;
-                    for (const auto& transform: m_transforms) {
-                        transform(value);
+                    for (const auto& transform_func: m_transforms) {
+                        transform_func(value);
                     }
 
                     results.push_back(value);
