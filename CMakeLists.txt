@@ -3,7 +3,7 @@ add_definitions("-std=c++11 -Wall -Wextra -pedantic")
 add_definitions("-Weffc++ -Wnon-virtual-dtor -Wshadow")
 
 project(concept)
-set(VERSION "0.19.0")
+set(VERSION "0.20.0")
 set(MINIMUM_BOOST_VERSION "1.54")
 enable_testing()
 
@@ -116,8 +116,9 @@ add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} DEPENDS ${PROJECT_NAME})
 add_custom_target(run COMMAND ${PROJECT_NAME} DEPENDS ${PROJECT_NAME})
 
 if(VALGRIND)
-    add_custom_target(memcheck COMMAND valgrind --leak-check=full ${CMAKE_BINARY_DIR}/${PROJECT_NAME}
-                      DEPENDS ${PROJECT_NAME})
+    add_custom_target(memcheck COMMAND valgrind
+                      --leak-check=full --leak-resolution=high --show-leak-kinds=all --track-origins=yes
+                      ${CMAKE_BINARY_DIR}/${PROJECT_NAME} DEPENDS ${PROJECT_NAME})
 endif(VALGRIND)
 
 add_custom_target(clear-coverage

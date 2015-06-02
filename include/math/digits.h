@@ -23,6 +23,8 @@
 #ifndef INCLUDE_MATH_DIGITS_H_
 #define INCLUDE_MATH_DIGITS_H_
 
+#include <set>
+
 namespace math {
 
 /// @struct digits

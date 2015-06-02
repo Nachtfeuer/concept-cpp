@@ -29,6 +29,8 @@
 #include <unordered_map>
 #include <iostream>
 #include <sstream>
+#include <type_traits>
+#include <limits>
 #include <cstdint>
 
 namespace math {
@@ -45,9 +47,16 @@ class big_integer {
             : m_digits() {
         }
 
-        /// init c'tor
+        /// init c'tor for a container with digits
         big_integer(const digits_type& digits)
             : m_digits(digits) {
+        }
+
+        /// init c'tor for a standard integer
+        template <typename T>
+        big_integer(const T value)
+            : m_digits() {
+            assign(value);
         }
 
         /// adding another big integer to given value
@@ -64,9 +73,38 @@ class big_integer {
             return *this;
         }
 
+        /// multiplication of two big integer
+        /// @return this to allow to continue with further operations.
+        /// @note for the moment we create an implementation each call
+        ///       which will be changed.
+        const big_integer& operator *= (const big_integer& rhs) {
+            auto operation = factory::get().create_instance(int(big_integer_operation::MULTIPLICATION));
+            if (!operation) {
+                throw std::runtime_error("Missing MULTIPLICATION implementation!");
+            }
+
+            operation->calculate(m_digits, rhs.m_digits);
+            return *this;
+        }
+
+        /// Assigning a "normal" integer to the big integer class
+        /// @return this to allow to continue with further operations.
+        template <typename T>
+        const big_integer& operator = (const T value) {
+            assign(value);
+            return *this;
+        }
+
+        /// sum of two big integer
         /// @return sum of two big integer
         friend big_integer operator + (const big_integer& lhs, const big_integer& rhs) {
             return big_integer(lhs) += rhs;
+        }
+
+        /// multiplication of two big integer
+        /// @return product of two big integer
+        friend big_integer operator * (const big_integer& lhs, const big_integer& rhs) {
+            return big_integer(lhs) *= rhs;
         }
 
         /// dumping big integer content to stream
@@ -101,6 +139,17 @@ class big_integer {
         }
 
     private:
+
+        template <typename T>
+        inline void assign(const T value) noexcept {
+            static_assert(std::numeric_limits<T>::is_integer, "integer values allowed only");
+            
+            m_digits.clear();
+            for (auto digits = value; digits != 0; digits /= 10) {
+                m_digits.push_back(digits % 10);
+            }
+        }
+
         /// stored digits
         digits_type m_digits;
 };

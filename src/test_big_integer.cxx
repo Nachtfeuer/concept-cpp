@@ -23,6 +23,7 @@
 #include <unittest/unittest.h>
 #include <math/big_integer.h>
 #include <math/big_integer_sum.h>
+#include <math/big_integer_multiplication.h>
 
 using namespace unittest;
 using namespace matcher;
@@ -79,6 +80,26 @@ describe_suite("testing math::big_integer", [](){
         const math::big_integer bia = math::digits_type{4, 2, 0, 1};
         const math::big_integer bib = math::digits_type{1, 0, 2, 4};
         assert_that(std::string("5225"), is_equal((bia+bib).to_string()));
+    });
+
+    describe_test("testing assigning a standard integer", []() {
+        const math::big_integer bi = 1234567890;
+        assert_that(std::string("1234567890"), is_equal(bi.to_string()));
+    });
+
+    describe_test("testing product of two big integer", []() {
+        // deleting possibly existing registrations
+        math::big_integer::factory::get().clear();
+        // registering just the default SUM implementation
+        math::big_integer::factory::get().register_creator(
+            int(math::big_integer_operation::MULTIPLICATION), []() {
+                return std::unique_ptr<math::big_integer_calculate_interface>(new math::big_integer_multiplication);
+            });
+
+        /// you can try this on command line (unix): echo "123456789 * 987654321"|bc
+        const math::big_integer bia = 123456789;
+        const math::big_integer bib = 987654321;
+        assert_that(std::string("121932631112635269"), is_equal((bia*bib).to_string()));
     });
 });
 
