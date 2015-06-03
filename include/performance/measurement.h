@@ -31,7 +31,7 @@ namespace performance {
 
 /// @return duration by provided unit
 /// @code
-/// const auto duration = time::measure<std::milli>([]() {
+/// const auto duration = performance::measure<std::milli>([]() {
 ///     std::this_thread::sleep_for(std::chrono::duration<double, std::milli>(100));
 /// });
 /// @endcode

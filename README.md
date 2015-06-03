@@ -91,6 +91,8 @@ Current Content
    - can dump simple objects with field of standard types and
      fields being again an object of fields to JSON format
    - minimal adjustment necessary for your custom data class.
+ - example folder added (using this library)
+   - prime tool 
 
 Next Action Items (planned)
 ---------------------------
