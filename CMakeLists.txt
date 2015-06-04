@@ -3,7 +3,7 @@ add_definitions("-std=c++11 -Wall -Wextra -pedantic")
 add_definitions("-Weffc++ -Wnon-virtual-dtor -Wshadow")
 
 project(concept)
-set(VERSION "0.21.0")
+set(VERSION "0.22.0")
 set(MINIMUM_BOOST_VERSION "1.54")
 enable_testing()
 

@@ -91,6 +91,8 @@ Current Content
    - can dump simple objects with field of standard types and
      fields being again an object of fields to JSON format
    - minimal adjustment necessary for your custom data class.
+ - simple cache with cache function that is retrieving the value for the key
+   when the key is not given yet.
  - example folder added (using this library)
    - prime tool 
 
