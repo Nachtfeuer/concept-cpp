@@ -36,24 +36,33 @@ class big_integer_sum final : public big_integer_calculate_interface {
         virtual void calculate(digits_type& destination,
                                const digits_type& source) const noexcept {
             auto digit_a = destination.begin();
-            auto rest = static_cast<digit_type>(0);
+            auto remainder = static_cast<digit_type>(0);
             for (const auto& digit_b: source) {
                 if (digit_a == destination.end()) {
-                    const auto value = digit_b + rest;
+                    const auto value = digit_b + remainder;
                     destination.push_back(value % 10);
-                    rest = value / 10;
+                    remainder = value / 10;
                     // required since we have modified the "memory" of the container
                     digit_a = destination.end();
                 } else {
-                    const auto value = *digit_a + digit_b + rest;
+                    const auto value = *digit_a + digit_b + remainder;
                     *digit_a = value % 10;
-                    rest = value / 10;
+                    remainder = value / 10;
                     ++digit_a;
                 }
             }
 
-            if (rest > 0) {
-                destination.push_back(rest);
+            if (remainder > 0) {
+                while (digit_a != destination.end()) {
+                    const auto value = *digit_a + remainder;
+                    *digit_a = value % 10;
+                    remainder = value / 10;
+                    ++digit_a;
+                }
+
+                if (remainder > 0) {
+                    destination.push_back(remainder);
+                }
             }
         }
 };

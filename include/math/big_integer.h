@@ -39,8 +39,8 @@ namespace math {
 /// @brief being able to calculate bigger numbers than the standard types.
 class big_integer {
     public:
-        /// factory which allows defining own implementation for big integer operations
-        using factory = pattern::factory<int, big_integer_calculate_interface>;
+        /// abbreviation for factor inside this class.
+        using factory = big_integer_factory;
 
         /// default c'tor
         big_integer()
@@ -70,6 +70,16 @@ class big_integer {
             }
 
             operation->calculate(m_digits, rhs.m_digits);
+            return *this;
+        }
+
+        /// adding another big integer to given value
+        /// @return this to allow to continue with further operations.
+        /// @note for the moment we create an implementation each call
+        ///       which will be changed.
+        template <typename T>
+        const big_integer& operator += (const T& value) {
+            *this += big_integer(value);
             return *this;
         }
 
@@ -140,6 +150,8 @@ class big_integer {
 
     private:
 
+        /// Intention is to be able to assign a standard integer as 
+        /// individual digits to this instance
         template <typename T>
         inline void assign(const T value) noexcept {
             static_assert(std::numeric_limits<T>::is_integer, "integer values allowed only");

@@ -68,7 +68,9 @@ Current Content
      - is_square, is_abundant, is_perfect, is_pandigital
    - digit functions
      - count, sum, is_pandigital
-   - big integer (sum and multiplication)
+   - big integer
+     - sum and multiplication
+     - integer configurator (for registering implementations at factory)
  - document class
    - started with text document using regex for queries like word count.
      (using boost::regex)
@@ -108,7 +110,6 @@ Next Action Items (planned)
    - for "contains" working with strings (string search)
  - extending math namespace:
    - writing big integer class
-     - integer configurator (for registering implementations at factory)
      - supporting different multiplication algorithms (lattice, ...)
      - difference (a - b)
      - integer division (a / b) and modulo

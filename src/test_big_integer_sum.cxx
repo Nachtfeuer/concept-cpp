@@ -60,8 +60,8 @@ describe_suite("testing math::big_integer_sum", [](){
 
     describe_test("testing different number length (a > b)", []() {
         math::digits_type value_a = {3, 2, 1};        // 123
-        const math::digits_type value_b = {1};        // 1
-        const math::digits_type expected = {4, 2, 1}; // 124
+        const math::digits_type value_b = {9};        // 9
+        const math::digits_type expected = {2, 3, 1}; // 132
 
         math::big_integer_sum bisum;
         bisum.calculate(value_a, value_b);

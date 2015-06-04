@@ -52,6 +52,9 @@ class big_integer_calculate_interface {
                                const digits_type& source) const noexcept = 0;
 };
 
+/// factory which allows defining own implementation for big integer operations
+using big_integer_factory = pattern::factory<int, big_integer_calculate_interface>;
+
 }  // namespace math
 
 #endif   // INCLUDE_MATH_BIG_INTEGER_BASE_H_

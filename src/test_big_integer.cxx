@@ -90,7 +90,7 @@ describe_suite("testing math::big_integer", [](){
     describe_test("testing product of two big integer", []() {
         // deleting possibly existing registrations
         math::big_integer::factory::get().clear();
-        // registering just the default SUM implementation
+        // registering just the default MULTIPLICATION implementation
         math::big_integer::factory::get().register_creator(
             int(math::big_integer_operation::MULTIPLICATION), []() {
                 return std::unique_ptr<math::big_integer_calculate_interface>(new math::big_integer_multiplication);
@@ -100,6 +100,42 @@ describe_suite("testing math::big_integer", [](){
         const math::big_integer bia = 123456789;
         const math::big_integer bib = 987654321;
         assert_that(std::string("121932631112635269"), is_equal((bia*bib).to_string()));
+    });
+
+    describe_test("testing multiplication (*=), example: factorial", []() {
+        // deleting possibly existing registrations
+        math::big_integer::factory::get().clear();
+        // registering just the default MULTIPLICATION implementation
+        math::big_integer::factory::get().register_creator(
+            int(math::big_integer_operation::MULTIPLICATION), []() {
+                return std::unique_ptr<math::big_integer_calculate_interface>(new math::big_integer_multiplication);
+            });
+
+        math::big_integer result = 1;
+
+        for (auto n = 1; n <= 50; ++n) {
+            result *= math::big_integer(n);
+        }
+
+        assert_that(std::string("30414093201713378043612608166064768844377641568960512000000000000"),
+                    is_equal(result.to_string()));
+    });
+
+    describe_test("testing multiplication (+=), example: sum 1 .. 100", []() {
+        // deleting possibly existing registrations
+        math::big_integer::factory::get().clear();
+        // registering just the default SUM implementation
+        math::big_integer::factory::get().register_creator(
+            int(math::big_integer_operation::SUM), []() {
+                return std::unique_ptr<math::big_integer_calculate_interface>(new math::big_integer_sum);
+            });
+
+        math::big_integer result = 0;
+        for (auto n = 1; n <= 100; ++n) {
+            result += n;
+        }
+
+        assert_that(std::string("5050"), is_equal(result.to_string()));
     });
 });
 
