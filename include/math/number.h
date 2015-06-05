@@ -114,11 +114,19 @@ struct number final {
         return value == static_cast<T>(value);
     }
 
-    /// Checks that each digit exists once only.
-    /// @return true when given number is pandigital
-    /// @see @ref math::digits::is_pandigital
+    /// @copydoc @ref math::digits::is_pandigital
     inline static bool is_pandigital(const T number) noexcept {
         return digits<T>::is_pandigital(number);
+    }
+
+    /// @copydoc @ref math::digits::is_palindrom
+    inline static bool is_palindrome(const T number) noexcept {
+        return digits<T>::is_palindrome(number);
+    }
+
+    /// @copydoc @ref math::digits::reverse
+    inline static T reverse(const T number) noexcept {
+        return digits<T>::reverse(number);
     }
 };
 

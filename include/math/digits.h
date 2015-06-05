@@ -24,6 +24,7 @@
 #define INCLUDE_MATH_DIGITS_H_
 
 #include <set>
+#include <cstdint>
 
 namespace math {
 
@@ -64,6 +65,35 @@ struct digits final {
         return count(number) == digits.size();
     }
 
+    /// Check that given number is a palindrom like: 161, 2332, ..
+    /// @return true when given number is a palindrom
+    /// @see http://en.wikipedia.org/wiki/Palindromic_number
+    inline static bool is_palindrome(const T number) noexcept {
+        std::vector<unsigned char> digits;
+        for (auto n = number; n != 0; n /= 10) {
+            digits.push_back(n % 10);
+        }
+
+        const auto max_idx = static_cast<uint64_t>(digits.size() - 1);
+        for (auto left = static_cast<uint64_t>(0), right = max_idx; left < right; ++left, --right) {
+            if (digits[left] != digits[right]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /// @Generating reversed integer like: 12345 => 54321.
+    /// @param number the integer to get reversed
+    /// @return reverse integer
+    inline static T reverse(const T number) noexcept {
+        auto result = T(0);
+        for (auto n = number; n != 0; n /= 10) {
+            result = result * 10 + n % 10;
+        }
+        return result;
+    }
 
     /// instantiation is not wanted
     digits() = delete;

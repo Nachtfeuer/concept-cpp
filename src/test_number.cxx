@@ -146,5 +146,23 @@ describe_suite("testing math::number", [](){
         assert_that(false, is_equal(math::number<int>::is_pandigital(123445)));
         assert_that(false, is_equal(math::number<int>::is_pandigital(123005)));
     });
+
+    describe_test("testing is_palindrome", []() {
+        // positive check
+        assert_that(true, is_equal(math::number<int>::is_palindrome(12321)));
+        assert_that(true, is_equal(math::number<int>::is_palindrome(123454321)));
+        assert_that(true, is_equal(math::number<int>::is_palindrome(55)));
+
+        // negtive check
+        assert_that(false, is_equal(math::number<int>::is_palindrome(12345)));
+        assert_that(false, is_equal(math::number<int>::is_palindrome(54321)));
+        assert_that(false, is_equal(math::number<int>::is_palindrome(32233)));
+    });
+
+    describe_test("testing reverse", []() {
+        assert_that(123456789, is_equal(math::number<int>::reverse(987654321)));
+        assert_that(987654321, is_equal(math::number<int>::reverse(123456789)));
+        assert_that(12300456, is_equal(math::number<int>::reverse(65400321)));
+    });
 });
 
