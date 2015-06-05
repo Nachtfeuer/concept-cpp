@@ -1,6 +1,6 @@
 ///
 /// @author  Thomas Lehmann
-/// @file    sieve_of_eratosthenes.h
+/// @file    sieve_of_eratosthenes_optimized.h
 /// @brief   prime sieve implementation
 ///
 /// Copyright (c) 2015 Thomas Lehmann
@@ -20,8 +20,8 @@
 /// DAMAGES OR OTHER LIABILITY,
 /// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-#ifndef INCLUDE_MATH_PRIME_SIEVE_OF_ERATOSTENES_H_
-#define INCLUDE_MATH_PRIME_SIEVE_OF_ERATOSTENES_H_
+#ifndef INCLUDE_MATH_PRIME_SIEVE_OF_ERATOSTENES_OPTIMIZED_H_
+#define INCLUDE_MATH_PRIME_SIEVE_OF_ERATOSTENES_OPTIMIZED_H_
 
 #include <math/prime/sieve_interface.h>
 #include <stdexcept>
@@ -30,20 +30,17 @@
 namespace math {
 namespace prime {
 
-/// @class sieve_of_eratosthenes
+/// @class sieve_of_eratosthenes_optimized
 /// @brief prime sieve implementation
 ///
 /// Idea is to strikeout all multiples of a found prime.
 /// @see http://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
 ///
-/// @note the algorithm does store also even numbers also
-///       we know that 2 is the only even number that is prime
-///       which means double memory consumption.
-///       Also the calculation does include even numbers.
+/// @note does NOT store even values (less memory consumption)
 /// @note the algorithm is also not sensible enough to avoid
 ///       striking out a none prime more than once.
 template <typename T>
-class sieve_of_eratosthenes final : public sieve_interface<T> {
+class sieve_of_eratosthenes_optimized final : public sieve_interface<T> {
     public:
         /// type of container for keeping true false states
         using container_type = typename sieve_interface<T>::container_type;
@@ -52,22 +49,23 @@ class sieve_of_eratosthenes final : public sieve_interface<T> {
 
         /// init c'tor which defines the maximum number that can
         /// be checked to be a prime (or not)
-        sieve_of_eratosthenes(value_type max_n)
-            : m_is_prime(max_n+1, true) {
+        sieve_of_eratosthenes_optimized(value_type max_n)
+            : sieve_interface<T>(), m_max_n(max_n), m_is_prime(max_n/2, true) {
                 m_is_prime[0] = false;
-                m_is_prime[1] = false;
+                m_is_prime[1] = true;
             }
 
         /// calculating the prime states striking out all multiples of a
         /// found prime.
         void calculate() noexcept override {
-            auto max_limit = static_cast<value_type>(m_is_prime.size());
-            auto min_limit = static_cast<value_type>(sqrt(max_limit));
+            auto max_limit = static_cast<value_type>(m_max_n);
+            auto min_limit = static_cast<value_type>(sqrt(m_max_n));
 
-            for (value_type i = 2; i <= min_limit; ++i) {
-                if (m_is_prime[i]) {
-                    for (value_type j = i*i; j < max_limit; j += i) {
-                        m_is_prime[j] = false;
+            for (value_type i = 3; i <= min_limit; i += 2) {
+                if (m_is_prime[i/2]) {
+                    const auto offset = 2*i;
+                    for (value_type j = i*i; j < max_limit; j += offset) {
+                        m_is_prime[j/2] = false;
                     }
                 }
             }
@@ -75,14 +73,19 @@ class sieve_of_eratosthenes final : public sieve_interface<T> {
 
         /// @return true when given number is a prime
         bool is_prime(const typename container_type::size_type number) const noexcept override {
+            if (number % 2 == 0) {
+                return 2 == number;
+            }
+
             try {
-                return m_is_prime.at(number);
+                return m_is_prime.at(number / 2);
             } catch (const std::exception& e) {
                 return false;
             }
         }
 
     private:
+        value_type m_max_n;
         /// container for keeping true/false states
         container_type m_is_prime;
 };
@@ -90,4 +93,4 @@ class sieve_of_eratosthenes final : public sieve_interface<T> {
 }  // namespace prime
 }  // namespace math
 
-#endif  // INCLUDE_MATH_PRIME_SIEVE_OF_ERATOSTENES_H_
+#endif  // INCLUDE_MATH_PRIME_SIEVE_OF_ERATOSTENES_OPTIMIZED_H_

@@ -21,12 +21,14 @@
 /// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <math/prime/sieve_of_eratosthenes.h>
+#include <math/prime/sieve_of_eratosthenes_optimized.h>
 #include <math/number.h>
 #include <generator/select.h>
 #include <performance/measurement.h>
 
 #include <boost/program_options.hpp>
 #include <string>
+#include <memory>
 #include <iomanip>
 #include <cstdint>
 
@@ -37,12 +39,14 @@ struct Options {
     using filter_function_type = std::function<bool (const uint64_t&)>;
 
     uint64_t max_number;         ///! the biggest number that should be checked to be a prime.
+    uint64_t start_number;       ///! starting output with first prime >= this number.
     uint64_t max_columns;        ///! number of columns for printing primes
     filter_function_type filter; ///! additional filter function
+    std::string sieve;           ///! sieve algorithm
 
     /// default c'tor initializing defaults
     Options()
-        : max_number(1000), max_columns(10), filter(nullptr) {}
+        : max_number(1000), start_number(2), max_columns(10), filter(nullptr), sieve("default") {}
 };
 
 /// Providing filter as configured.
@@ -73,10 +77,14 @@ static bool parse(int argc, char** argv, Options& options) {
         ("help", "print this help")
         ("max-number", po::value<uint64_t>(&options.max_number)->default_value(1000),
          "generating primes up to this limit (default: 1000)")
+        ("start-number", po::value<uint64_t>(&options.start_number)->default_value(2),
+         "printing primes >= this number (default: 2)")
         ("columns", po::value<uint64_t>(&options.max_columns)->default_value(10),
          "number of columns (default: 10)")
         ("filter", po::value<std::string>(&filter_name)->default_value(""),
          "providing filter name (default: none).")
+        ("sieve", po::value<std::string>(&options.sieve)->default_value("default"),
+         "sieve algorithm short name (default: 'default', other is 'optimized').")
         ;
 
     po::variables_map vm;
@@ -103,6 +111,18 @@ static bool parse(int argc, char** argv, Options& options) {
     return true;
 }
 
+/// @return sieve algorithm depending on command line option
+template <typename T>
+std::unique_ptr<math::prime::sieve_interface<T>> create_sieve(const Options& options) noexcept {
+    if (options.sieve == "optimized") {
+        return std::unique_ptr<math::prime::sieve_interface<T>>(
+            new math::prime::sieve_of_eratosthenes_optimized<T>(options.max_number));
+    }
+
+    return std::unique_ptr<math::prime::sieve_interface<T>>(
+        new math::prime::sieve_of_eratosthenes<T>(options.max_number));
+}
+
 /// Simple example demonstrating how to generate primes.
 ///
 /// @param argc number of parameters
@@ -119,20 +139,20 @@ int main(int argc, char** argv) {
 
     std::cout << " ... creating sieve up to max. number: " << options.max_number << std::endl;
     /// initializing maximum 'size' of sieve
-    math::prime::sieve_of_eratosthenes<std::vector<bool>> sieve(options.max_number);
+    auto sieve = create_sieve<std::vector<bool>>(options);
 
     const auto sieve_duration = performance::measure<std::milli>([&sieve]() {
         /// calculating the primes and none primes
-        sieve.calculate();
+        sieve->calculate();
     });
 
     std::cout << " ... collecting primes" << std::endl;
     std::cout << std::endl;
 
     /// printing out all primes
-    constexpr auto one = static_cast<uint64_t>(1);
-    const auto primes = generator::select(one, options.max_number, one)
-           .where([&sieve](const int n){return sieve.is_prime(n);})
+    constexpr auto step = static_cast<uint64_t>(1);
+    const auto primes = generator::select(options.start_number, options.max_number, step)
+           .where([&sieve](const int n){return sieve->is_prime(n);})
            .where(options.filter)
            .to_vector();
 
