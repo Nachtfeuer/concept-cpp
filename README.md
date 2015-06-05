@@ -96,7 +96,7 @@ Current Content
  - simple cache with cache function that is retrieving the value for the key
    when the key is not given yet.
  - example folder added (using this library)
-   - prime tool 
+   - prime tool, factorial tool
 
 Next Action Items (planned)
 ---------------------------

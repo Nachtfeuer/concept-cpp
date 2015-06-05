@@ -23,6 +23,7 @@
 #ifndef INCLUDE_MATH_BIG_INTEGER_BASE_H_
 #define INCLUDE_MATH_BIG_INTEGER_BASE_H_
 
+#include <pattern/factory.h>
 #include <vector>
 
 namespace math {

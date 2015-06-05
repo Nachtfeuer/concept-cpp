@@ -24,7 +24,6 @@
 #define INCLUDE_MATH_BIG_INTEGER_H_
 
 #include <math/big_integer_base.h>
-#include <pattern/factory.h>
 
 #include <unordered_map>
 #include <iostream>

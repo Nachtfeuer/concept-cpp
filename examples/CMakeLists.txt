@@ -17,8 +17,12 @@ include_directories(SYSTEM ${Boost_INCLUDE_DIR})
 add_executable(primes primes.cxx)
 target_link_libraries(primes ${Boost_LIBRARIES})
 
+add_executable(factorial factorial.cxx)
+target_link_libraries(factorial ${Boost_LIBRARIES})
+
 # We don't need to explictly link standard library when using clang
 if(!USING_CLANG)
     target_link_libraries(primes stdc++)
+    target_link_libraries(factorial stdc++)
 endif(!USING_CLANG)
 
