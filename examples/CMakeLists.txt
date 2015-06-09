@@ -16,6 +16,7 @@ include_directories(SYSTEM ${Boost_INCLUDE_DIR})
 
 add_executable(primes primes.cxx)
 target_link_libraries(primes ${Boost_LIBRARIES})
+configure_file(scripts/prime_statistic.py scripts/prime_statistic.py COPYONLY)
 
 add_executable(factorial factorial.cxx)
 target_link_libraries(factorial ${Boost_LIBRARIES})

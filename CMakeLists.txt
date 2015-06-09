@@ -1,11 +1,8 @@
 cmake_minimum_required (VERSION 2.8 FATAL_ERROR)
-add_definitions("-std=c++11 -Wall -Wextra -pedantic")
-add_definitions("-Weffc++ -Wnon-virtual-dtor -Wshadow")
 
 project(concept)
-set(VERSION "0.26.0")
+set(VERSION "0.27.0")
 set(MINIMUM_BOOST_VERSION "1.54")
-enable_testing()
 
 option(BUILD_DOCUMENTATION "Create and install the HTML based API documentation (requires Doxygen)" OFF)
 
@@ -27,6 +24,10 @@ include_directories(${PROJECT_NAME} SYSTEM ${Boost_INCLUDE_DIR})
 
 file(GLOB TEST_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/test*.cxx)
 
+add_definitions("-std=c++11 -Wall -Wextra -pedantic")
+add_definitions("-Weffc++ -Wnon-virtual-dtor -Wshadow")
+add_definitions("-DVERSION=\"${VERSION}\"")
+
 add_executable(${PROJECT_NAME} src/main.cxx ${TEST_SRC})
 target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES})
 
@@ -35,6 +36,7 @@ if(!USING_CLANG)
     target_link_libraries(${PROJECT_NAME} stdc++)
 endif(!USING_CLANG)
 
+enable_testing()
 add_test(test ${PROJECT_NAME})
 
 add_subdirectory(examples)

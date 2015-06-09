@@ -78,7 +78,7 @@ class sieve_of_eratosthenes_optimized final : public sieve_interface<T> {
             }
 
             try {
-                return m_is_prime.at(number / 2);
+                return m_is_prime[number / 2];
             } catch (const std::exception& e) {
                 return false;
             }

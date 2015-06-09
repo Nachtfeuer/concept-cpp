@@ -76,7 +76,7 @@ class sieve_of_eratosthenes final : public sieve_interface<T> {
         /// @return true when given number is a prime
         bool is_prime(const typename container_type::size_type number) const noexcept override {
             try {
-                return m_is_prime.at(number);
+                return m_is_prime[number];
             } catch (const std::exception& e) {
                 return false;
             }

@@ -129,7 +129,7 @@ std::unique_ptr<math::prime::sieve_interface<T>> create_sieve(const Options& opt
 /// @param argv array of parameters
 /// @return 0 when succeeded, 1 when failed or when used the help
 int main(int argc, char** argv) {
-    std::cout << "prime tool" << std::endl;
+    std::cout << "prime tool (version " << VERSION << ")" << std::endl;
 
     Options options;
     // parsing command line options

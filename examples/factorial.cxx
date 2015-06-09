@@ -69,6 +69,8 @@ static bool parse(int argc, char** argv, Options& options) {
 /// @param argv array of parameters
 /// @return 0 when succeeded, 1 when failed or when used the help
 int main(int argc, char** argv) {
+    std::cout << "factorial tool (version " << VERSION << ")" << std::endl;
+
     Options options;
     // parsing command line options
     if (!parse(argc, argv, options)) {
