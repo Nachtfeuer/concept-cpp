@@ -45,6 +45,9 @@ class factory final {
             return instance;
         }
 
+        /// Does register a creator function for the given key.
+        /// You cannot overwrite it by a second call for same key.
+        ///
         /// @param  key unique key that may not exist
         /// @param  creator the creator function providing instance of type TClass (may not be nullptr)
         /// @return true when successful registered (unique key may not exist).
@@ -64,6 +67,14 @@ class factory final {
                 return std::unique_ptr<TClass>(nullptr);
             }
             return it->second();
+        }
+
+        /// Checking whether given key does exist.
+        ///
+        /// @param key unique key that might exist
+        /// return true when given key does exist.
+        bool has_key(const TKey& key) const {
+            return m_creators.find(key) != m_creators.end();
         }
 
         /// @return true when there is no registered creator.

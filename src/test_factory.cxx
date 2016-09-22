@@ -97,4 +97,15 @@ describe_suite("testing pattern::factory", [](){
 
         assert_that(2, is_equal(counter));
     });
+  
+    describe_test("testing has_key", [creator, second_creator]() {
+        /// we cannot rely that the singelton does not contain yet registered entries
+        factory<int, int>::get().clear();
+        factory<int, int>::get().register_creator(1, creator);
+        factory<int, int>::get().register_creator(2, second_creator);
+
+        assert_that(factory<int, int>::get().has_key(1), is_equal(true));
+        assert_that(factory<int, int>::get().has_key(2), is_equal(true));
+        assert_that(factory<int, int>::get().has_key(3), is_equal(false));
+    });
 });
