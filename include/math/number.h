@@ -26,6 +26,7 @@
 #include <math/factorization.h>
 #include <math/digits.h>
 #include <algorithm>
+#include <numeric>
 #include <cmath>
 
 namespace math {
