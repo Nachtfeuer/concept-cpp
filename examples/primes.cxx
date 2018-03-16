@@ -30,6 +30,7 @@
 #include <string>
 #include <memory>
 #include <iomanip>
+#include <iostream>
 #include <cstdint>
 
 /// @struct options
