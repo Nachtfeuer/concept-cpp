@@ -17,6 +17,7 @@ find_program(CPPCHECK cppcheck)
 find_program(VALGRIND valgrind)
 
 find_package(Doxygen)
+
 find_package(Boost ${MINIMUM_BOOST_VERSION} COMPONENTS program_options regex REQUIRED)
 
 include_directories(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/include)

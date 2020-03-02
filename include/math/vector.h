@@ -23,6 +23,8 @@
 #ifndef INCLUDE_VECTOR_H_
 #define INCLUDE_VECTOR_H_
 
+#include <math/constants.h>
+
 #include <cmath>
 #include <iostream>
 
@@ -78,7 +80,7 @@ class vector final {
 
         /// providing angle between two vectors
         double angle(const vector& other) const {
-            return (180.0/M_PI) * acos(scalar_product(other) / (length() * other.length()));
+            return (180.0/PI) * acos(scalar_product(other) / (length() * other.length()));
         }
 
         /// sum of two vectors
