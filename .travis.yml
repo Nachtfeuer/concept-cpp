@@ -1,25 +1,23 @@
 # Travis configuration
-language: cpp
-compiler:
-    - gcc
+matrix:
+  include:
+    # works on Precise and Trusty
+    - name: Linux with GCC 7 and BOOST 1.72.0
+      os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+      env:
+         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
 
-# whitelist
-branches:
-    only:
-        - master
 
 before_install:
-    - sudo apt-get update -qq
-    - sudo apt-get install -qq
+    - eval "${MATRIX_EVAL}"
 
 install:
-    # installation of C++ compiler that does support c++11
-    - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-    - sudo apt-get update
-    - sudo apt-get install g++-4.8
-    - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 90
-    - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 90
-    - sudo apt-get install libstdc++-4.8-dev
     # installation of boost 1.72
     - wget --no-verbose --output-document=boost-trunk.tar.bz2 http://sourceforge.net/projects/boost/files/boost/1.72.0/boost_1_72_0.tar.bz2/download
     - export BOOST_ROOT="$TRAVIS_BUILD_DIR/../boost-trunk"
@@ -44,6 +42,11 @@ before_script:
     - cmake .. -DBOOST_ROOT=$BOOST_ROOT -DBoost_ARCHITECTURE:STRING=-x64
 
 script: make run
+
+# whitelist
+branches:
+    only:
+        - master
 
 notifications:
     email:
