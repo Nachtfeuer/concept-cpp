@@ -1,21 +1,23 @@
 # Travis configuration
+language=cpp
+
 matrix:
   include:
     # works on Precise and Trusty
-    - name: Linux with GCC 7 and BOOST 1.72.0
+    - name: Linux with gcc/g++ 8 and BOOST 1.72.0
       os: linux
+      dist: xenial
+      compiler: gcc-8
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-7
+            - gcc-8
+            - g++-8
       env:
-         - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
-
-
-before_install:
-    - eval "${MATRIX_EVAL}"
+         - CC=gcc-8
+         - CXX=g++-8
 
 install:
     # installation of boost 1.72
