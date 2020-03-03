@@ -1,12 +1,12 @@
 # Travis configuration
-language=cpp
+language: cpp
 
 matrix:
   include:
     # works on Precise and Trusty
     - name: Linux with gcc/g++ 8 and BOOST 1.72.0
       os: linux
-      dist: xenial
+      dist: bionic
       compiler: gcc-8
       addons:
         apt:
