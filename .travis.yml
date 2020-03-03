@@ -5,18 +5,9 @@ compiler:
 
 matrix:
     include:
-        - name: MinGW 8.1
+        - name: MinGW 8.1 on Windows
           os: windows
           language: shell
-
-          env:
-            - MINGW_HOME=/c/ProgramData/chocolatey/lib/mingw/tools/install/mingw64
-            - CMAKE_HOME=/c/ProgramData/chocolatey/lib/cmake.portable/tools/cmake-3.16.2-win64-x64
-            - MAKE_HOME=/c/ProgramData/chocolatey/lib/make/tools/install
-            - UNZIP_HOME=/c/ProgramData/chocolatey/lib/unzip/tools
-            - BOOST_ROOT=$TRAVIS_BUILD_DIR/build.boost/boost_1_72_0
-            - PATH=$MINGW_HOME/bin;$CMAKE_HOME/bin;$MAKE_HOME/bin;$UNZIP_HOME$;$PATH
-
           install:
             - choco install packages.config
             - mkdir build.boost
@@ -24,12 +15,20 @@ matrix:
             - curl -s -L https://dl.bintray.com/boostorg/release/1.72.0/source/boost_1_72_0.zip -oboost.zip
             - unzip boost.zip > nul
             - cd boost_1_72_0
+            - export BOOST_ROOT=$TRAVIS_BUILD_DIR/build.boost/boost_1_72_0
             - bootstrap gcc --with-libraries=date_time,filesystem,system,iostreams,regex,python,test,program_options
             - .\b2 threading=multi --prefix=$BOOST_ROOT -d0
             - cd ../..
             - export BOOST_INCLUDEDIR=$BOOST_ROOT
             - export BOOST_LIBRARYDIR=$BOOST_ROOT/stage/lib
             - export BOOST_USE_STATIC_LIBS=ON
+          env:
+            - MINGW_HOME=/c/ProgramData/chocolatey/lib/mingw/tools/install/mingw64
+            - CMAKE_HOME=/c/ProgramData/chocolatey/lib/cmake.portable/tools/cmake-3.16.2-win64-x64
+            - MAKE_HOME=/c/ProgramData/chocolatey/lib/make/tools/install
+            - UNZIP_HOME=/c/ProgramData/chocolatey/lib/unzip/tools
+            - BOOST_ROOT=$TRAVIS_BUILD_DIR/build.boost/boost_1_72_0
+            - PATH=$MINGW_HOME/bin;$CMAKE_HOME/bin;$MAKE_HOME/bin;$UNZIP_HOME$;$PATH
 
 # whitelist
 branches:
