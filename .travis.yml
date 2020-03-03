@@ -22,13 +22,13 @@ matrix:
             - export BOOST_INCLUDEDIR=$BOOST_ROOT
             - export BOOST_LIBRARYDIR=$BOOST_ROOT/stage/lib
             - export BOOST_USE_STATIC_LIBS=ON
+            - export PATH=$MINGW_HOME/bin;$CMAKE_HOME/bin;$MAKE_HOME/bin;$UNZIP_HOME;$PATH
           env:
             - MINGW_HOME=/c/ProgramData/chocolatey/lib/mingw/tools/install/mingw64
             - CMAKE_HOME=/c/ProgramData/chocolatey/lib/cmake.portable/tools/cmake-3.16.2-win64-x64
             - MAKE_HOME=/c/ProgramData/chocolatey/lib/make/tools/install
             - UNZIP_HOME=/c/ProgramData/chocolatey/lib/unzip/tools
             - BOOST_ROOT=$TRAVIS_BUILD_DIR/build.boost/boost_1_72_0
-            - PATH=$MINGW_HOME/bin;$CMAKE_HOME/bin;$MAKE_HOME/bin;$UNZIP_HOME$;$PATH
 
 # whitelist
 branches:
