@@ -63,6 +63,16 @@ describe_suite("testing pattern::factory", [](){
         assert_that(false, is_equal(factory<int, int>::get().register_creator(123, nullptr)));
     });
 
+    describe_test("testing replacing a creator", [creator, second_creator]() {
+        /// we cannot rely that the singelton does not contain yet registered entries
+        factory<int, int>::get().clear();
+
+        factory<int, int>::get().register_creator(1, creator);
+        assert_that(*factory<int, int>::get().create_instance(1), is_equal(123));
+        factory<int, int>::get().replace_creator(1, second_creator);
+        assert_that(*factory<int, int>::get().create_instance(1), is_equal(456));
+    });
+
     describe_test("testing instance creation", [creator]() {
         /// we cannot rely that the singelton does not contain yet registered entries
         factory<int, int>::get().clear();
@@ -97,7 +107,7 @@ describe_suite("testing pattern::factory", [](){
 
         assert_that(2, is_equal(counter));
     });
-  
+
     describe_test("testing has_key", [creator, second_creator]() {
         /// we cannot rely that the singelton does not contain yet registered entries
         factory<int, int>::get().clear();

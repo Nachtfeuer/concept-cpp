@@ -58,6 +58,23 @@ class factory final {
             return m_creators.insert(typename creators_container_type::value_type(key, creator)).second;
         }
 
+        /// Replace a registered creator for given key.
+        ///
+        /// @param  key unique key that may not exist
+        /// @param  creator the creator function providing instance of type TClass (may not be nullptr)
+        /// @return original creator when given otherwise nullptr.
+        creator_function_type replace_creator(const TKey& key, creator_function_type new_creator) noexcept {
+            if (nullptr != new_creator) {
+                auto it = m_creators.find(key);
+                if (it != m_creators.end()) {
+                    auto original_creator = it->second;
+                    it->second = new_creator;
+                    return original_creator;
+                }
+            }
+            return nullptr;
+        }
+
         /// @param key unique key that must exist.
         /// @return instance if creator for given key does exist and
         ///         if creator provides instance otherwise it's a nullptr.
