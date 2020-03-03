@@ -94,6 +94,18 @@ class factory final {
             return m_creators.find(key) != m_creators.end();
         }
 
+        /// Find creator by key.
+        ///
+        /// @param key unique key that might exist
+        /// return creator registered for given key or nullptr if not found.
+        creator_function_type find_creator(const TKey& key) const {
+            auto it = m_creators.find(key);
+            if (it == m_creators.end()) {
+                return nullptr;
+            }
+            return it->second;
+        }
+
         /// @return true when there is no registered creator.
         bool empty() const noexcept {
             return m_creators.empty();

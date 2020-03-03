@@ -50,4 +50,27 @@ describe_suite("testing pattern::mock", [](){
         /// destructor of the mocking should have restored the original creator
         assert_that(*factory<int, int>::get().create_instance(1), is_equal(123));
     });
+
+    describe_test("testing mocking with decoration", [creator]() {
+        /// we cannot rely that the singelton does not contain yet registered entries
+        factory<int, int>::get().clear();
+        /// first registration should succeed
+        factory<int, int>::get().register_creator(1, creator);
+
+        { /// enter scope
+            /// decoration
+            const auto originalCreator = factory<int, int>::get().find_creator(1);
+            const auto anotherCreator = [originalCreator]() {
+                auto value = originalCreator();
+                *value *= 2;
+                return value;
+            };
+
+            mock<int, int> mockIt(1, anotherCreator);
+            assert_that(*factory<int, int>::get().create_instance(1), is_equal(246));
+        } /// leaving scope
+
+        /// destructor of the mocking should have restored the original creator
+        assert_that(*factory<int, int>::get().create_instance(1), is_equal(123));
+    });
 });

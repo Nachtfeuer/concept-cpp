@@ -35,20 +35,28 @@ class mock final {
         /// type for creator function
         using creator_function_type = std::function<std::unique_ptr<TClass> ()>;
 
+        /// The c'tor replaces the original creator with the one defined
+        /// in the parameter keeping it in mind. In d'tor it will be restored.
+        ///
+        /// @param  key unique key that may not exist
+        /// @param  creator the creator function providing instance of type TClass (may not be nullptr)
         mock(const TKey& key, creator_function_type creator)
             : m_key(key), m_mock_creator(creator),
               m_original_creator(factory<TKey, TClass>::get().replace_creator(key, creator)) {}
 
+        /// restore the original creator
         ~mock() {
-            /// restore original creator
             if (m_original_creator != nullptr) {
                 factory<TKey, TClass>::get().replace_creator(m_key, m_original_creator);
             }
         }
 
     private:
+        /// The key under which the creator is stored
         const TKey& m_key;
+        /// the created used as mock
         const creator_function_type m_mock_creator;
+        /// the original creator stored in the abstract factory
         const creator_function_type m_original_creator;
 };
 
