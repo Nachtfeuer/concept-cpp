@@ -55,7 +55,7 @@ class mock final {
 
     private:
         /// The key under which the creator is stored
-        const TKey& m_key;
+        const TKey m_key;
         /// the created used as mock
         const creator_function_type m_mock_creator;
         /// the original creator stored in the abstract factory
