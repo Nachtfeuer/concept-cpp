@@ -4,20 +4,9 @@ language: cpp
 matrix:
   include:
     # works on Precise and Trusty
-    - name: Linux with gcc/g++ 8 and BOOST 1.72.0
+    - name: Linux with gcc/g++ 7 and BOOST 1.72.0
       os: linux
       dist: bionic
-      compiler: gcc-8
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - gcc-8
-            - g++-8
-      env:
-         - CC=gcc-8
-         - CXX=g++-8
 
 install:
     # installation of boost 1.72
