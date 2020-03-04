@@ -67,7 +67,11 @@ class factory final {
         creator_function_type replace_creator(const TKey& key, creator_function_type new_creator) noexcept {
             std::cout << " ... replace_creator(1)" << std::endl;
             if (nullptr != new_creator) {
-                std::cout << " ... replace_creator(2)" << std::endl;
+                std::cout << " ... replace_creator(2), key=" << key << std::endl;
+                for (auto entry: m_creators) {
+                    std::cout << " ......key=" << entry.first << std::endl;
+                }
+
                 auto it = m_creators.find(key);
                 if (it != m_creators.end()) {
                     std::cout << " ... replace_creator(3)" << std::endl;
