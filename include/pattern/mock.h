@@ -46,9 +46,7 @@ class mock final {
 
         /// restore the original creator
         ~mock() {
-            std::cout << " ... ~mock" << std::endl;
             if (m_original_creator != nullptr) {
-                std::cout << " ...... ~mock :: restore original" << std::endl;
                 factory<TKey, TClass>::get().replace_creator(m_key, m_original_creator);
             }
         }

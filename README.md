@@ -4,14 +4,14 @@ README
 [![Build Status](https://travis-ci.org/Nachtfeuer/concept-cpp.svg?branch=master)](https://travis-ci.org/Nachtfeuer/concept-cpp)
 
 ### Table Of Contents
-[**Welcome**](#welcome)  
-[**Quick start**](#quick-start)  
-[**Current Content**](#current-content)  
-[**Next Action Items (planned)**](#next-action-items-planned)  
-[**CMake**](#cmake)  
-[**Code Coverage**](#code-coverage)  
-[**Level Of Done**](#level-of-done)  
-[**Version Policy**](#version-policy)  
+[**Welcome**](#welcome)
+[**Quick start**](#quick-start)
+[**Current Content**](#current-content)
+[**Next Action Items (planned)**](#next-action-items-planned)
+[**CMake**](#cmake)
+[**Code Coverage**](#code-coverage)
+[**Level Of Done**](#level-of-done)
+[**Version Policy**](#version-policy)
 
 Welcome
 -------
@@ -21,7 +21,7 @@ The purpose is - of course - to keep everything clean, simple and
 well documented. Please keep in mind and read:
 
  - [**Level Of Done**](#level-of-done)
- - [**Version Policy**](#version-policy)  
+ - [**Version Policy**](#version-policy)
 
 
 Quick start
@@ -52,7 +52,9 @@ Current Content
    - --shuffle-tests=true   (execution of tests in random order)
    - --filter=string        (does filter for suites)
    - --format=name          ("default" or "tap")
- - pattern classes like a factory and singleton decorator.
+ - pattern classes
+   - like a abstract factory and singleton decorator
+   - mock class working with the abstract factory
  - types (special type traits)
    - is_container
  - math classes

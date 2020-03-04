@@ -26,7 +26,6 @@
 #include <functional>
 #include <unordered_map>
 #include <memory>
-#include <iostream>
 
 namespace pattern {
 
@@ -65,22 +64,14 @@ class factory final {
         /// @param  creator the creator function providing instance of type TClass (may not be nullptr)
         /// @return original creator when given otherwise nullptr.
         creator_function_type replace_creator(const TKey& key, creator_function_type new_creator) noexcept {
-            std::cout << " ... replace_creator(1)" << std::endl;
             if (nullptr != new_creator) {
-                std::cout << " ... replace_creator(2), key=" << key << std::endl;
-                for (auto entry: m_creators) {
-                    std::cout << " ......key=" << entry.first << std::endl;
-                }
-
                 auto it = m_creators.find(key);
                 if (it != m_creators.end()) {
-                    std::cout << " ... replace_creator(3)" << std::endl;
                     auto original_creator = it->second;
                     it->second = new_creator;
                     return original_creator;
                 }
             }
-            std::cout << " ... replace_creator(4)" << std::endl;
             return nullptr;
         }
 

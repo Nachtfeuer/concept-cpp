@@ -62,7 +62,7 @@ struct digits final {
             digits.insert(n % 10);
         }
 
-        return count(number) == digits.size();
+        return static_cast<std::set<unsigned char>::size_type>(count(number)) == digits.size();
     }
 
     /// Check that given number is a palindrom like: 161, 2332, ..

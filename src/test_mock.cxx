@@ -41,15 +41,11 @@ describe_suite("testing pattern::mock", [](){
         /// first registration should succeed
         factory<int, int>::get().register_creator(1, creator);
 
-        std::cout << "mock::before enter scope" << std::endl;
         { /// enter scope
             const auto anotherCreator = []() { return std::unique_ptr<int>(new int(456)); };
-            std::cout << "mock::before mocked" << std::endl;
             mock<int, int> mockIt(1, anotherCreator);
-            std::cout << "mock::after mocked" << std::endl;
             assert_that(*factory<int, int>::get().create_instance(1), is_equal(456));
         } /// leaving scope
-        std::cout << "mock::after left scope" << std::endl;
 
         /// destructor of the mocking should have restored the original creator
         assert_that(*factory<int, int>::get().create_instance(1), is_equal(123));
@@ -61,7 +57,6 @@ describe_suite("testing pattern::mock", [](){
         /// first registration should succeed
         factory<int, int>::get().register_creator(1, creator);
 
-        std::cout << "mock decoration::before enter scope" << std::endl;
         { /// enter scope
             /// decoration
             const auto originalCreator = factory<int, int>::get().find_creator(1);
@@ -71,12 +66,9 @@ describe_suite("testing pattern::mock", [](){
                 return value;
             };
 
-            std::cout << "mock decoration::before mocked" << std::endl;
             mock<int, int> mockIt(1, anotherCreator);
-            std::cout << "mock decoration::after mocked" << std::endl;
             assert_that(*factory<int, int>::get().create_instance(1), is_equal(246));
         } /// leaving scope
-        std::cout << "mock decoration::after left scope" << std::endl;
 
         /// destructor of the mocking should have restored the original creator
         assert_that(*factory<int, int>::get().create_instance(1), is_equal(123));
